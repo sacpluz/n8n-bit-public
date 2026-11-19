@@ -21,40 +21,102 @@ Danach: Workflow in `<Name> – Modul 04 – …` umbenennen lassen, dann Zone 2
 
 ---
 
-# 🎯 ZONE 1 – NODE PLAYGROUND
-### Triggers & Scheduling
+## Vorab: Dieses Modul ist anders
 
-## Die vier Wege wie ein Workflow starten kann:
+Trigger verändern keine Daten. Sie **starten** einen Workflow, haben keinen Eingang und erzeugen selbst das erste Item. Deshalb erst die vier Kategorien als Raster erklären (5 min), dann jeden Trigger einmal auslösen. Bei jedem Trigger zwei Fragen: Was kommt raus? Was löst ihn in der Praxis aus?
 
-⏱️ **ZEIT-BASIERT**
-Der Workflow startet automatisch zu einem definierten Zeitpunkt oder Intervall – ohne dass ein Mensch etwas tut.
-→ Schedule Trigger (Cron, stündlich, täglich, alle X Sekunden)
+**Wichtig für die Gruppe:** Ein produktiver Workflow hat genau **einen** Trigger. Hier stehen mehrere in einem Workflow, nur zum Lernen. n8n ist nicht darauf ausgelegt, mehrere Trigger in einem Workflow zu kombinieren und ihre Ergebnisse zu sammeln. Deshalb löst ihr jeden Trigger einzeln und bewusst aus, und jeder trägt sich selbst ins Scoreboard ein.
 
-🖱️ **MANUELL**
-Ein Mensch startet den Workflow bewusst per Klick direkt in n8n – kein externes Ereignis, kein Zeitplan.
-→ Manual Trigger (der "Execute workflow"-Button)
-⚠️ Pro Workflow ist nur ein Manual Trigger erlaubt – deshalb ist er hier im Playground nicht abgebildet. Ihr kennt ihn aus Modul 0 bis 3.
+## Die vier Wege, wie ein Workflow startet
 
-🌐 **EVENT-BASIERT (Push)**
-Ein externes, internes System oder ein Mensch schickt aktiv etwas an n8n – n8n wartet passiv bis etwas ankommt.
-→ Webhook (HTTP-Anfrage von außen)
-→ On form submission (jemand füllt ein Formular aus)
-→ When chat message received (jemand schreibt im Chat)
-→ Workflow Input Trigger (ein anderer n8n Workflow sendet an diesen Trigger)
-→ Produktspezifische Trigger: z.B. Calendly, Gumroad, Stripe – jeder Dienst kann bei bestimmten Ereignissen einen Webhook feuern
+| Kategorie | Wer stößt an? | Beispiele aus der Praxis | Nodes |
+|---|---|---|---|
+| ⏱️ **Zeit-basiert** | die Uhr | jeden Morgen um 8 ein Report, stündlich eine API abfragen | Schedule Trigger |
+| 🖱️ **Manuell** | ein Mensch per Klick in n8n | Testen, Workflows auf Abruf | Manual Trigger (*Execute workflow*). Nur einer pro Workflow, deshalb nicht im Playground. Ihr kennt ihn aus Modul 0 bis 3 |
+| 🌐 **Event-basiert (Push)** | ein System oder Mensch schickt etwas an n8n | Formular abgeschickt, Kauf in einem Shop, Chat-Nachricht | Webhook, On form submission, Chat Trigger (Aufgabe 4), Workflow Input Trigger, App-Trigger wie Stripe oder Calendly |
+| 🔄 **Polling (Pull)** | n8n fragt selbst regelmäßig nach | jede Minute das Postfach prüfen, neue Zeilen im Sheet | Gmail Trigger, Google Sheets Trigger, Google Drive Trigger, viele weitere App-Trigger |
 
-🔄 **POLLING (Pull)**
-n8n fragt selbst regelmäßig bei einem Dienst nach ob etwas Neues da ist – kein Push von außen.
-→ Gmail Trigger (prüft jede Minute das Postfach)
-→ Google Sheets Trigger (prüft ob neue Zeilen erschienen sind)
-→ Viele weitere App-Trigger funktionieren nach diesem Prinzip
+💡 **Faustregel:** Push reagiert sofort. Polling hat immer eine Verzögerung, höchstens so lang wie das Prüfintervall.
 
-💡 Faustregel: Push-Trigger reagieren sofort. Polling-Trigger haben immer eine Verzögerung.
+## Node für Node: zeigen, fragen, Fallen
 
----
-⚠️ **Hinweis für diesen Workshop:**
-In einem echten Produktiv-Workflow hat jeder Workflow genau einen Trigger – er reagiert auf ein bestimmtes Ereignis und läuft dann durch.
+### Schedule Trigger – `Schedule Trigger (Playground)`
 
-In diesem Modul wollen wir jedoch alle Trigger-Typen in einem einzigen Workflow demonstrieren – das ist technisch gesehen nicht der vorgesehene Einsatz. n8n ist nicht darauf ausgelegt, mehrere Trigger gleichzeitig innerhalb eines Workflows zu kombinieren und deren Ergebnisse zu sammeln.
+**Zeigen:** Intervall-Modi durchklicken (Minuten, Stunden, Tage, Custom/Cron). Cron kurz erklären: `0 8 * * 1` = montags um 8 Uhr. *Execute step*: Der Output enthält den Zeitpunkt.
 
-Deshalb werden hier alle Trigger so gut wie manuell ausgelöst: Du konfigurierst jeden Trigger und löst ihn einmal bewusst aus. Jeder Trigger trägt sich dabei selbst ins Scoreboard ein. Das Ziel ist das Kennenlernen und Verstehen der verschiedenen Trigger-Typen – nicht der produktive Einsatz.
+**Frage:** Jeden Werktag um 9 Uhr ein Bericht, aber nicht am Wochenende. Geht das?
+**Antwort:** Ja, mit Cron `0 9 * * 1-5`. Alternative: täglich auslösen und danach per IF den Wochentag prüfen.
+
+**Fallen:**
+- Von selbst läuft er nur, wenn der Workflow **aktiv** (veröffentlicht) ist. Im Editor löst man ihn per *Execute step* aus.
+- **Zeitzone:** Maßgeblich ist die Zeitzone in den Workflow-Settings bzw. der Instanz. „8 Uhr“ kann sonst 8 Uhr UTC heißen.
+- Ein falsch gesetztes Cron-Feld (fünf Felder: Minute, Stunde, Tag, Monat, Wochentag) heißt: Er feuert nie oder selten, ohne Fehlermeldung.
+
+### Webhook – `Webhook (Playground)`
+
+**Zeigen:** *Execute step*, dann die Test-URL im Browser aufrufen (GET). Output erklären: `headers`, `params`, `query`, `body`. Alles aus der Anfrage landet hier.
+
+**Frage:** Webhook oder Gmail Trigger: Was ist schneller?
+**Antwort:** Der Webhook reagiert im Moment der Anfrage. Der Gmail Trigger erst beim nächsten Abfragen. Wenn der Dienst Webhooks kann, ist das die schnellere Wahl.
+
+**Fallen:**
+- **Test-URL und Production-URL:** Die Test-URL lauscht nur, während im Editor gewartet wird. Die Production-URL nur, wenn der Workflow aktiv ist. Falsche URL beim Absender eingetragen = es kommt nie etwas an.
+- Standardmäßig antwortet n8n sofort mit einer leeren Bestätigung. Für eine echte Antwort braucht es *Respond to Webhook*.
+- Ein offener Webhook ist für alle erreichbar, die die URL kennen. Produktiv immer absichern (Header Auth oder Basic Auth).
+
+### On form submission – `On form submission (Playground)`
+
+**Zeigen:** Felder anlegen (Text „Name“, Dropdown „Kategorie“), Test-URL öffnen, ausfüllen, absenden. Die Eingaben stehen direkt als Felder im Item.
+
+**Frage:** Wann n8n-Formular, wann Typeform oder Google Forms?
+**Antwort:** n8n-Formulare sind in Minuten fertig und brauchen keine Anbindung. Ideal für interne Tools und Prototypen. Für aufwendiges Branding, viel Verzweigung oder sehr viele Nutzer lohnt ein Spezialwerkzeug.
+
+**Fallen:**
+- Gleiche Test-/Production-Logik wie beim Webhook.
+- Pflichtfelder bewusst setzen. Ein leeres Pflichtfeld verhindert das Absenden.
+
+### Workflow Input Trigger – `Workflow Input Trigger (Playground)`
+
+**Zeigen:** Kein Zeitplan, kein externes Ereignis. Dieser Trigger wartet darauf, dass ein **anderer** Workflow ihn über *Execute Workflow* aufruft. Was der Aufrufer mitgibt, ist hier der Input.
+
+**Frage:** Warum einen Workflow in Sub-Workflows aufteilen?
+**Antwort:** Wiederverwenden (mehrere Workflows rufen denselben auf), Übersicht (große Workflows werden unlesbar), Wartung (Teile einzeln testen und ändern).
+
+**Fallen:**
+- Welche Felder ankommen, legt der Trigger fest (*Input data mode*). Was nicht definiert oder nicht übergeben wird, fehlt.
+- Ein Fehler im Sub-Workflow lässt auch den Aufrufer scheitern, wenn er nicht abgefangen wird.
+
+### Gmail Trigger – `Gmail Trigger (Playground)`
+
+**Zeigen:** Abfrageintervall (Standard: jede Minute), Filter nach Absender, Betreff, Label. Testmail schicken, *Execute step*: Betreff, Absender, Text, Anhänge.
+
+**Frage:** Eine eilige Bestellung kommt per Mail. Ist der Gmail Trigger richtig?
+**Antwort:** Meist ja: Bei „jede Minute“ höchstens 60 Sekunden Verzögerung. Wenn es sofort sein muss, braucht es einen Push-Weg (z. B. Gmail über Google Pub/Sub an einen Webhook). Der ist aufwendiger.
+
+**Fallen:**
+- Er liefert nur Mails, die seit dem letzten Abruf neu sind.
+- Mehrere Google-Konten: In der Credential das richtige auswählen.
+
+### Google Sheets Trigger – `Google Sheets Trigger (Playground)`
+
+**Zeigen:** Sheet und Tabellenblatt wählen, Ereignis wählen (*Row Added*, *Row Updated* oder beides). Zeile eintragen, *Execute step*.
+
+**Frage:** Was ist der Unterschied zum normalen Google-Sheets-Node, der Zeilen liest?
+**Antwort:** Der Node liest einmal, wenn er an der Reihe ist. Der Trigger beobachtet das Sheet und startet den Workflow selbst. Trigger = reagiert, Node = auf Anforderung.
+
+**Fallen:**
+- Zeile 1 muss die Kopfzeile sein, sonst stimmt die Zuordnung der Felder nicht.
+- Polling: Verzögerung bis zum nächsten Abruf.
+
+### Google Drive Trigger – `Google Drive Trigger (Playground)`
+
+**Zeigen:** Ordner wählen, Ereignis wählen (Datei neu, Datei geändert). Testdatei hochladen, *Execute step*: Name, ID, Dateityp.
+
+**Frage:** Wofür würdet ihr ihn einsetzen?
+**Antwort:** Rechnungen oder Verträge verarbeiten, sobald sie im Ordner liegen. Bilder beim Hochladen umbenennen oder umwandeln. Neue Dateien ins CRM eintragen. Modul 6 zeigt, warum dort trotzdem ein Schedule Trigger mit *List Files* genommen wird.
+
+**Falle:** Polling, also nichts für zeitkritische Abläufe.
+
+### Übergang zur Challenge
+
+„Ihr habt alle vier Kategorien live gesehen, von der Uhr über Push bis Polling. In der Challenge löst ihr jeden Trigger selbst aus, auch den Chat Trigger. Ich starte die Zeit, wenn alle bereit sind.“

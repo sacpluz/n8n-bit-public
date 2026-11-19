@@ -515,7 +515,7 @@
     },
     {
       "parameters": {
-        "content": "**Verfügbare Felder im Error Trigger:**\n\n```\n$json.execution.id\n$json.execution.url\n$json.error.message\n$json.error.description\n$json.workflow.id\n$json.workflow.name\n```\n\n**Empfehlung:** Mindestens ein zentrales Error-Logging-Workflow einrichten. Alle anderen Workflows zeigen darauf.",
+        "content": "**Verfügbare Felder im Error Trigger:**\n\n```\n$json.execution.id\n$json.execution.url\n$json.execution.error.message\n$json.execution.lastNodeExecuted\n$json.workflow.id\n$json.workflow.name\n```\n\n**Empfehlung:** Mindestens ein zentrales Error-Logging-Workflow einrichten. Alle anderen Workflows zeigen darauf.",
         "height": 280,
         "width": 360,
         "color": 4

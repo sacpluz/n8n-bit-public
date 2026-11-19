@@ -28,6 +28,57 @@ Alle Nodes in der gelben Notiz **Playground – Datenqualität**. Jeden Node öf
 
 Frage an die Gruppe: Was passiert, wenn Limit vor Sort steht?
 
+## Node für Node: Bild, Frage, Fallen
+
+Pro Node: kurz erklären, *Execute step*, **Item-Anzahl vorher und nachher** vergleichen, Frage stellen, auflösen. Die Beispieldaten sind absichtlich schmutzig: aktive und inaktive Abonnenten, dazu Duplikate. Am Ende bleibt eine saubere, sortierte Liste.
+
+### Filter – `Playground – Filter`
+
+**Bild:** Ein Türsteher mit Gästeliste. Wer passt, kommt rein. Es gibt keinen Seiteneingang.
+
+**Frage:** Was ist der Unterschied zwischen Filter und IF?
+**Antwort:** IF hat zwei Ausgänge, beide lassen sich weiterverarbeiten. Filter hat einen, der Rest ist weg. Braucht ihr den false-Zweig nicht, ist Filter die aufgeräumtere Wahl.
+
+**Fallen:**
+- `"true"` (Text) ist nicht `true` (Boolean). Bei strenger Typprüfung fällt dann alles durch.
+- Textvergleiche achten standardmäßig auf Groß-/Kleinschreibung: `Berlin` ≠ `berlin`.
+- Bleibt nichts übrig, gibt es keinen Fehler. Der Workflow läuft einfach nicht weiter.
+
+### Remove Duplicates – `Playground – Remove Duplicates`
+
+**Bild:** Auf der Einladungsliste steht dieselbe Person dreimal. Remove Duplicates streicht die Wiederholungen.
+
+**Frage:** Warum vergleicht ihr auf `email` und nicht auf `name`?
+**Antwort:** Namen sind nicht eindeutig. Zwei verschiedene Frank Hoffmanns sind zwei Menschen. Immer das Feld nehmen, das einen Datensatz eindeutig macht.
+
+**Fallen:**
+- Mehrere Vergleichsfelder heißt: Duplikat nur, wenn **alle** übereinstimmen.
+- Behalten wird das **erste** Vorkommen. Wer das neueste behalten will, sortiert vorher.
+
+### Sort – `Playground – Sort`
+
+**Bild:** Ein Stapel Bewerbungen, neu geordnet nach Datum oder Score. Der Inhalt bleibt, nur die Reihenfolge ändert sich.
+
+**Frage:** Warum ist die Reihenfolge vor Limit so wichtig?
+**Antwort:** Limit nimmt stur die ersten N. Ohne Sortieren sind das zufällige N, mit Sortieren die neuesten oder die besten.
+
+**Fallen:**
+- Datum als Text sortiert alphabetisch. `2024-06-01` (ISO) klappt zufällig, `01.06.2024` nicht.
+- Beim Sortieren nach Text kommen Großbuchstaben vor Kleinbuchstaben.
+
+### Limit – `Playground – Limit`
+
+**Bild:** Der Drucker hat nur Papier für 20 Zeilen. Der Rest bleibt im System, kommt aber nicht mit.
+
+**Frage:** Was passiert, wenn Limit vor Sort steht? Und was, wenn Limit vor Filter steht?
+**Antwort:** Vor Sort: N beliebige Einträge statt der Top N. Vor Filter: Erst auf 20 kürzen, dann fallen noch welche raus, am Ende sind es weniger als 20. Faustregel: **filtern, sortieren, dann begrenzen.**
+
+**Falle:** Limit ist kein Blättern. Die nächsten 20 bekommt man nicht mit einem zweiten Limit, dafür braucht es Pagination (API-Parameter oder Code).
+
+### Übergang zur Challenge
+
+„Ihr habt gerade aus einer schmutzigen Liste eine saubere, sortierte, eindeutige gemacht, ganz ohne Code. In der Challenge baut ihr so eine Pipeline selbst. Ich starte die Zeit, wenn alle bereit sind.“
+
 ## Die Nodes
 
 | Node | Was er macht | Worauf achten |

@@ -4,6 +4,14 @@ Was der Trainer am Beamer erklärt. Die Aufgaben stehen in der [README.md](READM
 
 ---
 
+## Die eine Kernaussage
+
+„KI-Nodes brauchen Text oder JSON. Die Welt liefert aber PDFs, Bilder und Audio. Dieses Modul zeigt, wie ihr die Lücke schließt.“
+
+Die Preistabellen unten sind Nachschlagematerial, nicht zum Vorlesen. Am Beamer reichen die Entscheidungsmatrix und die Playground-Nodes.
+
+---
+
 ## Gemini API – Preisübersicht (Paid Tier · Standard)
 
 ### Text / Multimodal
@@ -144,6 +152,68 @@ JPG          →  Bild analysieren      →  Information Extractor           →
 - **Markdown:** HTML → sauberes Markdown (Token-Reduktion) oder Markdown → HTML
 - **Convert to File:** JSON/Text als downloadbare Datei (.txt, .csv, .json) ausgeben
 - **Code:** Token-Budget-Trimmer — Text kürzen, Tokens schätzen, Whitespace bereinigen
+
+---
+
+## Node für Node: zeigen und Fallen
+
+### HTTP Request – Datei laden (`HTTP Request – PDF laden`, `HTTP Request – Bild laden`)
+
+Einziger Unterschied zum normalen HTTP Request: **Response Format: File**. Zeigen: Node ausführen, im Output auf den Reiter **Binary** wechseln.
+
+- Ohne *Response Format: File* kommt kein Binary an, oft ohne Fehlermeldung.
+- Stimmt der Dateityp (MIME-Type) nicht, erkennt der nächste Node die Datei nicht.
+
+### Extract from File – PDF zu Text
+
+Kein Modell, kein API-Aufruf, keine Kosten. Der Text steht danach in `$json.text`. Zeigen: Pipeline ausführen, `text` im Output.
+
+- Nur für **digitale** PDFs. Ein Scan ist ein Bild: `text` bleibt leer, ohne Fehler. Deshalb prüft die Challenge die Textlänge.
+- Tabellen in PDFs werden oft zu Textsalat, Spalten laufen ineinander.
+
+### Bild analysieren – Bild zu Text oder JSON
+
+Basic LLM Chain, die das Bild als Nachricht vom Typ *Image (Binary)* an ein Vision-Modell schickt. Zwei Varianten im Playground vergleichen:
+
+| Node | Was rauskommt | Aufrufe |
+|---|---|---|
+| `Bild analysieren – für Information Extractor` | freie Beschreibung, danach Information Extractor | 2 |
+| `Bild analysieren – JSON im Prompt` | direkt JSON | 1, also günstiger |
+
+- „Antworte NUR mit JSON“ halten Modelle nicht immer ein (Backticks, Einleitungssatz). Deshalb der Code-Node zum Bereinigen (`AUFGABE 08d – Code: JSON parsen`).
+- Zu klein, zu dunkel, zu unscharf: schlechte Erkennung.
+
+### Transcribe a recording – Audio zu Text
+
+OpenAI Whisper, ca. $0.006 pro Minute. Zeigen: Audiodatei laden, Transkript im Output.
+
+- Whisper nimmt höchstens 25 MB pro Datei. Lange Aufnahmen vorher teilen.
+- Wer was gesagt hat, steht nicht im Transkript. Dafür braucht es einen eigenen Schritt mit Prompt.
+
+### Information Extractor – Text zu JSON
+
+Holt per Modell die Felder eines Schemas aus beliebigem Text. Das Schema steht im Node, den Prompt baut der Node selbst. Er kommt immer **nach** einem der Nodes oben, nie als Eingang.
+
+- Fehlt ein Feld im Dokument, kommt `null`. Das ist richtig so, kein Fehler.
+- Je mehr Felder, desto teurer und ungenauer. Schema schlank halten.
+- Wird das Bild ohnehin analysiert: JSON gleich im Bild-Prompt anfordern, spart den zweiten Aufruf.
+
+### Code – Token-Trimmer (`Code – Token-Trimmer`, `Code – kein Trim`, `Code – mit Trim`)
+
+PDF-Text enthält viele Leerzeichen und Leerzeilen. Die kosten Tokens und bringen nichts. Zeigen: den `Merge` mit „kein Trim“ und „mit Trim“ nebeneinander, Zeichen, Tokens und Kosten vergleichen. Oft 30 bis 50 % weniger.
+
+```js
+raw.replace(/[ \t]+/g, ' ')    // mehrfache Leerzeichen
+   .replace(/\n{3,}/g, '\n\n') // mehrfache Leerzeilen
+   .trim()
+```
+
+- Zu viel kürzen zerstört Struktur, z. B. Tabellen.
+- Die Token-Zahl im Code ist eine Schätzung (Wörter × 1,3).
+
+### Übergang zur Challenge
+
+„Ihr habt die Eingangsstrecke gesehen: Datei → Text → JSON. In der Challenge verarbeitet ihr echte Rechnungen aus einem Drive-Ordner bis ins Sheet. Ich starte die Zeit, wenn alle bereit sind.“
 
 ---
 
