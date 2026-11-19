@@ -171,7 +171,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// BEREITS FERTIG – nicht verändern\nconst r = $input.first().json;\nconst pflicht = ['cheapest_offer_supplier', 'cheapest_offer_price_EUR', 'timestamp'];\nconst fehlt = pflicht.filter(k => r[k] === undefined || r[k] === null || r[k] === '');\nif (fehlt.length) {\n  const tipp = fehlt.map(k => {\n    const aehnlich = Object.keys(r).find(x => x.toLowerCase() === k.toLowerCase());\n    return aehnlich ? `'${k}' (vorhanden ist '${aehnlich}', Groß-/Kleinschreibung zählt!)` : `'${k}'`;\n  }).join(', ');\n  throw new Error(`Diese Felder fehlen oder sind leer: ${tipp}. Aufgabe 5 (Edit Fields) prüfen. Sind sie dort leer, liefert Aufgabe 4 kein 'cheapestOffer'.`);\n}\nconst hinweise = [];\nif (typeof r.cheapest_offer_price_EUR !== 'number') hinweise.push(\"'cheapest_offer_price_EUR' ist kein Number. Im Edit-Fields-Node den Typ auf Number stellen.\");\nif (!(Number(r.cheapest_offer_price_EUR) > 0)) hinweise.push(\"Der Preis ist 0. Liefert der HTTP Request 'rates.EUR'? Stimmt der Node-Name in $('Loop Over Items')?\");\nreturn [{ json: { ...r, hinweise: hinweise.length ? hinweise.join(' | ') : 'Alles richtig!' } }];"
+        "jsCode": "// BEREITS FERTIG – nicht verändern\nconst r = $input.first().json;\nconst pflicht = ['cheapest_offer_supplier', 'cheapest_offer_price_EUR', 'timestamp'];\nconst fehlt = pflicht.filter(k => r[k] === undefined || r[k] === null || r[k] === '');\nif (fehlt.length) {\n  const tipp = fehlt.map(k => {\n    const aehnlich = Object.keys(r).find(x => x.toLowerCase() === k.toLowerCase());\n    return aehnlich ? `'${k}' (vorhanden ist '${aehnlich}', Groß-/Kleinschreibung zählt!)` : `'${k}'`;\n  }).join(', ');\n  throw new Error(`Diese Felder fehlen oder sind leer: ${tipp}. Aufgabe 5 (Edit Fields) prüfen. Sind sie dort leer, liefert Aufgabe 4 kein 'cheapestOffer'.`);\n}\nconst hinweise = [];\nif (typeof r.cheapest_offer_price_EUR !== 'number') hinweise.push(\"'cheapest_offer_price_EUR' ist kein Number. Im Edit-Fields-Node den Typ auf Number stellen.\");\nif (!(Number(r.cheapest_offer_price_EUR) > 0)) hinweise.push(\"Der Preis ist 0. Liefert der HTTP Request 'rates.EUR'? Stimmt der Node-Name in $('Loop Over Items')?\");\nconst lieferanten = ['TechSupply US', 'Nordic Parts', 'UK Components', 'Swiss Precision', 'Japan Direct'];\nif (!lieferanten.includes(r.cheapest_offer_supplier)) hinweise.push(`Lieferant '${r.cheapest_offer_supplier}' ist unbekannt. Kommt 'cheapest_offer_supplier' aus Aufgabe 4?`);\nreturn [{ json: { ...r, korrekt: hinweise.length === 0 ? '✅ Ja' : '❌ Nein', hinweise: hinweise.length ? hinweise.join(' | ') : 'Alles richtig!' } }];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -184,23 +184,85 @@
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "https://SCOREBOARD-URL-EINTRAGEN.example/webhook/scoreboard-submit",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ name: $workflow.name.split(/\\s[–-]\\s/)[0], modul: '03', ergebnis: $json }) }}",
-        "options": {
-          "timeout": 10000
-        }
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE-SHEET-ID-EINTRAGEN",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Abgaben",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $workflow.name.split(/\\s[–-]\\s/)[0] }}",
+            "Modul": "3",
+            "Zeit": "={{ $now.setZone('Europe/Berlin').toFormat('yyyy-MM-dd HH:mm:ss') }}",
+            "Korrekt": "={{ String($json.korrekt).includes('Ja') ? 'ja' : 'nein' }}",
+            "Details": "={{ $json.hinweise }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Modul",
+              "displayName": "Modul",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Zeit",
+              "displayName": "Zeit",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Korrekt",
+              "displayName": "Korrekt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Details",
+              "displayName": "Details",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
       },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
       "position": [
         1780,
         1020
       ],
       "id": "7bc2c7cf-f16d-45eb-a821-0a5de8cf9da9",
-      "name": "Scoreboard – Ergebnis senden"
+      "name": "Scoreboard – Ergebnis eintragen"
     }
   ],
   "connections": {
@@ -303,7 +365,7 @@
       "main": [
         [
           {
-            "node": "Scoreboard – Ergebnis senden",
+            "node": "Scoreboard – Ergebnis eintragen",
             "type": "main",
             "index": 0
           }

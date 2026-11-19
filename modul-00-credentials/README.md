@@ -54,7 +54,7 @@ Node **Zugangsdaten eintragen** öffnen und jedes `HIER_EINTRAGEN` durch den ech
 **Execute workflow** klicken. Der Node **Ergebnis** zeigt pro Credential `angelegt` mit ID oder `FEHLER` mit Meldung (die Secrets werden nicht ausgegeben).
 
 ### 6 · OAuth-Credentials per Hand
-Für Google Sheets / Drive: **Credentials → Create credential → Google Sheets OAuth2 API** → *Sign in with Google*. Das brauchen nur Modul 5 und 6. Das Scoreboard läuft ohne Google Sheets.
+Für Google Sheets / Drive: **Credentials → Create credential → Google Sheets OAuth2 API** → *Sign in with Google*. Das brauchen nur Modul 5 und 6. Fürs Scoreboard braucht ihr keine eigene, das läuft über die Credential des Facilitators.
 
 ### 7 · Aufräumen ⚠️
 - Werte im Code-Node wieder auf `HIER_EINTRAGEN` zurücksetzen.

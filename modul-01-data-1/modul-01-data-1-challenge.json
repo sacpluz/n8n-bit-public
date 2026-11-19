@@ -453,23 +453,85 @@
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "https://SCOREBOARD-URL-EINTRAGEN.example/webhook/scoreboard-submit",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ name: $workflow.name.split(/\\s[–-]\\s/)[0], modul: '01', ergebnis: $json }) }}",
-        "options": {
-          "timeout": 10000
-        }
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE-SHEET-ID-EINTRAGEN",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Abgaben",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $workflow.name.split(/\\s[–-]\\s/)[0] }}",
+            "Modul": "1",
+            "Zeit": "={{ $now.setZone('Europe/Berlin').toFormat('yyyy-MM-dd HH:mm:ss') }}",
+            "Korrekt": "={{ String($json.korrekt).includes('Ja') ? 'ja' : 'nein' }}",
+            "Details": "={{ $json.hinweise }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Modul",
+              "displayName": "Modul",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Zeit",
+              "displayName": "Zeit",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Korrekt",
+              "displayName": "Korrekt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Details",
+              "displayName": "Details",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
       },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
       "position": [
         4128,
         -64
       ],
       "id": "f4e2109d-3f37-4498-8a40-3ac521db825c",
-      "name": "Scoreboard – Ergebnis senden"
+      "name": "Scoreboard – Ergebnis eintragen"
     }
   ],
   "connections": {
@@ -653,7 +715,7 @@
       "main": [
         [
           {
-            "node": "Scoreboard – Ergebnis senden",
+            "node": "Scoreboard – Ergebnis eintragen",
             "type": "main",
             "index": 0
           }

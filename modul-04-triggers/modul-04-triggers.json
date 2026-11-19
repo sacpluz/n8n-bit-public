@@ -585,103 +585,413 @@
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "https://SCOREBOARD-URL-EINTRAGEN.example/webhook/scoreboard-submit",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ name: $json.Name, modul: '04', ergebnis: { trigger_source: $json.trigger_source } }) }}",
-        "options": {
-          "timeout": 10000
-        }
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE-SHEET-ID-EINTRAGEN",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Abgaben",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.Name }}",
+            "Modul": "4",
+            "Zeit": "={{ $now.setZone('Europe/Berlin').toFormat('yyyy-MM-dd HH:mm:ss') }}",
+            "Korrekt": "={{ ['form','webhook','schedule','chat','gmail'].includes($json.trigger_source) ? 'ja' : 'nein' }}",
+            "Details": "={{ $json.trigger_source }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Modul",
+              "displayName": "Modul",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Zeit",
+              "displayName": "Zeit",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Korrekt",
+              "displayName": "Korrekt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Details",
+              "displayName": "Details",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
       },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
       "position": [
         -112,
         1344
       ],
       "id": "dcc030c4-80d1-420f-b079-a579179f457b",
-      "name": "Scoreboard – Formular senden"
+      "name": "Scoreboard – Formular eintragen"
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "https://SCOREBOARD-URL-EINTRAGEN.example/webhook/scoreboard-submit",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ name: $json.Name, modul: '04', ergebnis: { trigger_source: $json.trigger_source } }) }}",
-        "options": {
-          "timeout": 10000
-        }
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE-SHEET-ID-EINTRAGEN",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Abgaben",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.Name }}",
+            "Modul": "4",
+            "Zeit": "={{ $now.setZone('Europe/Berlin').toFormat('yyyy-MM-dd HH:mm:ss') }}",
+            "Korrekt": "={{ ['form','webhook','schedule','chat','gmail'].includes($json.trigger_source) ? 'ja' : 'nein' }}",
+            "Details": "={{ $json.trigger_source }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Modul",
+              "displayName": "Modul",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Zeit",
+              "displayName": "Zeit",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Korrekt",
+              "displayName": "Korrekt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Details",
+              "displayName": "Details",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
       },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
       "position": [
         512,
         1344
       ],
       "id": "687c7b26-b509-46f5-93cb-4e99805e295b",
-      "name": "Scoreboard – Webhook senden"
+      "name": "Scoreboard – Webhook eintragen"
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "https://SCOREBOARD-URL-EINTRAGEN.example/webhook/scoreboard-submit",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ name: $json.Name, modul: '04', ergebnis: { trigger_source: $json.trigger_source } }) }}",
-        "options": {
-          "timeout": 10000
-        }
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE-SHEET-ID-EINTRAGEN",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Abgaben",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.Name }}",
+            "Modul": "4",
+            "Zeit": "={{ $now.setZone('Europe/Berlin').toFormat('yyyy-MM-dd HH:mm:ss') }}",
+            "Korrekt": "={{ ['form','webhook','schedule','chat','gmail'].includes($json.trigger_source) ? 'ja' : 'nein' }}",
+            "Details": "={{ $json.trigger_source }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Modul",
+              "displayName": "Modul",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Zeit",
+              "displayName": "Zeit",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Korrekt",
+              "displayName": "Korrekt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Details",
+              "displayName": "Details",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
       },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
       "position": [
         1072,
         1344
       ],
       "id": "39107eb2-ef47-4305-8197-f593fa49e810",
-      "name": "Scoreboard – Schedule senden"
+      "name": "Scoreboard – Schedule eintragen"
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "https://SCOREBOARD-URL-EINTRAGEN.example/webhook/scoreboard-submit",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ name: $json.Name, modul: '04', ergebnis: { trigger_source: $json.trigger_source } }) }}",
-        "options": {
-          "timeout": 10000
-        }
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE-SHEET-ID-EINTRAGEN",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Abgaben",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.Name }}",
+            "Modul": "4",
+            "Zeit": "={{ $now.setZone('Europe/Berlin').toFormat('yyyy-MM-dd HH:mm:ss') }}",
+            "Korrekt": "={{ ['form','webhook','schedule','chat','gmail'].includes($json.trigger_source) ? 'ja' : 'nein' }}",
+            "Details": "={{ $json.trigger_source }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Modul",
+              "displayName": "Modul",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Zeit",
+              "displayName": "Zeit",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Korrekt",
+              "displayName": "Korrekt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Details",
+              "displayName": "Details",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
       },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
       "position": [
         1568,
         1376
       ],
       "id": "e6467632-72cc-48d2-84c6-2110146ff31b",
-      "name": "Scoreboard – Chat senden"
+      "name": "Scoreboard – Chat eintragen"
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "https://SCOREBOARD-URL-EINTRAGEN.example/webhook/scoreboard-submit",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ name: $json.Name, modul: '04', ergebnis: { trigger_source: $json.trigger_source } }) }}",
-        "options": {
-          "timeout": 10000
-        }
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE-SHEET-ID-EINTRAGEN",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Abgaben",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.Name }}",
+            "Modul": "4",
+            "Zeit": "={{ $now.setZone('Europe/Berlin').toFormat('yyyy-MM-dd HH:mm:ss') }}",
+            "Korrekt": "={{ ['form','webhook','schedule','chat','gmail'].includes($json.trigger_source) ? 'ja' : 'nein' }}",
+            "Details": "={{ $json.trigger_source }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Modul",
+              "displayName": "Modul",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Zeit",
+              "displayName": "Zeit",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Korrekt",
+              "displayName": "Korrekt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Details",
+              "displayName": "Details",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
       },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
       "position": [
         2144,
         1392
       ],
       "id": "0c614c77-ff31-4fa2-ba30-4c87ab561511",
-      "name": "Scoreboard – Gmail senden"
+      "name": "Scoreboard – Gmail eintragen"
     },
     {
       "parameters": {
@@ -802,7 +1112,7 @@
       "main": [
         [
           {
-            "node": "Scoreboard – Schedule senden",
+            "node": "Scoreboard – Schedule eintragen",
             "type": "main",
             "index": 0
           }
@@ -813,7 +1123,7 @@
       "main": [
         [
           {
-            "node": "Scoreboard – Webhook senden",
+            "node": "Scoreboard – Webhook eintragen",
             "type": "main",
             "index": 0
           }
@@ -824,7 +1134,7 @@
       "main": [
         [
           {
-            "node": "Scoreboard – Formular senden",
+            "node": "Scoreboard – Formular eintragen",
             "type": "main",
             "index": 0
           }
@@ -835,7 +1145,7 @@
       "main": [
         [
           {
-            "node": "Scoreboard – Chat senden",
+            "node": "Scoreboard – Chat eintragen",
             "type": "main",
             "index": 0
           }
@@ -846,7 +1156,7 @@
       "main": [
         [
           {
-            "node": "Scoreboard – Gmail senden",
+            "node": "Scoreboard – Gmail eintragen",
             "type": "main",
             "index": 0
           }
