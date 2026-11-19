@@ -319,7 +319,7 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        2368,
+        2128,
         -64
       ],
       "id": "f6825b63-d591-41d8-b14a-d215acedd02c",
@@ -440,7 +440,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// BEREITS FERTIG – nicht verändern\nconst leads = $input.first().json.processed_leads;\nif (!Array.isArray(leads)) {\n  throw new Error(\"Feld 'processed_leads' fehlt. Aufgabe 5 (Aggregate): Das Destination Field muss exakt 'processed_leads' heißen (alles klein, mit Unterstrich).\");\n}\n\nconst hinweise = [];\nif (leads.length !== 5) hinweise.push(`Es kommen ${leads.length} statt 5 Leads an. Aufgabe 1 (Split) und Aufgabe 4 (Merge, Modus Append) prüfen.`);\nif (leads.some(l => l.name === undefined)) hinweise.push(\"Die ursprünglichen Felder (name, score, region) fehlen. Im Set-Node 'Include Other Input Fields' einschalten.\");\nfor (const feld of ['Type', 'Priority']) {\n  if (leads.some(l => l[feld] === undefined)) {\n    const aehnlich = Object.keys(leads[0] || {}).find(k => k.toLowerCase() === feld.toLowerCase());\n    hinweise.push(aehnlich\n      ? `Feld '${feld}' fehlt, es gibt aber '${aehnlich}'. Groß-/Kleinschreibung zählt!`\n      : `Feld '${feld}' fehlt. Aufgabe 3a und 3b prüfen.`);\n  }\n}\n\nconst qualified = leads.filter(l => l.Type === 'Qualifiziert');\nconst rejected  = leads.filter(l => l.Type === 'Abgelehnt');\nif (hinweise.length === 0 && (qualified.length !== 3 || rejected.length !== 2)) {\n  hinweise.push(`Erwartet: 3 x 'Qualifiziert' und 2 x 'Abgelehnt'. Gefunden: ${qualified.length} und ${rejected.length}. Schwelle in Aufgabe 2 (Score >= 60) und Schreibweise der Werte prüfen.`);\n}\n\nreturn [{\n  json: {\n    timestamp:        new Date().toLocaleString('de-DE', { timeZone: 'Europe/Berlin' }),\n    korrekt:          hinweise.length === 0 ? '✅ Ja' : '❌ Nein',\n    hinweise:         hinweise.length ? hinweise.join(' | ') : 'Alles richtig!',\n    qualified_count:  qualified.length,\n    rejected_count:   rejected.length,\n    qualified_names:  qualified.map(l => l.name).join(', '),\n    rejected_names:   rejected.map(l => l.name).join(', '),\n    high_priority:    qualified.filter(l => l.Priority === 'Hoch').map(l => l.name).join(', '),\n    low_priority:     rejected.filter(l => l.Priority === 'Niedrig').map(l => l.name).join(', ')\n  }\n}];"
+        "jsCode": "// BEREITS FERTIG – nicht verändern\nconst leads = $input.first().json.processed_leads;\nif (!Array.isArray(leads)) {\n  throw new Error(\"Feld 'processed_leads' fehlt. Aufgabe 5 (Aggregate): Das Destination Field muss exakt 'processed_leads' heißen (alles klein, mit Unterstrich).\");\n}\n\nconst hinweise = [];\nconst teilnehmer = String($('AUFGABE 0 – Namen eintragen').first().json.name || '').trim();\nif (!teilnehmer) hinweise.push('AUFGABE 0: Euer Name fehlt. Tragt ihn im ersten Node ein, sonst landet nichts im Scoreboard.');\nif (leads.length !== 5) hinweise.push(`Es kommen ${leads.length} statt 5 Leads an. Aufgabe 1 (Split) und Aufgabe 4 (Merge, Modus Append) prüfen.`);\nif (leads.some(l => l.name === undefined)) hinweise.push(\"Die ursprünglichen Felder (name, score, region) fehlen. Im Set-Node 'Include Other Input Fields' einschalten.\");\nfor (const feld of ['Type', 'Priority']) {\n  if (leads.some(l => l[feld] === undefined)) {\n    const aehnlich = Object.keys(leads[0] || {}).find(k => k.toLowerCase() === feld.toLowerCase());\n    hinweise.push(aehnlich\n      ? `Feld '${feld}' fehlt, es gibt aber '${aehnlich}'. Groß-/Kleinschreibung zählt!`\n      : `Feld '${feld}' fehlt. Aufgabe 3a und 3b prüfen.`);\n  }\n}\n\nconst qualified = leads.filter(l => l.Type === 'Qualifiziert');\nconst rejected  = leads.filter(l => l.Type === 'Abgelehnt');\nif (hinweise.length === 0 && (qualified.length !== 3 || rejected.length !== 2)) {\n  hinweise.push(`Erwartet: 3 x 'Qualifiziert' und 2 x 'Abgelehnt'. Gefunden: ${qualified.length} und ${rejected.length}. Schwelle in Aufgabe 2 (Score >= 60) und Schreibweise der Werte prüfen.`);\n}\n\nreturn [{\n  json: {\n    timestamp:        new Date().toLocaleString('de-DE', { timeZone: 'Europe/Berlin' }),\n    korrekt:          hinweise.length === 0 ? '✅ Ja' : '❌ Nein',\n    hinweise:         hinweise.length ? hinweise.join(' | ') : 'Alles richtig!',\n    qualified_count:  qualified.length,\n    rejected_count:   rejected.length,\n    qualified_names:  qualified.map(l => l.name).join(', '),\n    rejected_names:   rejected.map(l => l.name).join(', '),\n    high_priority:    qualified.filter(l => l.Priority === 'Hoch').map(l => l.name).join(', '),\n    low_priority:     rejected.filter(l => l.Priority === 'Niedrig').map(l => l.name).join(', ')\n  }\n}];"
       },
       "id": "f5302d1c-4eaa-44cd-b611-deb2edc5fdb0",
       "name": "Ergebnis prüfen",
@@ -457,7 +457,7 @@
         "url": "https://SCOREBOARD-URL-EINTRAGEN.example",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ name: $workflow.name.split(/\\s[–-]\\s/)[0], modul: 1, korrekt: String($json.korrekt).includes('Ja') ? 'ja' : 'nein', details: $json.hinweise }) }}",
+        "jsonBody": "={{ JSON.stringify({ name: $('AUFGABE 0 – Namen eintragen').first().json.name, modul: 1, korrekt: String($json.korrekt).includes('Ja') ? 'ja' : 'nein', details: $json.hinweise }) }}",
         "options": {
           "timeout": 15000
         }
@@ -470,6 +470,31 @@
       ],
       "id": "f4e2109d-3f37-4498-8a40-3ac521db825c",
       "name": "Scoreboard – Ergebnis eintragen"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e0e0aa51-5f3d-4ff2-9c65-cd05f47ccc3d",
+              "name": "name",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2368,
+        -64
+      ],
+      "id": "8572fb81-ce34-4638-9e55-b3ee584cbdba",
+      "name": "AUFGABE 0 – Namen eintragen",
+      "notes": "Aufgabe 0: Feld 'name' = euer Vor- und Nachname. So erscheint ihr im Scoreboard.",
+      "notesInFlow": true
     }
   ],
   "connections": {
@@ -558,7 +583,7 @@
       "main": [
         [
           {
-            "node": "Leads generieren",
+            "node": "AUFGABE 0 – Namen eintragen",
             "type": "main",
             "index": 0
           }
@@ -654,6 +679,17 @@
         [
           {
             "node": "Scoreboard – Ergebnis eintragen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 0 – Namen eintragen": {
+      "main": [
+        [
+          {
+            "node": "Leads generieren",
             "type": "main",
             "index": 0
           }

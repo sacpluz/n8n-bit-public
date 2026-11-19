@@ -27,7 +27,8 @@ Teilnehmer-Workflow
 | **Apps Script** | Setzt die Zeit und hängt eine Zeile an `Abgaben` an |
 | **Rangliste** | Tab im Sheet, rechnet aus den Abgaben die Plätze aus |
 
-- Der **Name** kommt aus dem Workflow-Namen: alles vor dem ersten ` – `. Deshalb den Workflow nicht umbenennen.
+- Der **Name** steht in Modul 0–3 im ersten Node `AUFGABE 0 – Namen eintragen` (Feld `name`). Das Setup-Skript füllt ihn vor, sonst tragen ihn die Teilnehmer selbst ein. Fehlt er, meldet `Ergebnis prüfen` das, und das Skript lehnt die Abgabe ab.
+- **Modul 4** hat fünf Trigger und keinen gemeinsamen ersten Node. Dort kommt der Name aus dem Workflow-Namen (alles vor dem ersten ` – `). Umbenennen ist die erste Anweisung im Workflow.
 - Die **Zeit** setzt das Apps Script beim Eintragen, also für alle auf derselben Uhr.
 - In Modul 4 schreibt jeder Trigger eine eigene Zeile (`Scoreboard – Formular eintragen` usw.).
 

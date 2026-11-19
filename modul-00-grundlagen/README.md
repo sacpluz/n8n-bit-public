@@ -42,7 +42,7 @@ Ihr bekommt eine Bestellung als JSON. Holt mit **Expressions** einzelne Werte he
 3. **Aufgaben** (rechts): Die Nodes sind schon verbunden. Ihr tragt in jedem Node die Felder ein, von links nach rechts.
 4. Einmal **Execute workflow** klicken, dann jeden Aufgaben-Node mit **Execute step** testen, bevor ihr weitergeht.
 5. Der Node **Ergebnis prüfen** zeigt im Feld `hinweise`, was noch nicht stimmt.
-6. Euer Name fürs Scoreboard kommt automatisch aus dem Workflow-Namen. **Nichts eintragen.**
+6. Tragt in **AUFGABE 0** euren Namen ein. Daraus liest das Scoreboard, wer abgegeben hat.
 
 ---
 
@@ -133,6 +133,16 @@ Im Output eines Nodes oben rechts auf die **Stecknadel** klicken. Der Output ist
 ## Aufgaben
 
 In jedem Aufgaben-Node: **Add Field** → Name eintragen → Typ wählen → Wert als Expression. *Include Other Input Fields* ist schon eingeschaltet, damit die Felder der Aufgaben davor erhalten bleiben.
+
+### 00 · SET – Namen eintragen
+
+Der erste Node nach dem Start. Hier steht euer Name fürs Scoreboard.
+
+| Name | Typ | Wert |
+|---|---|---|
+| name | String | euer Vor- und Nachname, z. B. `Anna Müller` |
+
+Kontrolle: Output zeigt `name` mit eurem Namen. Ist das Feld leer, meldet `Ergebnis prüfen` „AUFGABE 0: Euer Name fehlt“ und es landet nichts im Scoreboard.
 
 ### 01 · SET – Verschachtelte Felder
 

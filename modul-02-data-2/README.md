@@ -26,11 +26,21 @@ Ein Eintrag sieht so aus:
 1. **Playground** (links): die vier Nodes einzeln mit **Execute step** ausprobieren.
 2. **Challenge** (rechts): Nodes sind verbunden, ihr konfiguriert sie.
 3. Einmal **Execute workflow**, dann jeden Node mit **Execute step** testen. Achtet auf die **Item-Anzahl** im Output.
-4. Euer Name kommt automatisch aus dem Workflow-Namen.
+4. Tragt in **AUFGABE 0** euren Namen ein. Daraus liest das Scoreboard, wer abgegeben hat.
 
 ---
 
 ## Aufgaben
+
+### 00 · SET – Namen eintragen
+
+Der erste Node nach dem Start. Hier steht euer Name fürs Scoreboard.
+
+| Name | Typ | Wert |
+|---|---|---|
+| name | String | euer Vor- und Nachname, z. B. `Anna Müller` |
+
+Kontrolle: Output zeigt `name` mit eurem Namen. Ist das Feld leer, meldet `Ergebnis prüfen` „AUFGABE 0: Euer Name fehlt“ und es landet nichts im Scoreboard.
 
 ### 01 · REMOVE DUPLICATES – Duplikate entfernen
 

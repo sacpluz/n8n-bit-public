@@ -69,7 +69,7 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        0,
+        -240,
         1040
       ],
       "id": "5015cdda-f2a6-4e8b-abea-a1092833681b",
@@ -171,7 +171,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// BEREITS FERTIG – nicht verändern\nconst r = $input.first().json;\nconst pflicht = ['cheapest_offer_supplier', 'cheapest_offer_price_EUR', 'timestamp'];\nconst fehlt = pflicht.filter(k => r[k] === undefined || r[k] === null || r[k] === '');\nif (fehlt.length) {\n  const tipp = fehlt.map(k => {\n    const aehnlich = Object.keys(r).find(x => x.toLowerCase() === k.toLowerCase());\n    return aehnlich ? `'${k}' (vorhanden ist '${aehnlich}', Groß-/Kleinschreibung zählt!)` : `'${k}'`;\n  }).join(', ');\n  throw new Error(`Diese Felder fehlen oder sind leer: ${tipp}. Aufgabe 5 (Edit Fields) prüfen. Sind sie dort leer, liefert Aufgabe 4 kein 'cheapestOffer'.`);\n}\nconst hinweise = [];\nif (typeof r.cheapest_offer_price_EUR !== 'number') hinweise.push(\"'cheapest_offer_price_EUR' ist kein Number. Im Edit-Fields-Node den Typ auf Number stellen.\");\nif (!(Number(r.cheapest_offer_price_EUR) > 0)) hinweise.push(\"Der Preis ist 0. Liefert der HTTP Request 'rates.EUR'? Stimmt der Node-Name in $('Loop Over Items')?\");\nconst lieferanten = ['TechSupply US', 'Nordic Parts', 'UK Components', 'Swiss Precision', 'Japan Direct'];\nif (!lieferanten.includes(r.cheapest_offer_supplier)) hinweise.push(`Lieferant '${r.cheapest_offer_supplier}' ist unbekannt. Kommt 'cheapest_offer_supplier' aus Aufgabe 4?`);\nreturn [{ json: { ...r, korrekt: hinweise.length === 0 ? '✅ Ja' : '❌ Nein', hinweise: hinweise.length ? hinweise.join(' | ') : 'Alles richtig!' } }];"
+        "jsCode": "// BEREITS FERTIG – nicht verändern\nconst r = $input.first().json;\nconst pflicht = ['cheapest_offer_supplier', 'cheapest_offer_price_EUR', 'timestamp'];\nconst fehlt = pflicht.filter(k => r[k] === undefined || r[k] === null || r[k] === '');\nif (fehlt.length) {\n  const tipp = fehlt.map(k => {\n    const aehnlich = Object.keys(r).find(x => x.toLowerCase() === k.toLowerCase());\n    return aehnlich ? `'${k}' (vorhanden ist '${aehnlich}', Groß-/Kleinschreibung zählt!)` : `'${k}'`;\n  }).join(', ');\n  throw new Error(`Diese Felder fehlen oder sind leer: ${tipp}. Aufgabe 5 (Edit Fields) prüfen. Sind sie dort leer, liefert Aufgabe 4 kein 'cheapestOffer'.`);\n}\nconst hinweise = [];\nconst teilnehmer = String($('AUFGABE 0 – Namen eintragen').first().json.name || '').trim();\nif (!teilnehmer) hinweise.push('AUFGABE 0: Euer Name fehlt. Tragt ihn im ersten Node ein, sonst landet nichts im Scoreboard.');\nif (typeof r.cheapest_offer_price_EUR !== 'number') hinweise.push(\"'cheapest_offer_price_EUR' ist kein Number. Im Edit-Fields-Node den Typ auf Number stellen.\");\nif (!(Number(r.cheapest_offer_price_EUR) > 0)) hinweise.push(\"Der Preis ist 0. Liefert der HTTP Request 'rates.EUR'? Stimmt der Node-Name in $('Loop Over Items')?\");\nconst lieferanten = ['TechSupply US', 'Nordic Parts', 'UK Components', 'Swiss Precision', 'Japan Direct'];\nif (!lieferanten.includes(r.cheapest_offer_supplier)) hinweise.push(`Lieferant '${r.cheapest_offer_supplier}' ist unbekannt. Kommt 'cheapest_offer_supplier' aus Aufgabe 4?`);\nreturn [{ json: { ...r, korrekt: hinweise.length === 0 ? '✅ Ja' : '❌ Nein', hinweise: hinweise.length ? hinweise.join(' | ') : 'Alles richtig!' } }];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -188,7 +188,7 @@
         "url": "https://SCOREBOARD-URL-EINTRAGEN.example",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ name: $workflow.name.split(/\\s[–-]\\s/)[0], modul: 3, korrekt: String($json.korrekt).includes('Ja') ? 'ja' : 'nein', details: $json.hinweise }) }}",
+        "jsonBody": "={{ JSON.stringify({ name: $('AUFGABE 0 – Namen eintragen').first().json.name, modul: 3, korrekt: String($json.korrekt).includes('Ja') ? 'ja' : 'nein', details: $json.hinweise }) }}",
         "options": {
           "timeout": 15000
         }
@@ -201,6 +201,31 @@
       ],
       "id": "7bc2c7cf-f16d-45eb-a821-0a5de8cf9da9",
       "name": "Scoreboard – Ergebnis eintragen"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "522c5cf1-f4c0-4761-a313-ab1d1f7c691a",
+              "name": "name",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        0,
+        1040
+      ],
+      "id": "9f01421d-081d-4756-a543-86372cc7df58",
+      "name": "AUFGABE 0 – Namen eintragen",
+      "notes": "Aufgabe 0: Feld 'name' = euer Vor- und Nachname. So erscheint ihr im Scoreboard.",
+      "notesInFlow": true
     }
   ],
   "connections": {
@@ -208,7 +233,7 @@
       "main": [
         [
           {
-            "node": "Angebote laden",
+            "node": "AUFGABE 0 – Namen eintragen",
             "type": "main",
             "index": 0
           }
@@ -304,6 +329,17 @@
         [
           {
             "node": "Scoreboard – Ergebnis eintragen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 0 – Namen eintragen": {
+      "main": [
+        [
+          {
+            "node": "Angebote laden",
             "type": "main",
             "index": 0
           }

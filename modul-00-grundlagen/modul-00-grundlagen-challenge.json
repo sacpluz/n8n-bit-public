@@ -113,7 +113,7 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        640,
+        400,
         0
       ],
       "id": "c36ed317-8f3d-44a8-bd56-e3b6055bce94",
@@ -206,7 +206,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// BEREITS FERTIG – nicht verändern\nconst r = $input.first().json;\nconst soll = {\n  kunde:             { wert: \"Miriam Koch\",    aufgabe: 1 },\n  stadt:             { wert: \"Mannheim\",       aufgabe: 1 },\n  erster_artikel:    { wert: \"Laptop-Ständer\", aufgabe: 2 },\n  anzahl_positionen: { wert: 3,                aufgabe: 2, typ: \"number\" },\n  status_text:       { wert: \"offen\",          aufgabe: 3 },\n  bestellnummer:     { wert: \"A-1042\",         aufgabe: 4 },\n  grosse_bestellung: { wert: true,             aufgabe: 5, typ: \"boolean\" }\n};\nconst typName = { number: \"Number\", boolean: \"Boolean\" };\nconst hinweise = [];\nfor (const [feld, s] of Object.entries(soll)) {\n  const v = r[feld];\n  if (v === undefined || v === null || v === \"\") {\n    const aehnlich = Object.keys(r).find(k => k.toLowerCase() === feld.toLowerCase());\n    hinweise.push(aehnlich\n      ? `Aufgabe ${s.aufgabe}: Feld '${feld}' fehlt, es gibt aber '${aehnlich}'. Groß-/Kleinschreibung zählt!`\n      : `Aufgabe ${s.aufgabe}: Feld '${feld}' fehlt oder ist leer. Stimmt der Pfad in der Expression?`);\n  } else if (String(v) !== String(s.wert)) {\n    hinweise.push(`Aufgabe ${s.aufgabe}: Feld '${feld}' ist '${v}', erwartet wird '${s.wert}'.`);\n  } else if (s.typ && typeof v !== s.typ) {\n    hinweise.push(`Aufgabe ${s.aufgabe}: Wert von '${feld}' stimmt, ist aber Text. Typ im Set-Node auf ${typName[s.typ]} stellen.`);\n  }\n}\nreturn [{\n  json: {\n    timestamp: new Date().toLocaleString('de-DE', { timeZone: 'Europe/Berlin' }),\n    korrekt:   hinweise.length === 0 ? \"✅ Ja\" : \"❌ Nein\",\n    hinweise:  hinweise.length ? hinweise.join(\" | \") : \"Alles richtig. Weiter mit Modul 1!\",\n    kunde: r.kunde, stadt: r.stadt, erster_artikel: r.erster_artikel,\n    anzahl_positionen: r.anzahl_positionen, status_text: r.status_text,\n    bestellnummer: r.bestellnummer, grosse_bestellung: r.grosse_bestellung\n  }\n}];"
+        "jsCode": "// BEREITS FERTIG – nicht verändern\nconst r = $input.first().json;\nconst soll = {\n  kunde:             { wert: \"Miriam Koch\",    aufgabe: 1 },\n  stadt:             { wert: \"Mannheim\",       aufgabe: 1 },\n  erster_artikel:    { wert: \"Laptop-Ständer\", aufgabe: 2 },\n  anzahl_positionen: { wert: 3,                aufgabe: 2, typ: \"number\" },\n  status_text:       { wert: \"offen\",          aufgabe: 3 },\n  bestellnummer:     { wert: \"A-1042\",         aufgabe: 4 },\n  grosse_bestellung: { wert: true,             aufgabe: 5, typ: \"boolean\" }\n};\nconst typName = { number: \"Number\", boolean: \"Boolean\" };\nconst hinweise = [];\nconst teilnehmer = String($('AUFGABE 0 – Namen eintragen').first().json.name || '').trim();\nif (!teilnehmer) hinweise.push('AUFGABE 0: Euer Name fehlt. Tragt ihn im ersten Node ein, sonst landet nichts im Scoreboard.');\nfor (const [feld, s] of Object.entries(soll)) {\n  const v = r[feld];\n  if (v === undefined || v === null || v === \"\") {\n    const aehnlich = Object.keys(r).find(k => k.toLowerCase() === feld.toLowerCase());\n    hinweise.push(aehnlich\n      ? `Aufgabe ${s.aufgabe}: Feld '${feld}' fehlt, es gibt aber '${aehnlich}'. Groß-/Kleinschreibung zählt!`\n      : `Aufgabe ${s.aufgabe}: Feld '${feld}' fehlt oder ist leer. Stimmt der Pfad in der Expression?`);\n  } else if (String(v) !== String(s.wert)) {\n    hinweise.push(`Aufgabe ${s.aufgabe}: Feld '${feld}' ist '${v}', erwartet wird '${s.wert}'.`);\n  } else if (s.typ && typeof v !== s.typ) {\n    hinweise.push(`Aufgabe ${s.aufgabe}: Wert von '${feld}' stimmt, ist aber Text. Typ im Set-Node auf ${typName[s.typ]} stellen.`);\n  }\n}\nreturn [{\n  json: {\n    timestamp: new Date().toLocaleString('de-DE', { timeZone: 'Europe/Berlin' }),\n    korrekt:   hinweise.length === 0 ? \"✅ Ja\" : \"❌ Nein\",\n    hinweise:  hinweise.length ? hinweise.join(\" | \") : \"Alles richtig. Weiter mit Modul 1!\",\n    kunde: r.kunde, stadt: r.stadt, erster_artikel: r.erster_artikel,\n    anzahl_positionen: r.anzahl_positionen, status_text: r.status_text,\n    bestellnummer: r.bestellnummer, grosse_bestellung: r.grosse_bestellung\n  }\n}];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -241,7 +241,7 @@
         "url": "https://SCOREBOARD-URL-EINTRAGEN.example",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ name: $workflow.name.split(/\\s[–-]\\s/)[0], modul: 0, korrekt: String($json.korrekt).includes('Ja') ? 'ja' : 'nein', details: $json.hinweise }) }}",
+        "jsonBody": "={{ JSON.stringify({ name: $('AUFGABE 0 – Namen eintragen').first().json.name, modul: 0, korrekt: String($json.korrekt).includes('Ja') ? 'ja' : 'nein', details: $json.hinweise }) }}",
         "options": {
           "timeout": 15000
         }
@@ -254,6 +254,31 @@
       ],
       "id": "fe59da39-59cc-49c8-9b24-3c3956a56170",
       "name": "Scoreboard – Ergebnis eintragen"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "95899912-8790-427f-be36-802c952133f0",
+              "name": "name",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        640,
+        0
+      ],
+      "id": "d3fb2636-4bed-4d67-85fb-8d7da5e71116",
+      "name": "AUFGABE 0 – Namen eintragen",
+      "notes": "Aufgabe 0: Feld 'name' = euer Vor- und Nachname. So erscheint ihr im Scoreboard.",
+      "notesInFlow": true
     }
   ],
   "connections": {
@@ -261,7 +286,7 @@
       "main": [
         [
           {
-            "node": "Beispieldaten",
+            "node": "AUFGABE 0 – Namen eintragen",
             "type": "main",
             "index": 0
           }
@@ -350,6 +375,17 @@
         [
           {
             "node": "Scoreboard – Ergebnis eintragen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 0 – Namen eintragen": {
+      "main": [
+        [
+          {
+            "node": "Beispieldaten",
             "type": "main",
             "index": 0
           }

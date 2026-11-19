@@ -152,7 +152,7 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        2768,
+        2528,
         192
       ],
       "id": "22b991ec-c263-43b9-be11-49d318f91815",
@@ -257,7 +257,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// BEREITS FERTIG – nicht verändern\nconst subscribers = $input.first().json.subscribers;\nif (!Array.isArray(subscribers)) {\n  throw new Error(\"Feld 'subscribers' fehlt. Der Node 'Ergebnisse sammeln' bekommt keine Daten. Sind alle vier Aufgaben-Nodes konfiguriert?\");\n}\nconst actualNames = subscribers.map(s => s.name);\nconst expectedNames = ['Frank Hoffmann', 'Clara Weber', 'Greta Lange', 'Anna Müller', 'Xenia Herrmann'];\n\nconst hinweise = [];\nif (subscribers.length !== 5) hinweise.push(`Es kommen ${subscribers.length} statt 5 Einträge an. Aufgabe 4 (Limit) prüfen.`);\nif (subscribers.some(s => s.active !== true)) hinweise.push(\"Es sind inaktive Abonnenten dabei. Aufgabe 2 (Filter) prüfen.\");\nif (new Set(subscribers.map(s => s.email)).size !== subscribers.length) hinweise.push(\"Es sind doppelte E-Mail-Adressen dabei. Aufgabe 1 (Remove Duplicates, Feld 'email') prüfen.\");\nif (actualNames[0] !== 'Frank Hoffmann') hinweise.push(\"An erster Stelle steht nicht Frank Hoffmann. Aufgabe 3 (Sort): erst 'opens_per_month', dann 'signup_date', beide Descending.\");\nconst correct = hinweise.length === 0 && expectedNames.every((n, i) => actualNames[i] === n);\nif (hinweise.length === 0 && !correct) hinweise.push(\"Die Reihenfolge stimmt noch nicht. Zweites Sortierfeld 'signup_date' (Descending) prüfen.\");\n\nreturn [{\n  json: {\n    timestamp:       new Date().toLocaleString('de-DE', { timeZone: 'Europe/Berlin' }),\n    korrekt:         correct ? '✅ Ja' : '❌ Nein',\n    hinweise:        hinweise.length ? hinweise.join(' | ') : 'Alles richtig!',\n    anzahl_ergebnis: subscribers.length,\n    erster_kontakt:  actualNames[0] || '-',\n    alle_namen:      actualNames.join(', ')\n  }\n}];"
+        "jsCode": "// BEREITS FERTIG – nicht verändern\nconst subscribers = $input.first().json.subscribers;\nif (!Array.isArray(subscribers)) {\n  throw new Error(\"Feld 'subscribers' fehlt. Der Node 'Ergebnisse sammeln' bekommt keine Daten. Sind alle vier Aufgaben-Nodes konfiguriert?\");\n}\nconst actualNames = subscribers.map(s => s.name);\nconst expectedNames = ['Frank Hoffmann', 'Clara Weber', 'Greta Lange', 'Anna Müller', 'Xenia Herrmann'];\n\nconst hinweise = [];\nconst teilnehmer = String($('AUFGABE 0 – Namen eintragen').first().json.name || '').trim();\nif (!teilnehmer) hinweise.push('AUFGABE 0: Euer Name fehlt. Tragt ihn im ersten Node ein, sonst landet nichts im Scoreboard.');\nif (subscribers.length !== 5) hinweise.push(`Es kommen ${subscribers.length} statt 5 Einträge an. Aufgabe 4 (Limit) prüfen.`);\nif (subscribers.some(s => s.active !== true)) hinweise.push(\"Es sind inaktive Abonnenten dabei. Aufgabe 2 (Filter) prüfen.\");\nif (new Set(subscribers.map(s => s.email)).size !== subscribers.length) hinweise.push(\"Es sind doppelte E-Mail-Adressen dabei. Aufgabe 1 (Remove Duplicates, Feld 'email') prüfen.\");\nif (actualNames[0] !== 'Frank Hoffmann') hinweise.push(\"An erster Stelle steht nicht Frank Hoffmann. Aufgabe 3 (Sort): erst 'opens_per_month', dann 'signup_date', beide Descending.\");\nconst correct = hinweise.length === 0 && expectedNames.every((n, i) => actualNames[i] === n);\nif (hinweise.length === 0 && !correct) hinweise.push(\"Die Reihenfolge stimmt noch nicht. Zweites Sortierfeld 'signup_date' (Descending) prüfen.\");\n\nreturn [{\n  json: {\n    timestamp:       new Date().toLocaleString('de-DE', { timeZone: 'Europe/Berlin' }),\n    korrekt:         correct ? '✅ Ja' : '❌ Nein',\n    hinweise:        hinweise.length ? hinweise.join(' | ') : 'Alles richtig!',\n    anzahl_ergebnis: subscribers.length,\n    erster_kontakt:  actualNames[0] || '-',\n    alle_namen:      actualNames.join(', ')\n  }\n}];"
       },
       "id": "092a1d6b-e27a-495a-bb91-e1fce33f79bf",
       "name": "Ergebnis prüfen",
@@ -274,7 +274,7 @@
         "url": "https://SCOREBOARD-URL-EINTRAGEN.example",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ name: $workflow.name.split(/\\s[–-]\\s/)[0], modul: 2, korrekt: String($json.korrekt).includes('Ja') ? 'ja' : 'nein', details: $json.hinweise }) }}",
+        "jsonBody": "={{ JSON.stringify({ name: $('AUFGABE 0 – Namen eintragen').first().json.name, modul: 2, korrekt: String($json.korrekt).includes('Ja') ? 'ja' : 'nein', details: $json.hinweise }) }}",
         "options": {
           "timeout": 15000
         }
@@ -287,6 +287,31 @@
       ],
       "id": "11e3cfd6-2a4d-4d31-8bf8-c987ec26333f",
       "name": "Scoreboard – Ergebnis eintragen"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "aab0efd1-8e62-4dfd-925f-dfc7b4af588e",
+              "name": "name",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2768,
+        192
+      ],
+      "id": "d86fc103-f149-4181-ab56-6aed102fdf3f",
+      "name": "AUFGABE 0 – Namen eintragen",
+      "notes": "Aufgabe 0: Feld 'name' = euer Vor- und Nachname. So erscheint ihr im Scoreboard.",
+      "notesInFlow": true
     }
   ],
   "connections": {
@@ -338,7 +363,7 @@
       "main": [
         [
           {
-            "node": "Abonnenten generieren",
+            "node": "AUFGABE 0 – Namen eintragen",
             "type": "main",
             "index": 0
           }
@@ -416,6 +441,17 @@
         [
           {
             "node": "Scoreboard – Ergebnis eintragen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 0 – Namen eintragen": {
+      "main": [
+        [
+          {
+            "node": "Abonnenten generieren",
             "type": "main",
             "index": 0
           }

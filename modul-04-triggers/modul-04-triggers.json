@@ -217,7 +217,7 @@
     },
     {
       "parameters": {
-        "content": "# 🏋️ ZONE 2 – CHALLENGE\n## \"Wer zuerst alle 6 Trigger zum Feuern bringt gewinnt!\"\n\n### ⚠️ Vor dem Start – einmalig erledigen:\nÖffne jeden **Edit Fields Node** hinter den Triggern und ersetze\n**'HIER_NAMEN_EINTRAGEN'** durch deinen Vor- und Nachnamen. **(Ausgenommen Aufgabe 1 hier muss euer Name im Formular unter Name eingetragen werden)**\nOhne gleicher Schreibweise des Namen wird dein Ergebnis nicht dem Scoreboard zugeordnet!\n\n### Deine Aufgabe:\nKonfiguriere alle 5 Trigger-Nodes korrekt und bringe jeden zum Feuern.\nJeder Trigger schreibt seinen Eintrag ins Google Sheet (Part 4 Data).\nWenn du alle 5 ausgeführt hast, betätige Aufgabe 6 – der manuelle Trigger\nfasst alles zusammen und überträgt dein Ergebnis ins Scoreboard.\n\n### ⚠️ Reihenfolge einhalten – Aufgaben der Reihe nach abarbeiten!\nStarte erst mit Aufgabe 2 wenn Aufgabe 1 erfolgreich war.\nAufgabe 6 erst ausführen wenn alle 5 Trigger gefeuert haben.\n\n### Die 6 Trigger:\n1. ⏱️ **Schedule** → alle 10 Sekunden (Workflow aktivieren!)\n2. 🌐 **Webhook** → POST auf `/briefing` (Production URL per Mail an Facilitator)\n3. 📝 **Formular** → 3 Felder (Name, Abteilung, Nachricht)\n4. 💬 **Chat** → beliebige Nachricht\n5. 📧 **Gmail** → bei neuer E-Mail an die Trainings-Adresse\n6. 🖱️ **Manuell** → Wenn alle 5 erledigt sind: Workflow ausführen und Ergebnis einreichen\n\n### 🏆 Gamification:\nDer **Timestamp** der manuellen Einreichung (Aufgabe 6) entscheidet.\n**Korrektheit geht vor Geschwindigkeit** — alle 5 Trigger müissen gefeuert haben.",
+        "content": "# 🏋️ ZONE 2 – CHALLENGE\n## \"Wer zuerst alle 5 Trigger zum Feuern bringt, gewinnt!\"\n\n### ⚠️ Vor dem Start – einmalig:\nWorkflow umbenennen: oben links auf den Namen klicken und **VORLAGE** durch euren Vor- und Nachnamen ersetzen, z. B. `Anna Müller – Modul 04 – Triggers`.\nDaraus liest jeder Trigger euren Namen fürs Scoreboard. In den Edit-Fields-Nodes nichts eintragen.\n\n### Eure Aufgabe:\nKonfiguriert alle 5 Trigger-Nodes und bringt jeden einmal zum Feuern.\nJeder Trigger trägt sich selbst ins Scoreboard ein.\n\n### Die 5 Trigger:\n1. ⏱️ **Schedule** → alle 10 Sekunden (Workflow aktivieren!)\n2. 🌐 **Webhook** → POST auf `/briefing` (Production URL per Mail an Facilitator)\n3. 📝 **Formular** → 3 Felder (Name, Abteilung, Nachricht)\n4. 💬 **Chat** → beliebige Nachricht\n5. 📧 **Gmail** → bei neuer E-Mail an die Trainings-Adresse\n\n### 🏆 Wertung:\nEs gewinnt, wer zuerst alle 5 Trigger ausgelöst hat. Jeder Trigger zählt pro Person einmal.",
         "height": 632,
         "width": 1900,
         "color": 4
@@ -447,7 +447,7 @@
             {
               "id": "fe3f6ce8-7220-4a87-8f13-e2b1b3a366af",
               "name": "Name",
-              "value": "={{ $json.Name }}",
+              "value": "={{ $workflow.name.split(/\\s[–-]\\s/)[0] }}",
               "type": "string"
             },
             {

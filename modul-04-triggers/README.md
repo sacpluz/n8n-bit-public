@@ -49,34 +49,25 @@ Deshalb werden hier alle Trigger so gut wie manuell ausgelöst: Du konfigurierst
 ---
 
 # 🏋️ ZONE 2 – CHALLENGE
-## "Wer zuerst alle 6 Trigger zum Feuern bringt gewinnt!"
+## "Wer zuerst alle 5 Trigger zum Feuern bringt, gewinnt!"
 
-### ⚠️ Vor dem Start – einmalig erledigen:
-Öffne jeden **Edit Fields Node** hinter den Triggern und ersetze
-**'HIER_NAMEN_EINTRAGEN'** durch deinen Vor- und Nachnamen. **(Ausgenommen Aufgabe 1 hier muss euer Name im Formular unter Name eingetragen werden)**
-Ohne gleicher Schreibweise des Namen wird dein Ergebnis nicht dem Scoreboard zugeordnet!
+### ⚠️ Vor dem Start – einmalig:
+Workflow umbenennen: oben links auf den Namen klicken und **VORLAGE** durch euren Vor- und Nachnamen ersetzen, z. B. `Anna Müller – Modul 04 – Triggers`.
+Daraus liest jeder Trigger euren Namen fürs Scoreboard. In den Edit-Fields-Nodes nichts eintragen.
 
-### Deine Aufgabe:
-Konfiguriere alle 5 Trigger-Nodes korrekt und bringe jeden zum Feuern.
-Jeder Trigger schreibt seinen Eintrag ins Google Sheet (Part 4 Data).
-Wenn du alle 5 ausgeführt hast, betätige Aufgabe 6 – der manuelle Trigger
-fasst alles zusammen und überträgt dein Ergebnis ins Scoreboard.
+### Eure Aufgabe:
+Konfiguriert alle 5 Trigger-Nodes und bringt jeden einmal zum Feuern.
+Jeder Trigger trägt sich selbst ins Scoreboard ein.
 
-### ⚠️ Reihenfolge einhalten – Aufgaben der Reihe nach abarbeiten!
-Starte erst mit Aufgabe 2 wenn Aufgabe 1 erfolgreich war.
-Aufgabe 6 erst ausführen wenn alle 5 Trigger gefeuert haben.
-
-### Die 6 Trigger:
+### Die 5 Trigger:
 1. ⏱️ **Schedule** → alle 10 Sekunden (Workflow aktivieren!)
 2. 🌐 **Webhook** → POST auf `/briefing` (Production URL per Mail an Facilitator)
 3. 📝 **Formular** → 3 Felder (Name, Abteilung, Nachricht)
 4. 💬 **Chat** → beliebige Nachricht
 5. 📧 **Gmail** → bei neuer E-Mail an die Trainings-Adresse
-6. 🖱️ **Manuell** → Wenn alle 5 erledigt sind: Workflow ausführen und Ergebnis einreichen
 
-### 🏆 Gamification:
-Der **Timestamp** der manuellen Einreichung (Aufgabe 6) entscheidet.
-**Korrektheit geht vor Geschwindigkeit** — alle 5 Trigger müissen gefeuert haben.
+### 🏆 Wertung:
+Es gewinnt, wer zuerst alle 5 Trigger ausgelöst hat. Jeder Trigger zählt pro Person einmal.
 
 ---
 
@@ -87,7 +78,7 @@ Pflichtfelder:
 
 | Field Label | Element Type | Hinweis |
 |---|---|---|
-| Name | Text | ⚠️ Beim Ausfüllen **deinen Vor- und Nachnamen** eintragen |
+| Name | Text | |
 | Abteilung | Text | |
 | Nachricht | Textarea | |
 

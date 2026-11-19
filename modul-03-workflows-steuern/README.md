@@ -42,6 +42,16 @@ Der Node **Loop Over Items** ist schon verdrahtet und hat zwei Ausgänge:
 
 ## Aufgaben
 
+### 00 · SET – Namen eintragen
+
+Der erste Node nach dem Start. Hier steht euer Name fürs Scoreboard.
+
+| Name | Typ | Wert |
+|---|---|---|
+| name | String | euer Vor- und Nachname, z. B. `Anna Müller` |
+
+Kontrolle: Output zeigt `name` mit eurem Namen. Ist das Feld leer, meldet `Ergebnis prüfen` „AUFGABE 0: Euer Name fehlt“ und es landet nichts im Scoreboard.
+
 ### 01 · SPLIT OUT – Angebote aufteilen
 
 Kennt ihr aus Modul 1: aus einem Item mit Array werden fünf Items.

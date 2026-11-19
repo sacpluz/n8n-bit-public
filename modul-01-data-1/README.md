@@ -33,11 +33,21 @@ Ihr habt eine Liste von Leads mit einem **Score**. Baut einen Workflow, der sie 
 2. **Challenge** (rechts): Die Nodes sind schon verbunden. Ihr konfiguriert sie von links nach rechts.
 3. Einmal **Execute workflow** klicken, dann jeden Aufgaben-Node mit **Execute step** testen, bevor ihr weitergeht.
 4. Der Node **Ergebnis prüfen** zeigt im Feld `hinweise`, was noch nicht stimmt.
-5. Euer Name fürs Scoreboard kommt automatisch aus dem Workflow-Namen. **Nichts eintragen.**
+5. Tragt in **AUFGABE 0** euren Namen ein. Daraus liest das Scoreboard, wer abgegeben hat.
 
 ---
 
 ## Aufgaben
+
+### 00 · SET – Namen eintragen
+
+Der erste Node nach dem Start. Hier steht euer Name fürs Scoreboard.
+
+| Name | Typ | Wert |
+|---|---|---|
+| name | String | euer Vor- und Nachname, z. B. `Anna Müller` |
+
+Kontrolle: Output zeigt `name` mit eurem Namen. Ist das Feld leer, meldet `Ergebnis prüfen` „AUFGABE 0: Euer Name fehlt“ und es landet nichts im Scoreboard.
 
 ### 01 · SPLIT OUT – Array in einzelne Items aufteilen
 
