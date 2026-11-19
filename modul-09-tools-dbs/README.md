@@ -43,7 +43,7 @@ Die erste Frage braucht die Vektorsuche, die zweite nur die Datenbank. Nur wenn 
 
 ⚠️ **Node-Namen nicht ändern.** `Ergebnis prüfen` liest die Nodes per Namen.
 
-**Credentials:** Qdrant, OpenAI, Gemini und Airtable sind in den Nodes vorausgewählt. Ist ein Feld rot oder leer, nehmt die Credential aus Modul 0 (`Workshop – Qdrant`, `Workshop – OpenAI`, `Workshop – Google Gemini`, `Workshop – Airtable`).
+**Credentials:** Qdrant, OpenAI, Gemini und Airtable sind in den Nodes vorausgewählt und für euch freigegeben. Ihr braucht keine eigenen Keys. Ist ein Feld rot oder leer, sagt dem Trainer Bescheid.
 
 ---
 
@@ -141,7 +141,7 @@ Node `AUFGABE 3 – Qdrant Vector Store` (hängt schon als Tool am Agenten).
 
 | Einstellung | Wert |
 |---|---|
-| Credential to connect with | `Qdrant account` (oder `Workshop – Qdrant`) |
+| Credential to connect with | `Qdrant account` (vorausgewählt) |
 | Operation Mode | **Retrieve Documents (As Tool for AI Agent)** |
 | Description | Text unten |
 | Qdrant Collection | From list → **n8n workshop** |
@@ -160,7 +160,7 @@ Die Filmbeschreibungen wurden mit `text-embedding-3-small` in Vektoren umgerechn
 
 | Einstellung | Wert |
 |---|---|
-| Credential to connect with | `OpenAI account 3` (oder `Workshop – OpenAI`) |
+| Credential to connect with | `OpenAI account 3` (vorausgewählt) |
 | Model | **text-embedding-3-small** |
 
 ### 05 · IF – Semantische Suche?
@@ -227,7 +227,7 @@ Node `AUFGABE 7 – Airtable: Movies DB` (hängt schon als Tool am Agenten).
 
 | Einstellung | Wert |
 |---|---|
-| Credential to connect with | `Airtable Personal Access Token account` (oder `Workshop – Airtable`) |
+| Credential to connect with | `Airtable Personal Access Token account` (vorausgewählt) |
 | Tool Description | **Set Manually**, Text unten |
 | Resource | **Record** |
 | Operation | **Search** |
@@ -290,6 +290,8 @@ Die schnellste **korrekte** Abgabe gewinnt. Details: [Scoreboard](../scoreboard.
 | Agent ruft Qdrant nie auf | Description leer, oder die System Message fehlt |
 | Airtable: `INVALID_FILTER_BY_FORMULA` | Das Modell hat eine Spalte erfunden. In der System Message stehen die echten Spalten |
 | Antwort „keine Filme gefunden“ bei David Fincher | Filter By Formula ist ein fester Text statt ✨ *defined by the model* |
+| Credential-Feld leer oder rot | Credential ist nicht für euch freigegeben. Trainer fragen |
+| `429 Too Many Requests` | Zu viele Anfragen gleichzeitig. Eine Minute warten, dann neu starten |
 | Chat antwortet nicht | Im Chat-Modus läuft am Ende `Antwort an den Chat`. Wurde der Node gelöscht? |
 
 ---

@@ -4,6 +4,19 @@ Was der Trainer am Beamer erklärt. Die Aufgaben stehen in der [README.md](READM
 
 ---
 
+## Voraussetzungen
+
+Das Modul läuft nur, wenn der Trainer vorher Folgendes bereitgestellt hat (Details im Facilitator Guide):
+
+- Qdrant-Cluster mit der befüllten Collection `n8n workshop`
+- Airtable-Base mit der Filmtabelle
+- Die Credentials für Qdrant, OpenAI, Gemini und Airtable sind in n8n mit allen Teilnehmern **geteilt**. Dann sind sie in der Vorlage vorausgewählt, und niemand braucht eigene Keys.
+- Genug Kontingent bei Gemini und OpenAI für alle gleichzeitig
+
+Fehlt etwas davon, zeigt der Trainer das Modul als Demo.
+
+---
+
 ## Ablauf am Beamer (10 min) – Playground links im Workflow
 
 Alle Nodes in der gelben Notiz **Playground – Vektorsuche und Datenbank**. Jeweils *Execute step*.
