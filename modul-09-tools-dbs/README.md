@@ -45,7 +45,7 @@ Die erste Frage braucht die Vektorsuche, die zweite nur die Datenbank. Nur wenn 
 
 ⚠️ **Node-Namen nicht ändern.** `Ergebnis prüfen` liest die Nodes per Namen.
 
-**Credentials:** Qdrant, OpenAI, Gemini und Airtable sind in den Nodes vorausgewählt und für euch freigegeben. Ihr braucht keine eigenen Keys. Ist ein Feld rot oder leer, sagt dem Trainer Bescheid.
+**Credentials:** Qdrant, OpenAI, Azure und Airtable sind in den Nodes vorausgewählt und für euch freigegeben. Ihr braucht keine eigenen Keys. Ist ein Feld rot oder leer, sagt dem Trainer Bescheid.
 
 ---
 

@@ -51,7 +51,7 @@ Schedule Trigger
                     → Parse Image JSON
                     → Edit Fields
   → Google Sheets
-  → Basic LLM Chain (Gemini)
+  → Basic LLM Chain (Azure, gpt-5-mini)
   → Gmail
   → Move to Processed
   → [zurück zu Loop]
@@ -252,7 +252,7 @@ Beide Wege liefern unterschiedliche Strukturen:
 
 ### 11 · BASIC LLM CHAIN — E-Mail-Text generieren
 
-Verbinde **Google Gemini Chat Model** als Subnode.
+Verbinde **Azure AI Foundry Chat Model** (`gpt-5-mini`) als Subnode.
 
 **Prompt:**
 ```
@@ -328,7 +328,7 @@ Kein JSON, nur Text.
 **08d** Code – JSON parsen
 **09** Edit Fields – `?.` und `??` normalisieren
 **10** Google Sheets
-**11** Basic LLM Chain + Gemini
+**11** Basic LLM Chain + Azure
 **12** Gmail
 **13** Google Drive Move
 

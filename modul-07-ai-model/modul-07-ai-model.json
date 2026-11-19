@@ -34,7 +34,7 @@
     },
     {
       "parameters": {
-        "content": "## Module 07 -  AI + Model - Node Übersicht\n\n### KI-Modelle und Verarbeitung\n- **LLM Chain**: Verknüpft mehrere Sprachmodelle für komplexe Aufgaben.\n- **Sentiment Analysis**: Analysiert die Stimmung in Texten.\n- **TextClassifier**: Kategorisiert Texte nach vordefinierten Klassen.\n- **InformationExtractor**: Extrahiert gezielt Informationen aus Texten.\n\n### Sprachmodell\n- **Google Gemini Chat Model**: Eingesetztes Sprachmodell zur Analyse und Verarbeitung von Texteingaben.\n\n### Interaktion per Chat\n- **When Chat Message Received**: Ermöglicht die Eingabe und Verarbeitung von Nachrichten im Chatfenster.\n\n### Datenbankanbindung\n- **Tables*: Für das Beispiel gibt es eine rudimentäre Datenhaltung in Form von n8n Tables.",
+        "content": "## Module 07 -  AI + Model - Node Übersicht\n\n### KI-Modelle und Verarbeitung\n- **LLM Chain**: Verknüpft mehrere Sprachmodelle für komplexe Aufgaben.\n- **Sentiment Analysis**: Analysiert die Stimmung in Texten.\n- **TextClassifier**: Kategorisiert Texte nach vordefinierten Klassen.\n- **InformationExtractor**: Extrahiert gezielt Informationen aus Texten.\n\n### Sprachmodell\n- **Azure AI Foundry Chat Model** (gpt-5-mini): Eingesetztes Sprachmodell zur Analyse und Verarbeitung von Texteingaben.\n\n### Interaktion per Chat\n- **When Chat Message Received**: Ermöglicht die Eingabe und Verarbeitung von Nachrichten im Chatfenster.\n\n### Datenbankanbindung\n- **Tables*: Für das Beispiel gibt es eine rudimentäre Datenhaltung in Form von n8n Tables.",
         "height": 1304,
         "width": 760,
         "color": 4
@@ -50,21 +50,22 @@
     },
     {
       "parameters": {
-        "modelName": "models/gemini-flash-latest",
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1.1,
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
       "position": [
         1168,
         1520
       ],
       "id": "2cb887ca-20f7-4ff8-b157-0d4188c02764",
-      "name": "Google Gemini Chat Model1",
+      "name": "Azure AI Foundry Chat Model1",
       "credentials": {
-        "googlePalmApi": {
-          "id": "mPlTTyh37zoTPZ5D",
-          "name": "Google Gemini(PaLM) Api account 3"
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
         }
       }
     },
@@ -243,21 +244,22 @@
     },
     {
       "parameters": {
-        "modelName": "models/gemini-flash-latest",
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1.1,
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
       "position": [
         3856,
         3488
       ],
       "id": "1b48a09d-6b97-4140-9c6e-c401cdd43ca9",
-      "name": "Google Gemini Chat Model",
+      "name": "Azure AI Foundry Chat Model",
       "credentials": {
-        "googlePalmApi": {
-          "id": "mPlTTyh37zoTPZ5D",
-          "name": "Google Gemini(PaLM) Api account 3"
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
         }
       }
     },
@@ -305,101 +307,106 @@
     },
     {
       "parameters": {
-        "modelName": "models/gemini-flash-latest",
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1.1,
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
       "position": [
         4432,
         3440
       ],
       "id": "6b783761-5ebb-41c2-b0cb-60ca3ec3657c",
-      "name": "Google Gemini Chat Model4",
+      "name": "Azure AI Foundry Chat Model4",
       "credentials": {
-        "googlePalmApi": {
-          "id": "mPlTTyh37zoTPZ5D",
-          "name": "Google Gemini(PaLM) Api account 3"
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
         }
       }
     },
     {
       "parameters": {
-        "modelName": "models/gemini-flash-latest",
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1.1,
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
       "position": [
         4816,
         3824
       ],
       "id": "fbef0411-520d-45e7-b8a9-134c8c9e1cfd",
-      "name": "Google Gemini Chat Model5",
+      "name": "Azure AI Foundry Chat Model5",
       "credentials": {
-        "googlePalmApi": {
-          "id": "mPlTTyh37zoTPZ5D",
-          "name": "Google Gemini(PaLM) Api account 3"
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
         }
       }
     },
     {
       "parameters": {
-        "modelName": "models/gemini-flash-latest",
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1.1,
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
       "position": [
         4816,
         3440
       ],
       "id": "71e4df89-ba73-4c35-88c5-3b69877fb877",
-      "name": "Google Gemini Chat Model6",
+      "name": "Azure AI Foundry Chat Model6",
       "credentials": {
-        "googlePalmApi": {
-          "id": "mPlTTyh37zoTPZ5D",
-          "name": "Google Gemini(PaLM) Api account 3"
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
         }
       }
     },
     {
       "parameters": {
-        "modelName": "models/gemini-flash-latest",
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1.1,
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
       "position": [
         4816,
         3040
       ],
       "id": "b296d31f-773d-4657-b9b6-e8c4bd31193d",
-      "name": "Google Gemini Chat Model7",
+      "name": "Azure AI Foundry Chat Model7",
       "credentials": {
-        "googlePalmApi": {
-          "id": "mPlTTyh37zoTPZ5D",
-          "name": "Google Gemini(PaLM) Api account 3"
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
         }
       }
     },
     {
       "parameters": {
-        "modelName": "models/gemini-flash-latest",
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1.1,
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
       "position": [
         5168,
         3440
       ],
       "id": "e376a992-7db8-4c22-b641-ca0bbcfdbdc0",
-      "name": "Google Gemini Chat Model8",
+      "name": "Azure AI Foundry Chat Model8",
       "credentials": {
-        "googlePalmApi": {
-          "id": "mPlTTyh37zoTPZ5D",
-          "name": "Google Gemini(PaLM) Api account 3"
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
         }
       }
     },
@@ -515,21 +522,22 @@
     },
     {
       "parameters": {
-        "modelName": "models/gemini-flash-latest",
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1.1,
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
       "position": [
         5536,
         3040
       ],
       "id": "cfb8dc55-d16a-4501-8451-5c36d0be5555",
-      "name": "Google Gemini Chat Model9",
+      "name": "Azure AI Foundry Chat Model9",
       "credentials": {
-        "googlePalmApi": {
-          "id": "mPlTTyh37zoTPZ5D",
-          "name": "Google Gemini(PaLM) Api account 3"
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
         }
       }
     },
@@ -663,21 +671,22 @@
     },
     {
       "parameters": {
-        "modelName": "models/gemini-flash-latest",
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1.1,
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
       "position": [
         4032,
         1008
       ],
       "id": "1255f673-9489-4a48-b9b5-52f1b3d1ebc8",
-      "name": "Google Gemini Chat Model2",
+      "name": "Azure AI Foundry Chat Model2",
       "credentials": {
-        "googlePalmApi": {
-          "id": "mPlTTyh37zoTPZ5D",
-          "name": "Google Gemini(PaLM) Api account 3"
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
         }
       }
     },
@@ -712,101 +721,106 @@
     },
     {
       "parameters": {
-        "modelName": "models/gemini-flash-latest",
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1.1,
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
       "position": [
         4608,
         960
       ],
       "id": "b48ed718-6a41-4204-bccf-94a318a6740c",
-      "name": "Google Gemini Chat Model10",
+      "name": "Azure AI Foundry Chat Model10",
       "credentials": {
-        "googlePalmApi": {
-          "id": "mPlTTyh37zoTPZ5D",
-          "name": "Google Gemini(PaLM) Api account 3"
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
         }
       }
     },
     {
       "parameters": {
-        "modelName": "models/gemini-flash-latest",
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1.1,
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
       "position": [
         4992,
         1344
       ],
       "id": "b50ac7d5-62ac-485e-852b-b90149b4d416",
-      "name": "Google Gemini Chat Model11",
+      "name": "Azure AI Foundry Chat Model11",
       "credentials": {
-        "googlePalmApi": {
-          "id": "mPlTTyh37zoTPZ5D",
-          "name": "Google Gemini(PaLM) Api account 3"
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
         }
       }
     },
     {
       "parameters": {
-        "modelName": "models/gemini-flash-latest",
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1.1,
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
       "position": [
         4992,
         960
       ],
       "id": "0caf9ca5-2a22-4239-bde4-1d35514f440e",
-      "name": "Google Gemini Chat Model12",
+      "name": "Azure AI Foundry Chat Model12",
       "credentials": {
-        "googlePalmApi": {
-          "id": "mPlTTyh37zoTPZ5D",
-          "name": "Google Gemini(PaLM) Api account 3"
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
         }
       }
     },
     {
       "parameters": {
-        "modelName": "models/gemini-flash-latest",
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1.1,
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
       "position": [
         4992,
         560
       ],
       "id": "6b4acd3c-23c8-4d49-97fe-a01158a33401",
-      "name": "Google Gemini Chat Model13",
+      "name": "Azure AI Foundry Chat Model13",
       "credentials": {
-        "googlePalmApi": {
-          "id": "mPlTTyh37zoTPZ5D",
-          "name": "Google Gemini(PaLM) Api account 3"
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
         }
       }
     },
     {
       "parameters": {
-        "modelName": "models/gemini-flash-latest",
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1.1,
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
       "position": [
         5344,
         960
       ],
       "id": "b4cc5ae7-ef6a-4155-9fb5-02486ba08937",
-      "name": "Google Gemini Chat Model14",
+      "name": "Azure AI Foundry Chat Model14",
       "credentials": {
-        "googlePalmApi": {
-          "id": "mPlTTyh37zoTPZ5D",
-          "name": "Google Gemini(PaLM) Api account 3"
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
         }
       }
     },
@@ -856,21 +870,22 @@
     },
     {
       "parameters": {
-        "modelName": "models/gemini-flash-latest",
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1.1,
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
       "position": [
         5712,
         560
       ],
       "id": "7c96dde2-7994-4059-9788-c533842bdeb6",
-      "name": "Google Gemini Chat Model15",
+      "name": "Azure AI Foundry Chat Model15",
       "credentials": {
-        "googlePalmApi": {
-          "id": "mPlTTyh37zoTPZ5D",
-          "name": "Google Gemini(PaLM) Api account 3"
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
         }
       }
     },
@@ -889,7 +904,7 @@
     },
     {
       "parameters": {
-        "content": "# n8n AI Nodes – Best Practices\n\n---\n\n## Basic LLM Chain vs. AI Agent\n\n| | Basic LLM Chain | AI Agent |\n|---|---|---|\n| **Wofür** | Einmaliger, definierter Task | Mehrere Schritte, Entscheidungen, Tools |\n| **Memory** | Nein (stateless) | Ja – über Memory-Node |\n| **Tools** | Nein | Ja – Wikipedia, HTTP, Sheets… |\n| **Chat Messages** | Ja – manuell aufbaubar | Nein – Agent verwaltet intern |\n| **Determinismus** | Vorhersehbar | Nicht-deterministisch |\n| **Token-Kosten** | Niedrig | Höher (mehrere Runden) |\n\n### Faustregel\n\n```\nFester Ablauf + feste Struktur   →  Basic LLM Chain\nEigene History manuell aufbauen  →  Basic LLM Chain + Chat Messages\nAgent entscheidet selbst         →  AI Agent + Memory Node\n```\n\n---\n\n## Source for Prompt (User Message)\n\nSteuert **woher** der User-Prompt kommt. Drei Optionen:\n\n### Define below\nDu schreibst den Prompt selbst – statisch oder per Expression.\n\n```\nAnalysiere diese Rechnung: {{ $json.invoiceText }}\n```\n\n**Wann nutzen:** Immer wenn du den Prompt kontrollieren willst –\nalso in 90% aller Fälle.\n\n### Connected Chat Trigger Node\nn8n liest `chatInput` automatisch aus dem verbundenen Chat Trigger.\nDu musst nichts referenzieren – kein `$('When chat message received').item.json.chatInput`.\n\n**Wann nutzen:** Wenn dein Workflow direkt mit einem\n`When chat message received`-Trigger startet und der User-Text\nungefiltert als Prompt dienen soll.\n\n> ⚠️ Funktioniert nur wenn das eingehende Feld exakt `chatInput` heißt.\n> Sonst vorher einen Set-Node schalten und das Feld umbenennen.\n\n### Take from previous node automatically\nn8n erwartet ebenfalls ein Feld namens `chatInput` vom vorherigen Node.\n\n**Wann nutzen:** Wenn ein anderer Node (kein Chat Trigger)\neinen fertigen Prompt-Text produziert und dieser direkt übergeben werden soll.\n\n### Entscheidungsbaum\n\n```\nStartet der Workflow mit einem Chat Trigger?\n  → Ja, User-Text soll direkt als Prompt →  Connected Chat Trigger Node\n  → Ja, aber du willst Kontext ergänzen   →  Define below + {{ $json.chatInput }}\n  → Nein, Daten kommen aus anderem Node   →  Define below oder Take from previous node\n```\n\n---\n\n## Chat Messages (if Using a Chat Model)\n\nErscheint **nur wenn ein Chat Model** angeschlossen ist\n(GPT-4, Gemini, Claude usw.) – nicht bei reinen Completion Models.\n\nChat Models erwarten keine einzelne Texteingabe,\nsondern ein **Array von Nachrichten mit Rollen**.\nGenau das baut dieser Abschnitt manuell auf.\n\n> n8n ignoriert diese Einstellungen komplett,\n> wenn kein Chat Model verbunden ist.\n\n### Die drei Message-Typen\n\n#### System\nSetzt Persona, Regeln und Verhalten des Modells.\nGilt für die gesamte Konversation und kann vom User nicht überschrieben werden.\n\n```\nYou are a financial support analyst.\nAnswer only based on the invoice data provided.\nBe precise and concise. Never invent data.\n```\n\n**Wo konfigurieren:** Nicht in Chat Messages, sondern unter\n`Options → System Message` – einfacher, macht dasselbe.\nChat Messages → System nur wenn du die Message dynamisch\nper Expression befüllen willst.\n\n#### User (HumanMessagePromptTemplate)\nRepräsentiert eine Nutzernachricht in der simulierten History.\nWird für Few-Shot-Beispiele genutzt – zeigt dem Modell wie\neine Frage aussieht.\n\n#### AI (AIMessagePromptTemplate)\nRepräsentiert eine **simulierte Assistenten-Antwort** in der History.\nWird zusammen mit User-Messages für Few-Shot-Prompting verwendet –\nzeigt dem Modell wie die Antwort aussehen soll.\n\n> ⚠️ AI Message ≠ Anweisung. Sie simuliert eine bereits gegebene\n> Antwort. Als Regel oder Instruction ist sie falsch platziert.\n\n### Few-Shot Pattern (der einzige sinnvolle Anwendungsfall)\n\n```\nOptions → System Message  →  Rolle + Regeln (statisch)\nChat Messages:\n  User  →  Beispielfrage\n  AI    →  Beispielantwort (genau so soll das Modell antworten)\n  User  →  Beispielfrage 2\n  AI    →  Beispielantwort 2\n\ntext-Feld (Prompt):  →  Der eigentliche Task mit {{ $json.data }}\n```\n\n### Wann Chat Messages weglassen?\n\nIn den meisten Fällen. Wenn du nur:\n- eine System Message brauchst → `Options → System Message`\n- einen User-Prompt brauchst → `text`-Feld (Source for Prompt)\n\nDann sind Chat Messages **nicht nötig**.\nChat Messages nur nutzen wenn du dem Modell\nkonkrete Beispiele (Few-Shot) mitgeben willst.\n\n### Häufige Fehler\n\n| Fehler | Problem | Richtig |\n|---|---|---|\n| System-Prompt als erste Chat Message ohne type | Wird als User-Nachricht interpretiert | `Options → System Message` nutzen |\n| AI Message als Anweisung benutzen | AI Message = simulierte Antwort, keine Regel | Anweisung in System Message oder text-Feld |\n| Chat Messages + kein Chat Model | Wird komplett ignoriert | Completion Model → Chat Messages weglassen |\n| Daten im text-Feld vergessen einzubetten | Modell antwortet ohne Kontext | Expression `{{ $json.field }}` einfügen |\n\n---\n\n## Vollständiges Konfigurationsschema (Basic LLM Chain)\n\n```\nSource for Prompt\n  └── Define below\n        └── text: \"Rechnungsdaten:\\n{{ $json.invoiceData }}\\n\\nFrage: {{ $json.chatInput }}\"\n\nOptions\n  └── System Message: \"You are a financial support analyst. ...\"\n\nChat Messages  ← nur bei Few-Shot nötig\n  └── User:  \"Welche Rechnungen sind offen für Kunde XY?\"\n  └── AI:    \"Kunde XY hat zwei offene Rechnungen: ...\"\n```\n\n---\n\n## AI Agent: Options im Überblick\n\n| Option | Wofür |\n|---|---|\n| **System Message** | Persona/Rolle des Agents |\n| **Max Iterations** | Schutz vor Endlosschleifen (Tool-Call-Limit) |\n| **Return Intermediate Steps** | Zeigt Tool-Calls im Output – wichtig zum Debuggen |\n| **Require Specific Output Format** | Zwingt Agent zu strukturiertem JSON |\n| **Enable Fallback Model** | Zweites Modell wenn erstes fehlschlägt |\n\n---\n\n## Weiterführende Links\n\n- [n8n Docs – Basic LLM Chain](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.chainllm/)\n- [n8n Docs – Agents vs. Chains](https://docs.n8n.io/advanced-ai/examples/agent-chain-comparison/)\n- [n8n Docs – Was ist eine Chain?](https://docs.n8n.io/advanced-ai/examples/understand-chains/)\n- [DEV.to – n8n AI Agent vs LLM Chain](https://dev.to/ciphernutz/n8n-ai-agent-vs-llm-chain-when-to-use-langchain-code-48h4)\n- [logicworkflow.com – Basic LLM Chain Best Practices](https://logicworkflow.com/nodes/basic-llm-chain-node/)",
+        "content": "# n8n AI Nodes – Best Practices\n\n---\n\n## Basic LLM Chain vs. AI Agent\n\n| | Basic LLM Chain | AI Agent |\n|---|---|---|\n| **Wofür** | Einmaliger, definierter Task | Mehrere Schritte, Entscheidungen, Tools |\n| **Memory** | Nein (stateless) | Ja – über Memory-Node |\n| **Tools** | Nein | Ja – Wikipedia, HTTP, Sheets… |\n| **Chat Messages** | Ja – manuell aufbaubar | Nein – Agent verwaltet intern |\n| **Determinismus** | Vorhersehbar | Nicht-deterministisch |\n| **Token-Kosten** | Niedrig | Höher (mehrere Runden) |\n\n### Faustregel\n\n```\nFester Ablauf + feste Struktur   →  Basic LLM Chain\nEigene History manuell aufbauen  →  Basic LLM Chain + Chat Messages\nAgent entscheidet selbst         →  AI Agent + Memory Node\n```\n\n---\n\n## Source for Prompt (User Message)\n\nSteuert **woher** der User-Prompt kommt. Drei Optionen:\n\n### Define below\nDu schreibst den Prompt selbst – statisch oder per Expression.\n\n```\nAnalysiere diese Rechnung: {{ $json.invoiceText }}\n```\n\n**Wann nutzen:** Immer wenn du den Prompt kontrollieren willst –\nalso in 90% aller Fälle.\n\n### Connected Chat Trigger Node\nn8n liest `chatInput` automatisch aus dem verbundenen Chat Trigger.\nDu musst nichts referenzieren – kein `$('When chat message received').item.json.chatInput`.\n\n**Wann nutzen:** Wenn dein Workflow direkt mit einem\n`When chat message received`-Trigger startet und der User-Text\nungefiltert als Prompt dienen soll.\n\n> ⚠️ Funktioniert nur wenn das eingehende Feld exakt `chatInput` heißt.\n> Sonst vorher einen Set-Node schalten und das Feld umbenennen.\n\n### Take from previous node automatically\nn8n erwartet ebenfalls ein Feld namens `chatInput` vom vorherigen Node.\n\n**Wann nutzen:** Wenn ein anderer Node (kein Chat Trigger)\neinen fertigen Prompt-Text produziert und dieser direkt übergeben werden soll.\n\n### Entscheidungsbaum\n\n```\nStartet der Workflow mit einem Chat Trigger?\n  → Ja, User-Text soll direkt als Prompt →  Connected Chat Trigger Node\n  → Ja, aber du willst Kontext ergänzen   →  Define below + {{ $json.chatInput }}\n  → Nein, Daten kommen aus anderem Node   →  Define below oder Take from previous node\n```\n\n---\n\n## Chat Messages (if Using a Chat Model)\n\nErscheint **nur wenn ein Chat Model** angeschlossen ist\n(GPT, Gemini, Claude usw.) – nicht bei reinen Completion Models.\n\nChat Models erwarten keine einzelne Texteingabe,\nsondern ein **Array von Nachrichten mit Rollen**.\nGenau das baut dieser Abschnitt manuell auf.\n\n> n8n ignoriert diese Einstellungen komplett,\n> wenn kein Chat Model verbunden ist.\n\n### Die drei Message-Typen\n\n#### System\nSetzt Persona, Regeln und Verhalten des Modells.\nGilt für die gesamte Konversation und kann vom User nicht überschrieben werden.\n\n```\nYou are a financial support analyst.\nAnswer only based on the invoice data provided.\nBe precise and concise. Never invent data.\n```\n\n**Wo konfigurieren:** Nicht in Chat Messages, sondern unter\n`Options → System Message` – einfacher, macht dasselbe.\nChat Messages → System nur wenn du die Message dynamisch\nper Expression befüllen willst.\n\n#### User (HumanMessagePromptTemplate)\nRepräsentiert eine Nutzernachricht in der simulierten History.\nWird für Few-Shot-Beispiele genutzt – zeigt dem Modell wie\neine Frage aussieht.\n\n#### AI (AIMessagePromptTemplate)\nRepräsentiert eine **simulierte Assistenten-Antwort** in der History.\nWird zusammen mit User-Messages für Few-Shot-Prompting verwendet –\nzeigt dem Modell wie die Antwort aussehen soll.\n\n> ⚠️ AI Message ≠ Anweisung. Sie simuliert eine bereits gegebene\n> Antwort. Als Regel oder Instruction ist sie falsch platziert.\n\n### Few-Shot Pattern (der einzige sinnvolle Anwendungsfall)\n\n```\nOptions → System Message  →  Rolle + Regeln (statisch)\nChat Messages:\n  User  →  Beispielfrage\n  AI    →  Beispielantwort (genau so soll das Modell antworten)\n  User  →  Beispielfrage 2\n  AI    →  Beispielantwort 2\n\ntext-Feld (Prompt):  →  Der eigentliche Task mit {{ $json.data }}\n```\n\n### Wann Chat Messages weglassen?\n\nIn den meisten Fällen. Wenn du nur:\n- eine System Message brauchst → `Options → System Message`\n- einen User-Prompt brauchst → `text`-Feld (Source for Prompt)\n\nDann sind Chat Messages **nicht nötig**.\nChat Messages nur nutzen wenn du dem Modell\nkonkrete Beispiele (Few-Shot) mitgeben willst.\n\n### Häufige Fehler\n\n| Fehler | Problem | Richtig |\n|---|---|---|\n| System-Prompt als erste Chat Message ohne type | Wird als User-Nachricht interpretiert | `Options → System Message` nutzen |\n| AI Message als Anweisung benutzen | AI Message = simulierte Antwort, keine Regel | Anweisung in System Message oder text-Feld |\n| Chat Messages + kein Chat Model | Wird komplett ignoriert | Completion Model → Chat Messages weglassen |\n| Daten im text-Feld vergessen einzubetten | Modell antwortet ohne Kontext | Expression `{{ $json.field }}` einfügen |\n\n---\n\n## Vollständiges Konfigurationsschema (Basic LLM Chain)\n\n```\nSource for Prompt\n  └── Define below\n        └── text: \"Rechnungsdaten:\\n{{ $json.invoiceData }}\\n\\nFrage: {{ $json.chatInput }}\"\n\nOptions\n  └── System Message: \"You are a financial support analyst. ...\"\n\nChat Messages  ← nur bei Few-Shot nötig\n  └── User:  \"Welche Rechnungen sind offen für Kunde XY?\"\n  └── AI:    \"Kunde XY hat zwei offene Rechnungen: ...\"\n```\n\n---\n\n## AI Agent: Options im Überblick\n\n| Option | Wofür |\n|---|---|\n| **System Message** | Persona/Rolle des Agents |\n| **Max Iterations** | Schutz vor Endlosschleifen (Tool-Call-Limit) |\n| **Return Intermediate Steps** | Zeigt Tool-Calls im Output – wichtig zum Debuggen |\n| **Require Specific Output Format** | Zwingt Agent zu strukturiertem JSON |\n| **Enable Fallback Model** | Zweites Modell wenn erstes fehlschlägt |\n\n---\n\n## Weiterführende Links\n\n- [n8n Docs – Basic LLM Chain](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.chainllm/)\n- [n8n Docs – Agents vs. Chains](https://docs.n8n.io/advanced-ai/examples/agent-chain-comparison/)\n- [n8n Docs – Was ist eine Chain?](https://docs.n8n.io/advanced-ai/examples/understand-chains/)\n- [DEV.to – n8n AI Agent vs LLM Chain](https://dev.to/ciphernutz/n8n-ai-agent-vs-llm-chain-when-to-use-langchain-code-48h4)\n- [logicworkflow.com – Basic LLM Chain Best Practices](https://logicworkflow.com/nodes/basic-llm-chain-node/)",
         "height": 2784,
         "width": 1296
       },
@@ -962,7 +977,7 @@
         ]
       ]
     },
-    "Google Gemini Chat Model": {
+    "Azure AI Foundry Chat Model": {
       "ai_languageModel": [
         [
           {
@@ -973,7 +988,7 @@
         ]
       ]
     },
-    "Google Gemini Chat Model4": {
+    "Azure AI Foundry Chat Model4": {
       "ai_languageModel": [
         [
           {
@@ -984,7 +999,7 @@
         ]
       ]
     },
-    "Google Gemini Chat Model5": {
+    "Azure AI Foundry Chat Model5": {
       "ai_languageModel": [
         [
           {
@@ -995,7 +1010,7 @@
         ]
       ]
     },
-    "Google Gemini Chat Model6": {
+    "Azure AI Foundry Chat Model6": {
       "ai_languageModel": [
         [
           {
@@ -1006,7 +1021,7 @@
         ]
       ]
     },
-    "Google Gemini Chat Model7": {
+    "Azure AI Foundry Chat Model7": {
       "ai_languageModel": [
         [
           {
@@ -1017,7 +1032,7 @@
         ]
       ]
     },
-    "Google Gemini Chat Model8": {
+    "Azure AI Foundry Chat Model8": {
       "ai_languageModel": [
         [
           {
@@ -1075,7 +1090,7 @@
         ]
       ]
     },
-    "Google Gemini Chat Model9": {
+    "Azure AI Foundry Chat Model9": {
       "ai_languageModel": [
         [
           {
@@ -1133,7 +1148,7 @@
         ]
       ]
     },
-    "Google Gemini Chat Model2": {
+    "Azure AI Foundry Chat Model2": {
       "ai_languageModel": [
         [
           {
@@ -1162,7 +1177,7 @@
         []
       ]
     },
-    "Google Gemini Chat Model10": {
+    "Azure AI Foundry Chat Model10": {
       "ai_languageModel": [
         [
           {
@@ -1173,7 +1188,7 @@
         ]
       ]
     },
-    "Google Gemini Chat Model11": {
+    "Azure AI Foundry Chat Model11": {
       "ai_languageModel": [
         [
           {
@@ -1184,7 +1199,7 @@
         ]
       ]
     },
-    "Google Gemini Chat Model12": {
+    "Azure AI Foundry Chat Model12": {
       "ai_languageModel": [
         [
           {
@@ -1195,7 +1210,7 @@
         ]
       ]
     },
-    "Google Gemini Chat Model13": {
+    "Azure AI Foundry Chat Model13": {
       "ai_languageModel": [
         [
           {
@@ -1206,7 +1221,7 @@
         ]
       ]
     },
-    "Google Gemini Chat Model14": {
+    "Azure AI Foundry Chat Model14": {
       "ai_languageModel": [
         [
           {
@@ -1228,7 +1243,7 @@
         ]
       ]
     },
-    "Google Gemini Chat Model15": {
+    "Azure AI Foundry Chat Model15": {
       "ai_languageModel": [
         [
           {

@@ -273,22 +273,22 @@
     },
     {
       "parameters": {
-        "options": {
-          "temperature": 0
-        }
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
+        "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1.1,
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
       "position": [
         420,
         1500
       ],
       "id": "8aada029-cf79-4af1-99e0-f67cfa120b67",
-      "name": "Google Gemini Chat Model",
+      "name": "Azure AI Foundry Chat Model",
       "credentials": {
-        "googlePalmApi": {
-          "id": "mPlTTyh37zoTPZ5D",
-          "name": "Google Gemini(PaLM) Api account 3"
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
         }
       }
     },
@@ -701,7 +701,7 @@
         ]
       ]
     },
-    "Google Gemini Chat Model": {
+    "Azure AI Foundry Chat Model": {
       "ai_languageModel": [
         [
           {

@@ -487,17 +487,24 @@
     },
     {
       "parameters": {
-        "modelName": "models/gemini-2.0-flash",
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
       "typeVersion": 1,
       "position": [
         2016,
         1792
       ],
       "id": "81c23bc4-c9c8-4041-9742-8cb89efd0b20",
-      "name": "Gemini 2.0 Flash"
+      "name": "Azure AI Foundry Chat Model",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1160,7 +1167,7 @@
         ]
       ]
     },
-    "Gemini 2.0 Flash": {
+    "Azure AI Foundry Chat Model": {
       "ai_languageModel": [
         [
           {

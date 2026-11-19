@@ -40,7 +40,7 @@
     },
     {
       "parameters": {
-        "content": "## 🗺️ AI + Strukturierte Daten – Node-Übersicht\n| 4 Nodes | Kategorie: AI Agents |\n\n---\n\n**Was passiert hier?**\nEin RSS-Feed wird abgerufen, bereinigt, von einem LLM analysiert –\nund das Ergebnis landet als sauberes JSON in Google Sheets.\n\n---\n\n- **🌐 HTTP Request** – Ruft den RSS-Feed als XML-Rohtext ab. Ohne Custom `User-Agent`-Header blockiert der Server die Anfrage.\n- **⚙️ Code** – Bereinigt den XML-Rohtext: entfernt Metadaten, normalisiert HTML-Entities, gibt lesbaren Plaintext zurück.\n- **🔗 Basic LLM Chain** – Schickt den bereinigten Feed mit Prompt ans Modell. Der Output Parser ist direkt angebunden – kein Freitext, sondern valides JSON.\n- **🤖 Google Gemini Chat Model** – Das angebundene Sprachmodell. Austauschbar gegen andere Modelle ohne den Rest des Workflows zu ändern.\n- **📐 Structured Output Parser** – Definiert das JSON-Schema für die LLM-Antwort. Garantiert eine einheitliche, weiterverarbeitbare Struktur.",
+        "content": "## 🗺️ AI + Strukturierte Daten – Node-Übersicht\n| 4 Nodes | Kategorie: AI Agents |\n\n---\n\n**Was passiert hier?**\nEin RSS-Feed wird abgerufen, bereinigt, von einem LLM analysiert –\nund das Ergebnis landet als sauberes JSON in Google Sheets.\n\n---\n\n- **🌐 HTTP Request** – Ruft den RSS-Feed als XML-Rohtext ab. Ohne Custom `User-Agent`-Header blockiert der Server die Anfrage.\n- **⚙️ Code** – Bereinigt den XML-Rohtext: entfernt Metadaten, normalisiert HTML-Entities, gibt lesbaren Plaintext zurück.\n- **🔗 Basic LLM Chain** – Schickt den bereinigten Feed mit Prompt ans Modell. Der Output Parser ist direkt angebunden – kein Freitext, sondern valides JSON.\n- **🤖 Azure AI Foundry Chat Model** – Das angebundene Sprachmodell. Austauschbar gegen andere Modelle ohne den Rest des Workflows zu ändern.\n- **📐 Structured Output Parser** – Definiert das JSON-Schema für die LLM-Antwort. Garantiert eine einheitliche, weiterverarbeitbare Struktur.",
         "height": 664,
         "width": 1176,
         "color": 4
@@ -72,20 +72,22 @@
     },
     {
       "parameters": {
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
       "typeVersion": 1,
       "position": [
         1152,
         -224
       ],
       "id": "5ab4b3d1-1640-4833-85a2-0a3baacf484f",
-      "name": "Google Gemini Chat Model1",
+      "name": "Azure AI Foundry Chat Model1",
       "credentials": {
-        "googlePalmApi": {
-          "id": "AFWG1PCtzBeCv5kY",
-          "name": "Google Gemini(PaLM) Api account 2"
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
         }
       }
     },
@@ -126,7 +128,7 @@
         ]
       ]
     },
-    "Google Gemini Chat Model1": {
+    "Azure AI Foundry Chat Model1": {
       "ai_languageModel": [
         [
           {

@@ -13,9 +13,9 @@ Fertige Workflows, die über die Module hinausgehen: MCP, Human in the Loop, meh
 
 | Datei | Was er zeigt | Braucht |
 |---|---|---|
-| [mcp-01-agent.json](mcp-01-agent.json) | AI Agent holt sich seine Tools über einen MCP Client statt direkt angebunden. Notiz: Direkt vs. MCP, wann was? | Gemini, URL eines MCP Servers (z. B. aus `mcp-02-server.json`) |
+| [mcp-01-agent.json](mcp-01-agent.json) | AI Agent holt sich seine Tools über einen MCP Client statt direkt angebunden. Notiz: Direkt vs. MCP, wann was? | Azure (Microsoft Foundry), URL eines MCP Servers (z. B. aus `mcp-02-server.json`) |
 | [mcp-02-server.json](mcp-02-server.json) | Ein n8n-Workflow als MCP Server, der ein Gmail-Tool anbietet | Gmail |
-| [mcp-03-details.json](mcp-03-details.json) | Ein zentraler MCP Server oder einer pro Domäne (Gmail, Drive, Jira)? Beide Varianten nebeneinander | Gemini, Gmail, Google Drive, Jira |
+| [mcp-03-details.json](mcp-03-details.json) | Ein zentraler MCP Server oder einer pro Domäne (Gmail, Drive, Jira)? Beide Varianten nebeneinander | Azure (Microsoft Foundry), Gmail, Google Drive, Jira |
 | [human-in-the-loop-email.json](human-in-the-loop-email.json) | Eingehende E-Mail zusammenfassen, Antwort entwerfen, vor dem Senden freigeben lassen. Freigabe-Varianten für Gmail, Slack, Teams, Telegram, Discord, WhatsApp u. a. | OpenAI, IMAP/SMTP oder Gmail, ein Kanal für die Freigabe |
 | [human-in-the-loop-termin.json](human-in-the-loop-termin.json) | Nach vergangenen Terminen prüfen, ob schon nachgefasst wurde. Agent schlägt Folgetermin vor, ihr gebt per Mail frei, dann wird gebucht | OpenAI, Gmail, Google Calendar |
 | [multi-agent.json](multi-agent.json) | Ein Haupt-Agent verteilt Aufgaben an Unter-Agenten für E-Mail, Kalender, Kontakte und Inhalte (Steuerung per Telegram) | Telegram, OpenAI/OpenRouter, Gmail, Google Calendar, Airtable, Tavily |

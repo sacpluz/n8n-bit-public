@@ -524,16 +524,24 @@
     },
     {
       "parameters": {
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
       "typeVersion": 1,
       "position": [
         272,
         1280
       ],
       "id": "5057e0a3-d914-40db-90d1-a0df81c49a46",
-      "name": "Google Gemini Chat Model1"
+      "name": "Azure AI Foundry Chat Model1",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
+        }
+      }
     },
     {
       "parameters": {
@@ -552,16 +560,24 @@
     },
     {
       "parameters": {
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
       "typeVersion": 1,
       "position": [
         32,
         2160
       ],
       "id": "59411840-27cb-436a-9bb9-23365ecc8c47",
-      "name": "Google Gemini Chat Model2"
+      "name": "Azure AI Foundry Chat Model2",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
+        }
+      }
     },
     {
       "parameters": {
@@ -652,16 +668,24 @@
     },
     {
       "parameters": {
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
       "typeVersion": 1,
       "position": [
         432,
         3408
       ],
       "id": "1b767c89-f1ac-44a2-9b19-25a7e2054c4e",
-      "name": "Google Gemini Chat Model3"
+      "name": "Azure AI Foundry Chat Model3",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
+        }
+      }
     },
     {
       "parameters": {
@@ -741,16 +765,24 @@
     },
     {
       "parameters": {
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
       "typeVersion": 1,
       "position": [
         1072,
         3408
       ],
       "id": "908ddd51-7f9d-4292-8228-6bbc1c45a9d0",
-      "name": "Google Gemini Chat Model4"
+      "name": "Azure AI Foundry Chat Model4",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
+        }
+      }
     },
     {
       "parameters": {
@@ -783,16 +815,24 @@
     },
     {
       "parameters": {
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
       "typeVersion": 1,
       "position": [
         1728,
         3408
       ],
       "id": "c9e881e6-c6f7-4b3b-aa32-bacf0c997243",
-      "name": "Google Gemini Chat Model5"
+      "name": "Azure AI Foundry Chat Model5",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1091,7 +1131,7 @@
         ]
       ]
     },
-    "Google Gemini Chat Model1": {
+    "Azure AI Foundry Chat Model1": {
       "ai_languageModel": [
         [
           {
@@ -1102,7 +1142,7 @@
         ]
       ]
     },
-    "Google Gemini Chat Model2": {
+    "Azure AI Foundry Chat Model2": {
       "ai_languageModel": [
         [
           {
@@ -1146,7 +1186,7 @@
         ]
       ]
     },
-    "Google Gemini Chat Model3": {
+    "Azure AI Foundry Chat Model3": {
       "ai_languageModel": [
         [
           {
@@ -1168,7 +1208,7 @@
         ]
       ]
     },
-    "Google Gemini Chat Model4": {
+    "Azure AI Foundry Chat Model4": {
       "ai_languageModel": [
         [
           {
@@ -1190,7 +1230,7 @@
         ]
       ]
     },
-    "Google Gemini Chat Model5": {
+    "Azure AI Foundry Chat Model5": {
       "ai_languageModel": [
         [
           {

@@ -13,7 +13,7 @@ Was der Trainer am Beamer erklärt. Die Aufgaben stehen in der [README.md](READM
 - **InformationExtractor**: Extrahiert gezielt Informationen aus Texten.
 
 ### Sprachmodell
-- **Google Gemini Chat Model**: Eingesetztes Sprachmodell zur Analyse und Verarbeitung von Texteingaben.
+- **Azure AI Foundry Chat Model** (gpt-5-mini): Eingesetztes Sprachmodell zur Analyse und Verarbeitung von Texteingaben.
 
 ### Interaktion per Chat
 - **When Chat Message Received**: Ermöglicht die Eingabe und Verarbeitung von Nachrichten im Chatfenster.
@@ -93,7 +93,7 @@ Startet der Workflow mit einem Chat Trigger?
 ## Chat Messages (if Using a Chat Model)
 
 Erscheint **nur wenn ein Chat Model** angeschlossen ist
-(GPT-4, Gemini, Claude usw.) – nicht bei reinen Completion Models.
+(GPT, Gemini, Claude usw.) – nicht bei reinen Completion Models.
 
 Chat Models erwarten keine einzelne Texteingabe,
 sondern ein **Array von Nachrichten mit Rollen**.

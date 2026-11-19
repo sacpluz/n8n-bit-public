@@ -10,8 +10,8 @@ Das Modul läuft nur, wenn der Trainer vorher Folgendes bereitgestellt hat (Deta
 
 - Qdrant-Cluster mit der befüllten Collection `n8n workshop`
 - Airtable-Base mit der Filmtabelle
-- Die Credentials für Qdrant, OpenAI, Gemini und Airtable sind in n8n mit allen Teilnehmern **geteilt**. Dann sind sie in der Vorlage vorausgewählt, und niemand braucht eigene Keys.
-- Genug Kontingent bei Gemini und OpenAI für alle gleichzeitig
+- Die Credentials für Qdrant, OpenAI, Azure (Microsoft Foundry) und Airtable sind in n8n mit allen Teilnehmern **geteilt**. Dann sind sie in der Vorlage vorausgewählt, und niemand braucht eigene Keys.
+- Genug Kontingent bei Azure und OpenAI für alle gleichzeitig
 
 Fehlt etwas davon, zeigt der Trainer das Modul als Demo.
 
@@ -31,7 +31,7 @@ Alle Nodes in der gelben Notiz **Playground – Vektorsuche und Datenbank**. Jew
 
 Danach im Hauptstrang zeigen:
 
-- **AUFGABE 1 und 6** sind zwei Agenten mit je einem Tool. Das Sprachmodell (Gemini) ist für beide fertig angeschlossen.
+- **AUFGABE 1 und 6** sind zwei Agenten mit je einem Tool. Das Sprachmodell (Azure, `gpt-5-mini`) ist für beide fertig angeschlossen.
 - **AUFGABE 5 (IF)**: Die Entscheidung „Themensuche ja/nein“ trifft der erste Agent, aber den Weg danach bestimmt ein IF ohne KI. Das geht nur, weil der Output Parser (Aufgabe 2) ein festes Feld `semantic_search_performed` erzwingt. Rückgriff auf Modul 8.
 - **Testfragen vs. Chat**: *Execute workflow* ist die Abgabe mit zwei festen Fragen. *Open chat* ist zum Ausprobieren, dann endet der Workflow in `Antwort an den Chat` und nichts geht ans Scoreboard. Das entscheidet `Abgabe oder Chat?`.
 
@@ -45,7 +45,7 @@ Danach im Hauptstrang zeigen:
 | **Structured Output Parser** | Erzwingt das JSON-Format `original_question`, `semantic_search_performed`, `results` |
 | **Qdrant Vector Store** | Vektorsuche in den 15 Filmbeschreibungen, als Tool für den Agenten |
 | **Embeddings OpenAI** | Rechnet die Suchanfrage in einen Vektor um |
-| **Google Gemini Chat Model** | Sprachmodell für beide Agenten, Temperatur 0 |
+| **Azure AI Foundry Chat Model** | Sprachmodell für beide Agenten, `gpt-5-mini`. Temperatur bleibt auf Standard, das Modell erlaubt keine andere |
 | **IF: Semantische Suche?** | Wählt den Weg: IDs nachschlagen oder Frage direkt weitergeben |
 | **Prompt – …** / **Pfade zusammenführen** | Bauen den Prompt für den zweiten Agenten, Merge sammelt beide Wege ein |
 | **Structured Search Agent** | Baut eine Airtable-Formel, lädt die Fakten und antwortet |
