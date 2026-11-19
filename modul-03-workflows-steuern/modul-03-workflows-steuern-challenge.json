@@ -185,7 +185,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://SCOREBOARD-URL-EINTRAGEN.example",
+        "url": "https://script.google.com/macros/s/AKfycby0WFUYmjXxhIE8tthYDbRlSxwIVUS17YI3BNQe0YvbteiQBmpT53vYSPnwx39QLKqf/exec",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ JSON.stringify({ name: $('AUFGABE 0 – Namen eintragen').first().json.name, modul: 3, korrekt: String($json.korrekt).includes('Ja') ? 'ja' : 'nein', details: $json.hinweise }) }}",

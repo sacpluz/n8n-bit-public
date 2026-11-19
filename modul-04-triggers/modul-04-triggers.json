@@ -586,7 +586,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://SCOREBOARD-URL-EINTRAGEN.example",
+        "url": "https://script.google.com/macros/s/AKfycby0WFUYmjXxhIE8tthYDbRlSxwIVUS17YI3BNQe0YvbteiQBmpT53vYSPnwx39QLKqf/exec",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ JSON.stringify({ name: $json.Name, modul: 4, korrekt: ['form','webhook','schedule','chat','gmail'].includes($json.trigger_source) ? 'ja' : 'nein', details: $json.trigger_source }) }}",
@@ -606,7 +606,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://SCOREBOARD-URL-EINTRAGEN.example",
+        "url": "https://script.google.com/macros/s/AKfycby0WFUYmjXxhIE8tthYDbRlSxwIVUS17YI3BNQe0YvbteiQBmpT53vYSPnwx39QLKqf/exec",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ JSON.stringify({ name: $json.Name, modul: 4, korrekt: ['form','webhook','schedule','chat','gmail'].includes($json.trigger_source) ? 'ja' : 'nein', details: $json.trigger_source }) }}",
@@ -626,7 +626,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://SCOREBOARD-URL-EINTRAGEN.example",
+        "url": "https://script.google.com/macros/s/AKfycby0WFUYmjXxhIE8tthYDbRlSxwIVUS17YI3BNQe0YvbteiQBmpT53vYSPnwx39QLKqf/exec",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ JSON.stringify({ name: $json.Name, modul: 4, korrekt: ['form','webhook','schedule','chat','gmail'].includes($json.trigger_source) ? 'ja' : 'nein', details: $json.trigger_source }) }}",
@@ -646,7 +646,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://SCOREBOARD-URL-EINTRAGEN.example",
+        "url": "https://script.google.com/macros/s/AKfycby0WFUYmjXxhIE8tthYDbRlSxwIVUS17YI3BNQe0YvbteiQBmpT53vYSPnwx39QLKqf/exec",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ JSON.stringify({ name: $json.Name, modul: 4, korrekt: ['form','webhook','schedule','chat','gmail'].includes($json.trigger_source) ? 'ja' : 'nein', details: $json.trigger_source }) }}",
@@ -666,7 +666,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://SCOREBOARD-URL-EINTRAGEN.example",
+        "url": "https://script.google.com/macros/s/AKfycby0WFUYmjXxhIE8tthYDbRlSxwIVUS17YI3BNQe0YvbteiQBmpT53vYSPnwx39QLKqf/exec",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ JSON.stringify({ name: $json.Name, modul: 4, korrekt: ['form','webhook','schedule','chat','gmail'].includes($json.trigger_source) ? 'ja' : 'nein', details: $json.trigger_source }) }}",
