@@ -1,0 +1,2281 @@
+{
+  "name": "VORLAGE – Modul 06 – Files",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Gemini API – Preisübersicht (Paid Tier · Standard)\n\n### Text / Multimodal\n> Preise pro 1M Tokens · aufsteigend nach Input-Preis\n\n| Modell | Model-ID | Input | Output | Kontext | n8n |\n|--------|----------|-------|--------|---------|-----|\n| Gemini 2.5 Flash-Lite | `gemini-2.5-flash-lite` | $0.10 ($0.30 Audio) | $0.40 | $0.01 + $1.00/h | ✅ |\n| Gemini 2.5 Flash | `gemini-2.5-flash` | $0.30 ($1.00 Audio) | $2.50 | $0.03 + $1.00/h | ✅ |\n| Gemini 3 Flash Preview | `gemini-3-flash-preview` | $0.50 ($1.00 Audio) | $3.00 | $0.05 + $1.00/h | ✅ |\n| Gemini 2.5 Pro | `gemini-2.5-pro` | $1.25 / $2.50 >200k | $10.00 / $15.00 >200k | $0.125 + $4.50/h | ✅ |\n| Gemini 3.1 Pro Preview | `gemini-3.1-pro-preview` | $2.00 / $4.00 >200k | $12.00 / $18.00 >200k | $0.20 + $4.50/h | ✅ |\n| Gemini 2.0 Flash ⚠️ | `gemini-2.0-flash` | $0.10 ($0.70 Audio) | $0.40 | $0.025 + $1.00/h | ✅ |\n\n> ⚠️ Gemini 2.0 Flash ist deprecated und wird am 01.06.2026 abgeschaltet.\n\n---\n\n### Bildgenerierung\n> Preis pro generiertem Bild · aufsteigend\n\n| Modell | Model-ID | Preis/Bild | Hinweis | n8n |\n|--------|----------|------------|---------|-----|\n| Imagen 4 Fast | `imagen-4.0-fast-generate-001` | $0.020 | Schnellste Option | ✅ |\n| Gemini 2.5 Flash Image | `gemini-2.5-flash-image` | $0.039 | bis 1024×1024px | ✅ |\n| Imagen 4 Standard | `imagen-4.0-generate-001` | $0.040 | – | ✅ |\n| Gemini 3.1 Flash Image | `gemini-3.1-flash-image-preview` | $0.045 – $0.151 | 512px–4K skalierbar | ✅ |\n| Imagen 4 Ultra | `imagen-4.0-ultra-generate-001` | $0.060 | Höchste Qualität | ✅ |\n| Gemini 3 Pro Image | `gemini-3-pro-image-preview` | $0.134 – $0.240 | 1K/2K/4K | ✅ |\n\n---\n\n### Audio / TTS\n> Preise pro 1M Tokens · 25 Tokens = 1 Sek. Audio Output\n\n| Modell | Model-ID | Input (Text) | Output (Audio) | Typ | n8n |\n|--------|----------|-------------|----------------|-----|-----|\n| Gemini 2.5 Flash TTS | `gemini-2.5-flash-preview-tts` | $0.50 | $10.00 | Text-to-Speech | ✅ |\n| Gemini 2.5 Flash Live | `gemini-2.5-flash-native-audio-preview` | $0.50 Text / $3.00 Audio | $2.00 Text / $12.00 Audio | Live API Echtzeit | ❌ |\n| Gemini 3.1 Flash TTS | `gemini-3.1-flash-tts-preview` | $1.00 | $20.00 | Text-to-Speech | ✅ |\n| Gemini 2.5 Pro TTS | `gemini-2.5-pro-preview-tts` | $1.00 | $20.00 | Text-to-Speech Pro | ✅ |\n| Gemini 3.1 Flash Live | `gemini-3.1-flash-live-preview` | $0.75 Text / $3.00 Audio | $4.50 Text / $12.00 Audio | Live API Echtzeit | ❌ |\n\n---\n\n### Videogenerierung\n> Preis pro Sekunde generiertes Video · aufsteigend (720p Basis)\n\n| Modell | Model-ID | Preis/Sek. | Auflösungen | n8n |\n|--------|----------|------------|-------------|-----|\n| Veo 3.1 Lite | `veo-3.1-lite-generate-preview` | $0.05 | 720p, 1080p | ❌ |\n| Veo 3.1 Fast | `veo-3.1-fast-generate-preview` | $0.10 / $0.12 / $0.30 | 720p, 1080p, 4K | ✅ |\n| Veo 3 Fast | `veo-3.0-fast-generate-001` | $0.10 / $0.12 / $0.30 | 720p, 1080p, 4K | ✅ |\n| Veo 2 | `veo-2.0-generate-001` | $0.35 | – | ✅ |\n| Veo 3 Standard | `veo-3.0-generate-001` | $0.40 | mit Audio | ✅ |\n| Veo 3.1 Standard | `veo-3.1-generate-preview` | $0.40 / $0.60 (4K) | 720p, 1080p, 4K | ✅ |\n\n> Abrechnung nur bei erfolgreich generiertem Video. Alle Veo-Modelle nur im Paid Tier.\n\n---\n\n### Embeddings\n> Preis pro 1M Input-Tokens\n\n| Modell | Model-ID | Text | Weitere Modalitäten | n8n |\n|--------|----------|------|---------------------|-----|\n| Gemini Embedding | `gemini-embedding-001` | $0.15 | – (nur Text) | ❌ |\n| Gemini Embedding 2 | `gemini-embedding-2` | $0.20 | $0.45 Bild · $6.50 Audio · $12.00 Video | ❌ |\n\n> Batch-API: 50 % günstiger auf alle Preise. Datennutzung für Google-Training nur im Free Tier.",
+        "height": 896,
+        "width": 1376
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1952,
+        -384
+      ],
+      "id": "0d399b29-5c63-4a5e-ae20-00f2a1f6dd4a",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Files – Dateien in Text/JSON umwandeln\n- **HTTP Request:** Dateien (PDF, Bild, Audio) von einer URL als Binary laden — *Response Format: File*\n- **Extract from File:** Text aus PDF, Daten aus Excel/CSV, Metadaten aus Bild extrahieren\n- **Analyze Image:** Bild per OpenAI Vision analysieren und beschreiben *(benötigt OpenAI-Credentials)*\n- **Transcribe Recording:** Audio per OpenAI Whisper transkribieren *(benötigt OpenAI-Credentials)*\n- **Markdown:** HTML → sauberes Markdown (Token-Reduktion) oder Markdown → HTML\n- **Convert to File:** JSON/Text als downloadbare Datei (.txt, .csv, .json) ausgeben\n- **Code:** Token-Budget-Trimmer — Text kürzen, Tokens schätzen, Whitespace bereinigen",
+        "height": 2140,
+        "width": 1248,
+        "color": 4
+      },
+      "id": "4aaa5ecd-371a-4deb-a9c8-976524c334c5",
+      "name": "Playground – Beschreibung",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        864,
+        -400
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/sample-invoice.pdf",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "id": "99983287-5dff-4f5c-ae53-6899ec39b771",
+      "name": "HTTP Request – PDF laden",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        944,
+        -144
+      ],
+      "notes": "Lädt die Sample-Rechnung als Binary. Response Format muss 'File' sein!"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $json.text || '';\n\n// Trim: Rauschen entfernen\nconst cleaned = raw\n  .replace(/[ \\t]+/g, ' ')       // mehrfache Leerzeichen → eines\n  .replace(/\\n{3,}/g, '\\n\\n')    // mehrfache Leerzeilen → zwei\n  .replace(/·/g, '')             // dekorative Sonderzeichen\n  .replace(/---.*---/g, '---')   // Trennlinien kürzen\n  .trim();\n\nconst MAX_CHARS = 3000;\nlet text = cleaned;\n\nif (cleaned.length > MAX_CHARS) {\n  const paragraphs = cleaned.split('\\n\\n');\n  let result = '';\n  for (const p of paragraphs) {\n    if ((result + p).length > MAX_CHARS) break;\n    result += (result ? '\\n\\n' : '') + p;\n  }\n  text = (result || cleaned.substring(0, MAX_CHARS))\n       + '\\n\\n[... ' + paragraphs.length + ' Absätze – Budget: ' + MAX_CHARS + ' Zeichen ...]';\n}\n\nconst words           = text.split(/\\s+/).filter(Boolean).length;\nconst estimatedTokens = Math.round(words * 1.3);\nconst kosten          = estimatedTokens / 1_000_000 * 2.50;\n\nreturn [{ json: {\n  text,\n  original_chars:    raw.length,\n  cleaned_chars:     cleaned.length,\n  final_chars:       text.length,\n  estimated_tokens:  estimatedTokens,\n  kosten_usd:        '$' + kosten.toFixed(6),\n  kosten_pro_1000:   '$' + (kosten * 1000).toFixed(4) + ' bei 1.000 Anfragen/Tag',\n  truncated:         cleaned.length > MAX_CHARS,\n  budget_used_pct:   Math.round((text.length / MAX_CHARS) * 100)\n} }];"
+      },
+      "id": "a6a20b0b-f52c-46dc-b12b-bf907b4f17c3",
+      "name": "Code – Token-Trimmer",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1376,
+        -144
+      ],
+      "notes": "Bereinigt Text, schätzt Tokens, kürzt auf 3.000 Zeichen"
+    },
+    {
+      "parameters": {
+        "url": "https://erfolgreich-wirtschaften.de/wp-content/uploads/2013/10/Muster-Bewirtungsbeleg-1.png",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "id": "c4617239-70ca-48d7-817f-6f66db8646ee",
+      "name": "HTTP Request – Bild laden",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        960,
+        992
+      ],
+      "notes": "Lädt ein Beispielbild als Binary für die Bildanalyse"
+    },
+    {
+      "parameters": {},
+      "id": "d23985b8-6f1a-46ae-974e-0f063e87b875",
+      "name": "When clicking 'Execute workflow'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        944,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "id": "07d4f45a-2c1c-40fa-ad31-fb5c2f0b0edf",
+      "name": "Extract from File1",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        1184,
+        -144
+      ],
+      "notes": "Extrahiert Text aus PDF → Output: $json.text"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1392,
+        208
+      ],
+      "id": "70c71795-6f60-4892-874d-3259c4e20192",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "const seite = `Contoso   Ltd.  ·   Invoice    INV-100\nDATE:    11/15/2019   ·   DUE   DATE:   12/15/2019\nCUSTOMER:    Microsoft   Corporation   ·   ID:   CID-12345\nBILL   TO:   Microsoft   Finance,   123   Bill   St,   Redmond   WA   98052\nSHIP   TO:   Microsoft   Delivery,   123   Ship   St,   Redmond   WA   98052\n\n\nSERVICE   ADDRESS:   Microsoft   Services,   123   Service   St,   Redmond   WA   98052\n\n\n\nQUANTITY   DESCRIPTION   UNIT   PRICE   TOTAL\n1   Consulting   Services   Q4   $1.000,00   $1.000,00\n3   Software   Licenses   $250,00   $750,00\n1   Support   Package   $500,00   $500,00\n\n\nSUBTOTAL:   $2.250,00   ·   SALES   TAX:   $225,00   ·   TOTAL:   $2.475,00\n\n\nPREVIOUS   BALANCE:   $500,00   ·   TOTAL   DUE:   $2.975,00\nREMIT   TO:   Contoso   Billing,   123   Remit   St,   New   York   NY   10001`;\n\nconst text = Array(12).fill(seite).join('\\n\\n\\n\\n--- SEITE ENDE ---\\n\\n\\n\\n');\nconst tokens  = Math.round(text.split(/\\s+/).filter(Boolean).length * 1.3);\nconst kosten  = tokens / 1_000_000 * 2.50;\n\nreturn [{ json: {\n  beschreibung:    '❌ Ohne Trim – schmutzer Rohtext, alle 12 Seiten',\n  chars:           text.length,\n  tokens:          tokens,\n  kosten_usd:      '$' + kosten.toFixed(6),\n  kosten_pro_1000: '$' + (kosten * 1000).toFixed(4) + ' bei 1.000 Anfragen/Tag'\n} }];"
+      },
+      "id": "3e80a97a-4437-4e70-a228-cd57142a26f3",
+      "name": "Code – kein Trim",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1168,
+        112
+      ],
+      "notes": "Bereinigt Text, schätzt Tokens, kürzt auf 3.000 Zeichen"
+    },
+    {
+      "parameters": {
+        "jsCode": "const seite = `Contoso   Ltd.  ·   Invoice    INV-100\nDATE:    11/15/2019   ·   DUE   DATE:   12/15/2019\nCUSTOMER:    Microsoft   Corporation   ·   ID:   CID-12345\nBILL   TO:   Microsoft   Finance,   123   Bill   St,   Redmond   WA   98052\nSHIP   TO:   Microsoft   Delivery,   123   Ship   St,   Redmond   WA   98052\n\n\nSERVICE   ADDRESS:   Microsoft   Services,   123   Service   St,   Redmond   WA   98052\n\n\n\nQUANTITY   DESCRIPTION   UNIT   PRICE   TOTAL\n1   Consulting   Services   Q4   $1.000,00   $1.000,00\n3   Software   Licenses   $250,00   $750,00\n1   Support   Package   $500,00   $500,00\n\n\nSUBTOTAL:   $2.250,00   ·   SALES   TAX:   $225,00   ·   TOTAL:   $2.475,00\n\n\nPREVIOUS   BALANCE:   $500,00   ·   TOTAL   DUE:   $2.975,00\nREMIT   TO:   Contoso   Billing,   123   Remit   St,   New   York   NY   10001`;\n\nconst raw  = Array(12).fill(seite).join('\\n\\n\\n\\n--- SEITE ENDE ---\\n\\n\\n\\n');\n\nconst text = raw\n  .replace(/[ \\t]+/g, ' ')       // mehrfache Leerzeichen → eines\n  .replace(/\\n{3,}/g, '\\n\\n')    // mehrfache Leerzeilen → zwei\n  .replace(/·/g, '')             // dekorative Sonderzeichen\n  .replace(/---.*---/g, '---')   // Trennlinien kürzen\n  .trim();\n\nconst tokens  = Math.round(text.split(/\\s+/).filter(Boolean).length * 1.3);\nconst kosten  = tokens / 1_000_000 * 2.50;\n\nreturn [{ json: {\n  beschreibung:    '✅ Mit Trim – bereinigt, alle 12 Seiten',\n  chars:           text.length,\n  tokens:          tokens,\n  kosten_usd:      '$' + kosten.toFixed(6),\n  kosten_pro_1000: '$' + (kosten * 1000).toFixed(4) + ' bei 1.000 Anfragen/Tag'\n} }];"
+      },
+      "id": "8ab8e5b7-950d-4677-9c32-100c3aa8898c",
+      "name": "Code – mit Trim",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1168,
+        304
+      ],
+      "notes": "Bereinigt Text, schätzt Tokens, kürzt auf 3.000 Zeichen"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $json.text || $json.content || '';\n\n// Backticks und \"json\"-Label entfernen falls vorhanden\nconst cleaned = raw.replace(/```json\\n?/g, '').replace(/```/g, '').trim();\n\nconst data = JSON.parse(cleaned);\n\nreturn [{ json: data }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        912
+      ],
+      "id": "ea7a690b-dac9-4456-8a28-f21fb9040bf0",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.content }}",
+        "schemaType": "fromJson",
+        "jsonSchemaExample": "{\n  \"datum\": \"TT.MM.JJJJ\",\n  \"restaurant\": \"Name des Restaurants\",\n  \"betrag_netto\": 0.00,\n  \"mwst_satz\": 19,\n  \"mwst_betrag\": 0.00,\n  \"betrag_brutto\": 0.00,\n  \"trinkgeld\": 0.00,\n  \"zahlungsart\": \"Bar | Karte | Unbekannt\",\n  \"anlass\": \"Geschäftsessen | Kundenbewirtung | Team-Event | Unbekannt\",\n  \"personen_anzahl\": 0,\n  \"lesbar\": true\n}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        1424,
+        1072
+      ],
+      "id": "50e8d0eb-9169-49d6-88a8-af559e0840e6",
+      "name": "Information Extractor"
+    },
+    {
+      "parameters": {
+        "content": "# Welche Node für welchen Input?\n\n## Entscheidungsmatrix\n\n| Input | Inhalt | Node | Kosten pro Seite | Warum |\n|---|---|---|---|---|\n| PDF (digital) | Text, Tabellen | **Extract from File** | ~$0.00 | Text direkt drin, kein API-Call |\n| PDF (Scan/Foto) | Bild von Dokument | **Analyze Image** | ~$0.004 | Braucht Vision (GPT-4o) |\n| JPG/PNG | Beleg, Dokument, Szene | **Analyze Image** | ~$0.004 | Nur Vision kann Bilder lesen |\n| Audio | Gespräch, Meeting | **Transcribe Recording** | ~$0.006/min | Whisper: $0.006 pro Minute |\n| Text (egal woher) | Unstrukturiert | **Information Extractor** | ~$0.001 | Extra LLM-Call auf Text |\n\n> Preise basierend auf GPT-4o ($2.50/1M Input-Tokens) und Whisper ($0.006/min). Stand 2025.\n\n---\n\n## Information Extractor ist nie der Eingang — immer der Ausgang\n\n```\nPDF digital   →  Extract from File    →  Information Extractor  →  JSON\nPDF Scan      →  Analyze Image        →  Information Extractor  →  JSON\nJPG           →  Analyze Image        →  Information Extractor  →  JSON\nAudio         →  Transcribe Recording →  Information Extractor  →  JSON\n```\n\n---\n\n## Kosten sparen: Information Extractor weglassen\n\n```\nPDF digital  →  Extract from File  →  Code (Regex)                    →  JSON  ✅ ~$0.00\nPDF digital  →  Extract from File  →  Basic LLM Chain (GPT-4o-mini)   →  JSON  💰 ~$0.001\nJPG          →  Analyze Image      →  (JSON direkt im Prompt)         →  JSON  💰 ~$0.004  (ein Call)\nJPG          →  Analyze Image      →  Information Extractor           →  JSON  💸 ~$0.005  (zwei Calls)\n```\n\n---\n\n## Kosten bei 1.000 Dokumenten/Tag\n\n| Pipeline | Kosten/Tag | Kosten/Monat |\n|---|---|---|\n| PDF digital → Extract from File → Code | ~$0.00 | ~$0.00 |\n| PDF digital → Extract from File → Basic LLM Chain | ~$1.00 | ~$30 |\n| JPG → Analyze Image (JSON im Prompt) | ~$4.00 | ~$120 |\n| JPG → Analyze Image + Information Extractor | ~$5.00 | ~$150 |\n| PDF Scan → Analyze Image + Information Extractor | ~$5.00 | ~$150 |\n\n---\n\n## Faustregel\n\n- Text im PDF markierbar? → **Extract from File** (~$0.00)\n- Foto oder Scan? → **Analyze Image** (~$0.004/Bild)\n- Audio? → **Transcribe Recording** (~$0.006/min)\n- Danach strukturiertes JSON ohne Prompt-Aufwand? → **Information Extractor** dranhängen (+~$0.001)",
+        "height": 1104,
+        "width": 976
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        -400
+      ],
+      "id": "2655c519-b804-4c74-aea8-de6761a6a5ad",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.text }}",
+        "schemaType": "fromJson",
+        "jsonSchemaExample": "{\n  \"invoice_details\": {\n    \"invoice_number\": \"INV-100\",\n    \"date\": \"11/15/2019\",\n    \"due_date\": \"12/15/2019\",\n    \"po_number\": \"PO-3333\"\n  },\n  \"issuer\": {\n    \"company_name\": \"CONTOSO LTD.\",\n    \"address\": \"123 456th St, New York, NY, 10001\",\n    \"remit_to\": \"Contoso Billing, 123 Remit St, New York, NY, 10001\"\n  },\n  \"customer\": {\n    \"name\": \"MICROSOFT CORPORATION\",\n    \"customer_id\": \"CID-12345\",\n    \"bill_to\": \"Microsoft Finance, 123 Bill St, Redmond WA, 98052\",\n    \"ship_to\": \"Microsoft Delivery, 123 Ship St, Redmond WA, 98052\",\n    \"service_address\": \"Microsoft Services, 123 Service St, Redmond WA, 98052\"\n  },\n  \"line_items\": [\n    {\n      \"quantity\": 1,\n      \"description\": \"Test for 23 fields\",\n      \"unit_price\": 100.00,\n      \"total\": 100.00\n    }\n  ],\n  \"totals\": {\n    \"subtotal\": 100.00,\n    \"sales_tax\": 10.00,\n    \"total_amount\": 110.00,\n    \"previous_balance\": 500.00,\n    \"total_due\": 610.00,\n    \"currency\": \"USD\"\n  }\n}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        1584,
+        -144
+      ],
+      "id": "cd47ff8f-7d4f-4bf4-be52-82785b0e403c",
+      "name": "Information Extractor1"
+    },
+    {
+      "parameters": {
+        "url": "https://raw.githubusercontent.com/openai/whisper/main/tests/jfk.flac",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "id": "4dab7eb2-b846-41c1-b2e9-a351a78c5114",
+      "name": "HTTP Request – Bild laden1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        960,
+        1408
+      ],
+      "notes": "Lädt ein Beispielbild als Binary für die Bildanalyse"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "id": "727f26fb-f503-44ec-bcf7-2329f8eeff0b",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        4448,
+        1216
+      ],
+      "notes": "Läuft alle 5 Minuten – alle seit dem letzten Lauf hochgeladenen Dateien werden erfasst"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "filter": {
+          "driveId": {
+            "__rl": true,
+            "value": "My Drive",
+            "mode": "list",
+            "cachedResultName": "My Drive",
+            "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "1GfnPwWB10TaOzDwER1gEQV_eS8sNc2Gw",
+            "mode": "list",
+            "cachedResultName": "Rechnungen n8n bIT",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/1GfnPwWB10TaOzDwER1gEQV_eS8sNc2Gw"
+          }
+        },
+        "options": {
+          "fields": [
+            "*"
+          ]
+        }
+      },
+      "id": "9ef4928b-0360-4dfb-bc21-f7ae212d4054",
+      "name": "Google Drive – List Files",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4672,
+        1216
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "QNhPpNiioQjwnksT",
+          "name": "Google Drive account 2"
+        }
+      },
+      "notes": "WICHTIG: Ordner-ID des Eingangsordners eintragen.\nListet alle PDFs im Eingangsordner."
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {
+          "fileName": "={{ $json.name }}"
+        }
+      },
+      "id": "b2fdc9c0-0575-4229-9815-6e675189387e",
+      "name": "Google Drive – Download",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        5504,
+        1200
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "QNhPpNiioQjwnksT",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {
+          "keepSource": "both"
+        }
+      },
+      "id": "9054c682-0577-4e1e-a2fe-0300c229e7a6",
+      "name": "Extract from File3",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        5968,
+        1088
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cond-text-length",
+              "leftValue": "={{ $json.text.trim().length }}",
+              "rightValue": 50,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "e0d9f65a-710a-48de-b322-bdb7793aca89",
+      "name": "IF – Digital oder Scan?1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        6192,
+        1088
+      ],
+      "notes": "true → Text vorhanden → digitales PDF → Information Extractor (~$0.001)\nfalse → kein Text → Scan → Analyze Image (~$0.004)"
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.text }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "rechnungsnummer",
+              "description": "Die Rechnungsnummer"
+            },
+            {
+              "name": "datum",
+              "description": "Rechnungsdatum TT.MM.JJJJ"
+            },
+            {
+              "name": "faelligkeitsdatum",
+              "description": "Fälligkeitsdatum"
+            },
+            {
+              "name": "lieferant",
+              "description": "Name des Lieferanten"
+            },
+            {
+              "name": "betrag_netto",
+              "type": "number",
+              "description": "Nettobetrag ohne MwSt"
+            },
+            {
+              "name": "mwst_satz",
+              "type": "number",
+              "description": "MwSt-Satz in Prozent"
+            },
+            {
+              "name": "betrag_brutto",
+              "type": "number",
+              "description": "Gesamtbetrag inkl. MwSt"
+            },
+            {
+              "name": "waehrung",
+              "description": "Währung z.B. EUR"
+            },
+            {
+              "name": "kategorie",
+              "description": "Kategorie z.B. Software, Reise, Bewirtung etc."
+            },
+            {
+              "name": "quelle",
+              "description": "Immer: Digitales PDF"
+            },
+            {
+              "name": "name",
+              "description": "Dein Name, z. B. Vorname Nachname"
+            },
+            {
+              "name": "Filetype",
+              "description": "pdf"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "47e9c0b6-e7cc-443b-8783-238f54451876",
+      "name": "Information Extractor4",
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1,
+      "position": [
+        6640,
+        928
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $json.text || $json.content || '';\nconst cleaned = raw.replace(/```json\\n?/g, '').replace(/```/g, '').trim();\ntry {\n  return [{ json: JSON.parse(cleaned) }];\n} catch(e) {\n  return [{ json: { parse_error: true, raw: cleaned } }];\n}"
+      },
+      "id": "b4fc9768-899d-462f-b6f7-77fa93e1b221",
+      "name": "Parse Image JSON1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        6704,
+        1360
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1tHsWBwGtH1aLu3JT1VqY_84GwYvCl09b2WBX4bzUk5A",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1590907602,
+          "mode": "list",
+          "cachedResultName": "Part 6",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1b7y0xQaEOvsoaTZ7aXk_nx6ssLpIbAsBUBPG2V3IAg8/edit#gid=1590907602"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Rechnungsnummer": "={{ $json.rechnungsnummer }}",
+            "Datum": "={{ $json.datum }}",
+            "Fälligkeitsdatum": "={{ $json.faelligkeitsdatum }}",
+            "Lieferant": "={{ $json.lieferant }}",
+            "Betrag Netto": "={{ $json.betrag_netto }}",
+            "MwSt %": "={{ $json.mwst_satz }}",
+            "Betrag Brutto": "={{ $json.betrag_brutto }}",
+            "Währung": "={{ $json.waehrung }}",
+            "Kategorie": "={{ $json.kategorie }}",
+            "Quelle": "={{ $json.quelle }}",
+            "Dateiname": "={{ $('Google Drive – Download').item.json.name }}",
+            "Verarbeitet am": "={{ new Date().toLocaleString('de-DE', {timeZone: 'Europe/Berlin'}) }}",
+            "Name": "={{ $json.output.name }}",
+            "Filetype": "={{ $json.Filetype }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Rechnungsnummer",
+              "displayName": "Rechnungsnummer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Datum",
+              "displayName": "Datum",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Fälligkeitsdatum",
+              "displayName": "Fälligkeitsdatum",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Lieferant",
+              "displayName": "Lieferant",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Betrag Netto",
+              "displayName": "Betrag Netto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "MwSt %",
+              "displayName": "MwSt %",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Betrag Brutto",
+              "displayName": "Betrag Brutto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Währung",
+              "displayName": "Währung",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Kategorie",
+              "displayName": "Kategorie",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quelle",
+              "displayName": "Quelle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Dateiname",
+              "displayName": "Dateiname",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Verarbeitet am",
+              "displayName": "Verarbeitet am",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Filetype",
+              "displayName": "Filetype",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "id": "01b08894-ccf2-4014-a4f8-d755ff4d492b",
+      "name": "Google Sheets2",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        7136,
+        1168
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Gx2RUPyFzBzfcHae",
+          "name": "Google Sheets OAuth2 API"
+        }
+      },
+      "notes": "WICHTIG: Sheet ID eintragen"
+    },
+    {
+      "parameters": {
+        "sendTo": "vorname.nachname@bridging-it.de",
+        "subject": "=✅ Rechnung: {{ $('Google Sheets2').item.json.Rechnungsnummer }} - {{ $('Google Sheets2').item.json.Lieferant }}",
+        "emailType": "text",
+        "message": "=Hallo,\n\neine neue Rechnung wurde automatisch verarbeitet.\n\n{{ $json.text }}\n\nDiese E-Mail wurde automatisch generiert.",
+        "options": {}
+      },
+      "id": "06b3f5fd-9c28-447f-b6df-1d0544f6de5c",
+      "name": "Send a message2",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        7616,
+        1168
+      ],
+      "webhookId": "cca39dcf-7a9c-4dba-a392-18d55043a667",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "8lfonAtWfQkxGw6L",
+          "name": "Gmail account BIT"
+        }
+      },
+      "notes": "WICHTIG: Empfänger-E-Mail eintragen"
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Google Drive – List Files').item.json.id }}",
+          "mode": "id"
+        },
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1VjG7kO9Y1nEGip2iHsu0e_3Jh3BCEKQr",
+          "mode": "list",
+          "cachedResultName": "Part 6 - Files",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1VjG7kO9Y1nEGip2iHsu0e_3Jh3BCEKQr"
+        }
+      },
+      "id": "52a2ad3a-6a34-4ef1-ae9c-d49f4203f983",
+      "name": "Move to Processed1",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        8000,
+        1552
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "QNhPpNiioQjwnksT",
+          "name": "Google Drive account 2"
+        }
+      },
+      "notes": "WICHTIG: Ordner-ID 'Rechnungen Verarbeitet' eintragen.\nNach Move greift der Filter beim nächsten Lauf nicht mehr auf diese Datei an."
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        5264,
+        1200
+      ],
+      "id": "6b10c3dc-f992-4a38-ab16-8a3da92ba838",
+      "name": "Loop Over Items2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "a689b546-f8d5-43ba-97cf-f79ae5c2078f",
+              "leftValue": "={{ $json.fileExtension }}",
+              "rightValue": "pdf",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        5744,
+        1200
+      ],
+      "id": "112610cd-926b-46d8-9d49-0339ba6a43a6",
+      "name": "PDF or Image1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        7312,
+        1344
+      ],
+      "id": "a35e0d34-5cd8-4ddc-a543-79f7c7301eb6",
+      "name": "Google Gemini Chat Model4",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "snbUzCDZa9rY40sl",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Du bist ein Buchhaltungs-Assistent. Erstelle eine kurze professionelle E-Mail-Zusammenfassung auf Deutsch.\n\nRechnungsdaten:\n- Lieferant: {{ $json.Lieferant }}\n- Rechnungsnummer: {{ $json.Rechnungsnummer }}\n- Datum: {{ $json.Datum }}\n- Fällig am: {{ $json.Fälligkeitsdatum }}\n- Betrag brutto: {{ $json['Betrag Brutto'] }} {{ $json.Währung }}\n- Kategorie: {{ $json.Kategorie }}\n- Erfasst via: {{ $json.Quelle }}\n- Dateiname: {{ $json.Dateiname }}\n- Verarbeitet am: {{ $json['Verarbeitet am'] }}\n\nErstelle: 2-3 Satz Zusammenfassung + Hinweis falls Fälligkeit < 7 Tage + Zahlungsempfehlung.\nKein JSON, nur Text.",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "#Overview You are an telegram notification expert. You will receive invoice information. You will craft a message notifying the billing team of the invoice and the available information of the invoice. "
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "id": "c198d976-716f-4f7f-91f4-6136141d6d5b",
+      "name": "Agent4",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "position": [
+        7312,
+        1168
+      ],
+      "typeVersion": 1.7
+    },
+    {
+      "parameters": {
+        "content": "# Files – Rechnungs-Automatisierung Challenge\n## Automatischer Rechnungs-Parser mit Google Drive\n\n**Dauer:** 20–25 Min | **Team:** 2 Personen | **Nodes:** 14 Nodes\n\n---\n\n## 🎯 Szenario\n\nTäglich landen Rechnungen im Google Drive — als digitales PDF, als Scan-PDF oder als Bild (JPG/PNG). Baut einen vollautomatischen Workflow der alle Rechnungen verarbeitet, per KI die Daten extrahiert, in Google Sheets speichert, eine E-Mail verschickt und die Datei danach verschiebt.\n\n**Besonderheit:** Der Workflow erkennt automatisch ob es ein digitales PDF, ein Scan oder ein Bild ist — und wählt den passenden Weg. Print-PDFs (gescannte PDFs ohne extrahierbaren Text) werden mit einer klaren Fehlermeldung gestoppt.\n\n---\n\n## Ordner & Test-Dateien\n\n| Was | Wo |\n|---|---|\n| Eingangsordner | Google Drive → `Rechnungen n8n` |\n| Zielordner | Google Drive → `Rechnungen verarbeitet` |\n| Test: Digitales PDF | `wordpress-pdf-invoice-plugin-sample.pdf` |\n| Test: Print-PDF | `beispielrechnung-print-01.pdf` |\n\n---\n\n## Die komplette Pipeline\n\n```\nSchedule Trigger\n→ Google Drive List Files\n→ Loop Over Items (Batch 1)\n  → Google Drive Download\n  → IF: PDF oder Bild? (fileExtension = pdf)\n      true (PDF)  → Extract from File  ← keepSource: both!\n                    → IF: Digital oder Scan? (text.length >= 50)\n                        true  → Information Extractor (GPT-4o-mini)\n                                → Edit Fields\n                        false → Stop and Error  ← Print-PDF!\n      false (Bild) → Analyze Image (base64)\n                    → Parse Image JSON\n                    → Edit Fields\n  → Google Sheets\n  → Basic LLM Chain (Gemini)\n  → Gmail\n  → Move to Processed\n  → [zurück zu Loop]\n```\n\n---\n\n## Aufgaben\n\n### 01 · SCHEDULE TRIGGER — Workflow alle 5 Minuten starten\n\n> → Field: `Minutes` · Every: `5`\n\n---\n\n### 02 · GOOGLE DRIVE LIST FILES — Ordnerinhalt abrufen\n\n> → Resource: `File/Folder` · Operation: `Get Many`\n> → Filter: Ordner `Rechnungen n8n`\n> → Options → Fields: `*`\n\n---\n\n### 03 · LOOP OVER ITEMS — Nacheinander verarbeiten\n\n> → Batch Size: `1`\n\n⚠️ Move to Processed am Ende zurück zu **Input 0** des Loop verbinden!\n\n---\n\n### 04 · GOOGLE DRIVE DOWNLOAD — Datei laden\n\n> → Operation: `Download`\n> → File ID: `={{ $json.id }}`\n> → Options → File Name: `={{ $json.name }}`\n\n---\n\n### 05 · IF: PDF ODER BILD? — Dateityp prüfen\n\n> → Bedingung: `{{ $json.fileExtension }}` equals `pdf`\n> → true → Extract from File\n> → false → Analyze Image\n\n---\n\n### 06 · EXTRACT FROM FILE — Text extrahieren *(PDF-Zweig)*\n\n> → Operation: `PDF`\n> → **Options → Keep Source: Both** ← wichtig!\n\nWarum? Damit das Binary erhalten bleibt falls Analyze Image es später braucht.\n\n---\n\n### 07 · IF: DIGITAL ODER SCAN? — Textinhalt prüfen\n\n> → Bedingung: `{{ $json.text.trim().length }}` >= `50` (Typ: Number)\n> → true → Information Extractor\n> → false → Stop and Error\n\n---\n\n### 08a · INFORMATION EXTRACTOR — Felder aus Text *(digitale PDFs)*\n\nVerbinde **OpenAI Chat Model GPT-4o-mini** als Subnode.\n\n> → Text: `{{ $json.text }}`\n\n**Felder:**\n\n| Name | Typ | Beschreibung |\n|---|---|---|\n| rechnungsnummer | String | Die Rechnungsnummer |\n| datum | String | Rechnungsdatum TT.MM.JJJJ |\n| faelligkeitsdatum | String | Fälligkeitsdatum |\n| lieferant | String | Name des Lieferanten |\n| betrag_netto | Number | Nettobetrag ohne MwSt |\n| mwst_satz | Number | MwSt-Satz in Prozent |\n| betrag_brutto | Number | Gesamtbetrag inkl. MwSt |\n| waehrung | String | Währung z.B. EUR |\n| kategorie | String | z.B. Software, Reise, Bewirtung |\n| quelle | String | Immer: `Digitales PDF` |\n\n---\n\n### 08b · STOP AND ERROR — Print-PDF abfangen *(false-Zweig)*\n\n> → Error Message: `Das PDF ist kein digitales, sondern ein Print. Das Bild muss zu einem Bild konvertiert werden.`\n> → Settings → **On Error: Continue Regular Output**\n\nWarum `Continue Regular Output`? Damit der Loop nicht abbricht sondern mit der nächsten Datei weitermacht.\n\n---\n\n### 08c · ANALYZE IMAGE — Bild analysieren *(Bild-Zweig)*\n\n> → Model: `GPT-4o-mini` · Resource: `Image` · Operation: `Analyze`\n> → Input Type: `Base64`\n\n**Prompt:**\n```\nDu bist ein Buchhaltungs-Assistent. Extrahiere alle relevanten Daten.\n\nAntworte NUR mit validem JSON, keine Backticks:\n{\n  \"rechnungsnummer\": \"\",\n  \"datum\": \"\",\n  \"faelligkeitsdatum\": \"\",\n  \"lieferant\": \"\",\n  \"betrag_netto\": 0,\n  \"mwst_satz\": 0,\n  \"betrag_brutto\": 0,\n  \"waehrung\": \"EUR\",\n  \"kategorie\": \"\",\n  \"quelle\": \"Scan/Bild\",\n  \"lesbar\": true\n}\nFalls ein Wert fehlt: null. Falls unleserlich: lesbar: false.\n```\n\n---\n\n### 08d · CODE: JSON PARSEN — Analyze Image Output bereinigen\n\n```javascript\nconst raw = $json.text || $json.content || '';\nconst cleaned = raw.replace(/```json\\n?/g, '').replace(/```/g, '').trim();\ntry {\n  return [{ json: JSON.parse(cleaned) }];\n} catch(e) {\n  return [{ json: { parse_error: true, raw: cleaned } }];\n}\n```\n\n---\n\n### 09 · EDIT FIELDS (SET) — Felder normalisieren\n\nBeide Wege liefern unterschiedliche Strukturen:\n- Information Extractor → `$json.output.rechnungsnummer`\n- Analyze Image + Parse JSON → `$json.rechnungsnummer`\n\n**Mode: Raw JSON:**\n```json\n{\n  \"rechnungsnummer\":   \"{{ $json.output?.rechnungsnummer ?? $json.rechnungsnummer }}\",\n  \"datum\":             \"{{ $json.output?.datum ?? $json.datum }}\",\n  \"faelligkeitsdatum\": \"{{ $json.output?.faelligkeitsdatum ?? $json.faelligkeitsdatum }}\",\n  \"lieferant\":         \"{{ $json.output?.lieferant ?? $json.lieferant }}\",\n  \"betrag_netto\":      \"{{ $json.output?.betrag_netto ?? $json.betrag_netto }}\",\n  \"mwst_satz\":         \"{{ $json.output?.mwst_satz ?? $json.mwst_satz }}\",\n  \"betrag_brutto\":     \"{{ $json.output?.betrag_brutto ?? $json.betrag_brutto }}\",\n  \"waehrung\":          \"{{ $json.output?.waehrung ?? $json.waehrung }}\",\n  \"kategorie\":         \"{{ $json.output?.kategorie ?? $json.kategorie }}\",\n  \"quelle\":            \"{{ $json.output?.quelle ?? $json.quelle }}\"\n}\n```\n\n---\n\n### 10 · GOOGLE SHEETS — Daten eintragen\n\n> → Operation: `Append` · Sheet: `Rechnungen`\n> → Alle Felder: `{{ $json.rechnungsnummer }}` etc. *(kein `.output` dank Edit Fields)*\n> → Dateiname: `={{ $('Google Drive – Download').item.json.name }}`\n> → Verarbeitet am: `={{ new Date().toLocaleString('de-DE', {timeZone: 'Europe/Berlin'}) }}`\n\n---\n\n### 11 · BASIC LLM CHAIN — E-Mail-Text generieren\n\nVerbinde **Google Gemini Chat Model** als Subnode.\n\n**Prompt:**\n```\nDu bist ein Buchhaltungs-Assistent. Erstelle eine kurze professionelle\nE-Mail-Zusammenfassung auf Deutsch.\n\n- Lieferant: {{ $json.Lieferant }}\n- Rechnungsnummer: {{ $json.Rechnungsnummer }}\n- Datum: {{ $json.Datum }}\n- Fällig am: {{ $json.Fälligkeitsdatum }}\n- Betrag brutto: {{ $json['Betrag Brutto'] }} {{ $json.Währung }}\n- Kategorie: {{ $json.Kategorie }}\n\n2-3 Satz Zusammenfassung + Hinweis falls Fälligkeit < 7 Tage + Zahlungsempfehlung.\nKein JSON, nur Text.\n```\n\n---\n\n### 12 · GMAIL — Benachrichtigung senden\n\n> → Subject: `✅ Rechnung: {{ $('Google Sheets2').item.json.Rechnungsnummer }} - {{ $('Google Sheets2').item.json.Lieferant }}`\n> → Message: `{{ $json.text }}`\n\n---\n\n### 13 · GOOGLE DRIVE MOVE — Datei verschieben\n\n> → Operation: `Move`\n> → File ID: `={{ $('Google Drive – List Files').item.json.id }}`\n> → Folder: `Rechnungen verarbeitet`\n\n⚠️ Danach zurück zu **Loop Over Items (Input 0)** verbinden!\n\n---\n\n## 🧠 Learnings — Warum ist der Workflow so gebaut?\n\n### Warum Schedule Trigger statt Google Drive Trigger?\nDer Google Drive Trigger liefert pro Execution immer nur eine Datei — selbst wenn mehrere gleichzeitig hochgeladen wurden. Schedule Trigger + List Files pollt aktiv den gesamten Ordner und liefert alle Dateien auf einmal.\n\n### Warum Loop Over Items mit Batch Size 1?\nOhne Loop laufen alle Dateien parallel. Das führt zu Race Conditions in Google Sheets — mehrere Nodes hängen gleichzeitig eine Zeile an, Einträge überschreiben sich. Batch Size 1 = eine Datei komplett durch, dann die nächste.\n\n### Warum zwei IF-Nodes?\nZwei verschiedene Fragen:\n- **IF 1 (fileExtension = pdf):** Ist es eine PDF oder ein Bild? JPGs können nicht durch Extract from File.\n- **IF 2 (text.length >= 50):** Ist die PDF digital oder gedruckt/gescannt? Nur nach dem Öffnen weiß man das.\n\n### Warum keepSource: both im Extract from File?\nStandardmäßig ersetzt Extract from File das Binary durch `$json.text`. Mit `keepSource: both` bleibt das Binary erhalten — wichtig damit Analyze Image im Bild-Zweig noch auf `$binary.data` zugreifen kann.\n\n### Warum Stop and Error für Print-PDFs statt Analyze Image?\nPrint-PDFs als Bild an Analyze Image zu schicken funktioniert technisch, ist aber teuer und unzuverlässig — PDFs sind mehrseitig, Analyze Image sieht nur Seite 1. Die sauberere Lösung: explizite Fehlermeldung + `Continue Regular Output` damit der Loop nicht abbricht sondern mit der nächsten Datei weitermacht.\n\n### Warum Edit Fields (Set-Node) vor Google Sheets?\nInformation Extractor gibt `$json.output.rechnungsnummer` aus. Analyze Image + Parse JSON gibt `$json.rechnungsnummer` aus. Der Set-Node mit `?.` und `??` normalisiert beide auf denselben Pfad — danach überall nur noch `$json.rechnungsnummer`.\n\n### Warum GPT-4o-mini statt GPT-4o?\nRechnungen haben klare Struktur. GPT-4o-mini reicht aus und ist ~17x günstiger. GPT-4o lohnt sich nur bei sehr schlechter Bildqualität oder Handschrift.\n\n### Warum Basic LLM Chain statt AI Agent?\nFür einen einzelnen LLM-Call braucht man keinen Agenten. Basic LLM Chain ist einfacher, schneller, günstiger.\n\n### Warum Move to Processed am Ende?\nVerhindert Doppelverarbeitung ohne Tracking-Logik — beim nächsten Lauf listet List Files nur Dateien die noch im Eingangsordner liegen.\n\n---\n\n## 💡 Tipps\n\n**keepSource: both** — Im Extract from File Node unter Options. Ohne das verschwindet das Binary und Analyze Image wirft: `The item has no binary field 'data'`.\n\n**Stop and Error → Continue Regular Output** — In den Node-Settings, nicht in den Parameters. Ohne das bricht der gesamte Workflow bei einer Print-PDF ab statt weiterzumachen.\n\n**Loop-Rückpfeil** — Move to Processed muss mit **Input 0** des Loop verbunden werden. Input 1 ist der interne Weiterloopen-Ausgang, Input 0 ist der Eingang für neue Items von außen.\n\n**`?.` und `??`** — `$json.output?.rechnungsnummer` wirft keinen Fehler wenn `output` nicht existiert. `??` nimmt den rechten Wert wenn links `null` oder `undefined`.\n\n**Analyze Image: Input Type Base64** — Nicht die Default-Einstellung. Muss manuell auf `Base64` umgestellt werden damit das Binary korrekt übergeben wird.\n\n**Execute Step** — Nach Extract from File prüfen ob `$json.text` sichtbar ist UND ob Binary-Tab noch da ist. Nach Edit Fields prüfen ob alle Felder ohne `.output` ankommen.\n\n---\n\n*n8n Training · Files & Dokumentenverarbeitung · Lösung-JSON für Facilitator vorhanden 🚀*",
+        "height": 4448,
+        "width": 1104,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3136,
+        -384
+      ],
+      "id": "81384b1f-ac91-40fc-8b31-3f9873e0a72b",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"rechnungsnummer\":   \"{{ $json.output?.rechnungsnummer ?? $json.rechnungsnummer }}\",\n  \"datum\":             \"{{ $json.output?.datum ?? $json.datum }}\",\n  \"faelligkeitsdatum\": \"{{ $json.output?.faelligkeitsdatum ?? $json.faelligkeitsdatum }}\",\n  \"lieferant\":         \"{{ $json.output?.lieferant ?? $json.lieferant }}\",\n  \"betrag_netto\":      \"{{ $json.output?.betrag_netto ?? $json.betrag_netto }}\",\n  \"mwst_satz\":         \"{{ $json.output?.mwst_satz ?? $json.mwst_satz }}\",\n  \"betrag_brutto\":     \"{{ $json.output?.betrag_brutto ?? $json.betrag_brutto }}\",\n  \"waehrung\":          \"{{ $json.output?.waehrung ?? $json.waehrung }}\",\n  \"kategorie\":         \"{{ $json.output?.kategorie ?? $json.kategorie }}\",\n  \"quelle\":            \"{{ $json.output?.quelle ?? $json.quelle }}\",\n  \"name\":              \"{{ $json.output?.name ?? $json.name }}\",\n  \"filetype\":          \"{{ $json.output?.Filetype ?? $json.Filetype }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        6976,
+        1152
+      ],
+      "id": "a43f666d-ce2c-401b-8983-7bcd68db6554",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "errorMessage": "Das PDF ist kein digitales, sondern ein Print. Das Bild muss zu einem Bild konvertiert werden."
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        6400,
+        1168
+      ],
+      "id": "c9824ec2-faac-4342-b95a-2a2b55a70b46",
+      "name": "Stop and Error",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "content": "# 🧾 Rechnungs-Automatisierung Challenge\n\n**01** Schedule Trigger – alle 5 Minuten\n**02** Google Drive List Files\n**03** Loop Over Items – Batch Size 1\n**04** Google Drive Download\n**05** IF – PDF oder Bild? (`fileExtension = pdf`)\n**06** Extract from File – `keepSource: both` ⚠️\n**07** IF – Digital oder Scan? (`text.length >= 50`)\n**08a** Information Extractor + GPT-4o-mini (true)\n**08b** Stop and Error (false) → `Continue Regular Output`\n**08c** Analyze Image – `inputType: base64` (Bild-Zweig)\n**08d** Code – JSON parsen\n**09** Edit Fields – `?.` und `??` normalisieren\n**10** Google Sheets\n**11** Basic LLM Chain + Gemini\n**12** Gmail\n**13** Google Drive Move\n\n⚠️ **Move → Loop Over Items INPUT 0 verbinden!**",
+        "height": 620,
+        "width": 360,
+        "color": 5
+      },
+      "id": "ceb4fc1a-abf5-40d1-a28b-87020909a11f",
+      "name": "Aufgaben Übersicht",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4304,
+        -128
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "id": "81e75492-2767-4982-a42a-5223c3a8397a",
+      "name": "AUFGABE 01 – Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        4752,
+        128
+      ],
+      "notes": "Aufgabe: Starte den Workflow alle 5 Minuten.\n→ Field: Minutes · Every: 5"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "filter": {},
+        "options": {}
+      },
+      "id": "f722d3e6-b0b1-4823-b82e-9c57b1dff484",
+      "name": "AUFGABE 02 – Google Drive List Files",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4976,
+        128
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "QNhPpNiioQjwnksT",
+          "name": "Google Drive account 2"
+        }
+      },
+      "notes": "Aufgabe: Liste alle Dateien im Eingangsordner auf.\n→ Resource: File/Folder · Operation: Get Many\n→ Filter: Ordner 'Rechnungen n8n'\n→ Options → Fields: *"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "d7bfd2e8-01d9-4f4e-9430-721081daecbd",
+      "name": "AUFGABE 03 – Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        5200,
+        112
+      ],
+      "notes": "Aufgabe: Verarbeite jede Datei einzeln.\n→ Batch Size: 1\n⚠️ Move to Processed am Ende zurück zu INPUT 0 verbinden!"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "id": "2d4a0632-c9ba-41f2-b666-85e18b97e0d8",
+      "name": "AUFGABE 04 – Google Drive Download",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        5440,
+        112
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "QNhPpNiioQjwnksT",
+          "name": "Google Drive account 2"
+        }
+      },
+      "notes": "Aufgabe: Lade die Datei aus dem Loop herunter.\n→ Operation: Download\n→ File ID: {{ $json.id }}\n→ Options → File Name: {{ $json.name }}"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "3e265199-b816-4446-91d1-5d999efec45a",
+      "name": "AUFGABE 05 – IF: PDF oder Bild?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        5680,
+        112
+      ],
+      "notes": "Aufgabe: Ist die Datei ein PDF?\n→ Bedingung: {{ $json.fileExtension }} equals pdf\ntrue  → Extract from File\nfalse → Analyze Image"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "id": "510b1b3a-dd59-4e4a-be60-ffa31029f0d1",
+      "name": "AUFGABE 06 – Extract from File",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        5904,
+        0
+      ],
+      "notes": "Aufgabe: Extrahiere Text aus der PDF.\n→ Operation: PDF\n→ Options → Keep Source: Both ⚠️\n\nWarum 'Keep Source: Both'?\nDamit das Binary erhalten bleibt falls Analyze Image es braucht.\nOhne diese Option: 'The item has no binary field data'"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "395df37a-05af-46c7-8ad2-74bf43abe6fa",
+      "name": "AUFGABE 07 – IF: Digital oder Scan?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        6128,
+        0
+      ],
+      "notes": "Aufgabe: Hat die PDF extrahierbaren Text?\n→ Bedingung: {{ $json.text.trim().length }} >= 50 (Typ: Number)\ntrue  → Information Extractor\nfalse → Stop and Error (Print-PDF)"
+    },
+    {
+      "parameters": {
+        "attributes": {
+          "attributes": []
+        },
+        "options": {}
+      },
+      "id": "a4dd6ab0-6c1f-4811-a82f-d6f5d6e5a7ae",
+      "name": "AUFGABE 08a – Information Extractor",
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1,
+      "position": [
+        6576,
+        -160
+      ],
+      "notes": "Aufgabe: Extrahiere strukturierte Felder aus dem PDF-Text.\n→ Text: {{ $json.text }}\n→ Felder (siehe Handout):\n  rechnungsnummer, datum, faelligkeitsdatum, lieferant,\n  betrag_netto (Number), mwst_satz (Number),\n  betrag_brutto (Number), waehrung, kategorie, quelle\n→ Subnode: OpenAI Chat Model GPT-4o-mini verbinden!"
+    },
+    {
+      "parameters": {},
+      "id": "bea313e7-c994-412e-86d6-68d8714fff01",
+      "name": "AUFGABE 08b – Stop and Error",
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        6336,
+        80
+      ],
+      "onError": "continueRegularOutput",
+      "notes": "Aufgabe: Stoppe mit klarer Fehlermeldung für Print-PDFs.\n→ Error Message: 'Das PDF ist kein digitales, sondern ein Print...'\n→ Settings → On Error: Continue Regular Output ⚠️\n\nWarum Continue Regular Output?\nDamit der Loop nicht abbricht sondern\nmit der nächsten Datei weitermacht."
+    },
+    {
+      "parameters": {},
+      "id": "722c2038-db9d-4a1a-9fe6-53cc3ae99be4",
+      "name": "AUFGABE 08d – Code: JSON parsen",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        6640,
+        272
+      ],
+      "notes": "Aufgabe: Bereinige den Output von Analyze Image.\nTipp (aus Handout):\nconst raw = $json.text || $json.content || '';\nconst cleaned = raw.replace(/```json\\n?/g, '')\n  .replace(/```/g, '').trim();\ntry { return [{ json: JSON.parse(cleaned) }]; }\ncatch(e) { return [{ json: { parse_error: true } }]; }"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "",
+        "options": {}
+      },
+      "id": "83dbbf59-12d6-450a-ac8a-cfaa126bd353",
+      "name": "AUFGABE 09 – Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        6912,
+        64
+      ],
+      "notes": "Aufgabe: Normalisiere beide Wege auf einheitliche Keys.\n→ Mode: Raw JSON\n\nInfo Extractor → $json.output.rechnungsnummer\nAnalyze Image  → $json.rechnungsnummer\n\nFür jedes Feld:\n\"rechnungsnummer\": \"{{ $json.output?.rechnungsnummer ?? $json.rechnungsnummer }}\"\n\n?.  = greife zu falls vorhanden (kein Fehler wenn nicht)\n??  = nimm rechten Wert wenn links null/undefined"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "HIER_SHEET_ID_EINTRAGEN",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Rechnungen",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Rechnungsnummer": "",
+            "Datum": "",
+            "Fälligkeitsdatum": "",
+            "Lieferant": "",
+            "Betrag Netto": "",
+            "MwSt %": "",
+            "Betrag Brutto": "",
+            "Währung": "",
+            "Kategorie": "",
+            "Quelle": "",
+            "Dateiname": "",
+            "Verarbeitet am": ""
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Rechnungsnummer",
+              "displayName": "Rechnungsnummer",
+              "type": "string",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Datum",
+              "displayName": "Datum",
+              "type": "string",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Fälligkeitsdatum",
+              "displayName": "Fälligkeitsdatum",
+              "type": "string",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Lieferant",
+              "displayName": "Lieferant",
+              "type": "string",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Betrag Netto",
+              "displayName": "Betrag Netto",
+              "type": "string",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "MwSt %",
+              "displayName": "MwSt %",
+              "type": "string",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Betrag Brutto",
+              "displayName": "Betrag Brutto",
+              "type": "string",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Währung",
+              "displayName": "Währung",
+              "type": "string",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Kategorie",
+              "displayName": "Kategorie",
+              "type": "string",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quelle",
+              "displayName": "Quelle",
+              "type": "string",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Dateiname",
+              "displayName": "Dateiname",
+              "type": "string",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Verarbeitet am",
+              "displayName": "Verarbeitet am",
+              "type": "string",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "id": "1099ffcd-aa2b-4aad-94ae-a6a839888c5e",
+      "name": "AUFGABE 10 – Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        7072,
+        80
+      ],
+      "notes": "Aufgabe: Trage Rechnungsdaten in Google Sheets ein.\nWICHTIG: Sheet-ID vom Trainer eintragen!\n→ Alle Felder: $json.rechnungsnummer (kein .output dank Edit Fields)\n→ Dateiname: $('AUFGABE 04 – Google Drive Download').item.json.name\n→ Verarbeitet am: new Date().toLocaleString('de-DE', ...)"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "batching": {}
+      },
+      "id": "44788af3-84eb-49f3-9ad6-2c933389c4d9",
+      "name": "AUFGABE 11 – Basic LLM Chain",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        7248,
+        80
+      ],
+      "notes": "Aufgabe: Generiere E-Mail-Zusammenfassung.\n→ Prompt Type: Define\n→ Felder aus Sheets: $json.Lieferant, $json.Rechnungsnummer,\n  $json['Betrag Brutto'], $json.Währung, $json.Fälligkeitsdatum\n→ Subnode: Google Gemini Chat Model verbinden!"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "62d2c71f-aa75-4ae6-aa4f-adac772ac3cf",
+      "name": "AUFGABE 11 – Google Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        7248,
+        256
+      ],
+      "notes": "Aufgabe: Als Subnode mit Basic LLM Chain verbinden.\n→ Model: gemini-2.0-flash"
+    },
+    {
+      "parameters": {
+        "emailType": "text",
+        "options": {}
+      },
+      "id": "b4bbca48-3ecf-475e-8c46-0a03dfb8ce15",
+      "name": "AUFGABE 12 – Gmail: Send",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        7552,
+        80
+      ],
+      "webhookId": "de10fb9e-1303-4030-8de9-f904786ae360",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "8lfonAtWfQkxGw6L",
+          "name": "Gmail account BIT"
+        }
+      },
+      "notes": "Aufgabe: Sende Benachrichtigungs-E-Mail.\n→ To: deine E-Mail\n→ Subject: ✅ Rechnung: {{ $('AUFGABE 10 – Google Sheets').item.json.Rechnungsnummer }} - {{ $('AUFGABE 10 – Google Sheets').item.json.Lieferant }}\n→ Message: {{ $json.text }}"
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "fileId": {
+          "__rl": true,
+          "value": "",
+          "mode": "id"
+        },
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "HIER_ZIELORDNER_ID",
+          "mode": "id"
+        }
+      },
+      "id": "5351697a-955e-4f53-8a68-7b0188d175f4",
+      "name": "AUFGABE 13 – Google Drive Move",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        7936,
+        464
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "QNhPpNiioQjwnksT",
+          "name": "Google Drive account 2"
+        }
+      },
+      "notes": "Aufgabe: Verschiebe in 'Rechnungen verarbeitet'.\n→ Operation: Move\n→ File ID: $('AUFGABE 02 – Google Drive List Files').item.json.id\n→ Folder: Ordner-ID vom Trainer\n\n⚠️ DANACH: Zurück zu Loop Over Items INPUT 0 verbinden!"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite"
+        },
+        "text": "Du bist ein Buchhaltungs-Assistent. Extrahiere alle relevanten Daten aus diesem Bewirtungsbeleg.\n\nAntworte NUR mit validem JSON, kein Text davor oder danach, keine Markdown-Backticks:\n\n{\n  \"rechnungsnummer\": \"\",\n  \"datum\": \"\",\n  \"faelligkeitsdatum\": \"\",\n  \"lieferant\": \"\",\n  \"betrag_netto\": 0,\n  \"mwst_satz\": 0,\n  \"betrag_brutto\": 0,\n  \"waehrung\": \"EUR\",\n  \"kategorie\": \"\",\n  \"quelle\": \"Scan/Bild\",\n  \"Filetype\": \"{{ $json.fileExtension }}\",\n  \"lesbar\": \"\"\n}\n\nDie Kategorie bestimmt auf Basis der Rechnung.\n\nFalls ein Wert nicht erkennbar ist, setze null. Falls der Beleg unleserlich ist, setze lesbar: false. ",
+        "inputType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        6256,
+        1360
+      ],
+      "id": "387ddc99-e076-4ceb-80aa-d701de4dc0b0",
+      "name": "Analyze an image",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "snbUzCDZa9rY40sl",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        6640,
+        1136
+      ],
+      "id": "1b451e76-b67c-42d9-b0f5-d322d6cffced",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "snbUzCDZa9rY40sl",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "text": "Du bist ein Buchhaltungs-Assistent. Extrahiere alle relevanten Daten aus diesem Bewirtungsbeleg.\n\nAntworte NUR mit validem JSON, kein Text davor oder danach, keine Markdown-Backticks:\n\n{\n  \"rechnungsnummer\": \"\",\n  \"datum\": \"\",\n  \"faelligkeitsdatum\": \"\",\n  \"lieferant\": \"\",\n  \"betrag_netto\": 0,\n  \"mwst_satz\": 0,\n  \"betrag_brutto\": 0,\n  \"waehrung\": \"EUR\",\n  \"kategorie\": \"\",\n  \"quelle\": \"Scan/Bild\",\n  \"Filetype\": \"{{ $json.fileExtension }}\",\n  \"lesbar\": \"\"\n}\n\nDie Kategorie bestimmt auf Basis der Rechnung.\n\nFalls ein Wert nicht erkennbar ist, setze null. Falls der Beleg unleserlich ist, setze lesbar: false. ",
+        "inputType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        6128,
+        288
+      ],
+      "id": "fa243084-7193-457e-9d5e-6843604f6250",
+      "name": "Analyze an image1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "snbUzCDZa9rY40sl",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        6576,
+        16
+      ],
+      "id": "10941ca6-927b-491b-b8f7-224e63c4f41a",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "snbUzCDZa9rY40sl",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        1200,
+        912
+      ],
+      "id": "66a21503-55be-4b92-af02-3ea6d162b7a1",
+      "name": "Analyze an image2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AFWG1PCtzBeCv5kY",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1424,
+        1248
+      ],
+      "id": "bb3ba630-9c3a-4ee2-a209-9a83d62b52a3",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AFWG1PCtzBeCv5kY",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "text": "Du bist ein Buchhaltungs-Assistent. Extrahiere alle relevanten Daten aus diesem Bewirtungsbeleg.\n\nAntworte NUR mit validem JSON, kein Text davor oder danach, keine Markdown-Backticks:\n\n{\n  \"datum\": \"TT.MM.JJJJ\",\n  \"restaurant\": \"Name des Restaurants\",\n  \"betrag_netto\": 0.00,\n  \"mwst_satz\": 19,\n  \"mwst_betrag\": 0.00,\n  \"betrag_brutto\": 0.00,\n  \"trinkgeld\": 0.00,\n  \"zahlungsart\": \"Bar | Karte | Unbekannt\",\n  \"anlass\": \"Geschäftsessen | Kundenbewirtung | Team-Event | Unbekannt\",\n  \"personen_anzahl\": 0,\n  \"lesbar\": true\n}\n\nFalls ein Wert nicht erkennbar ist, setze null. Falls der Beleg unleserlich ist, setze lesbar: false.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        1200,
+        1072
+      ],
+      "id": "e8843c9b-4375-4344-96e8-255db9e5f8d1",
+      "name": "Analyze an image3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AFWG1PCtzBeCv5kY",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        1168,
+        1408
+      ],
+      "id": "376ed809-414e-46b2-8ea2-2ea24d527d2c",
+      "name": "Transcribe a recording",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AFWG1PCtzBeCv5kY",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1520,
+        64
+      ],
+      "id": "9ea54fe9-f569-47e9-8cbe-94e48a778a5a",
+      "name": "Google Gemini Chat Model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AFWG1PCtzBeCv5kY",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1600,
+        608
+      ],
+      "id": "a58d043f-0909-4406-a21d-dd8e77cb0cd0",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const seite = $input.first().json.data\n\nconst text = Array(12).fill(seite).join('\\n\\n\\n\\n--- SEITE ENDE ---\\n\\n\\n\\n');\nconst tokens  = Math.round(text.split(/\\s+/).filter(Boolean).length * 1.3);\nconst kosten  = tokens / 1_000_000 * 2.50;\n\nreturn [{ json: {\n  beschreibung:    '❌ Ohne Trim',\n  chars:           text.length,\n  tokens:          tokens,\n  kosten_usd:      '$' + kosten.toFixed(6),\n  kosten_pro_1000: '$' + (kosten * 1000).toFixed(4) + ' bei 1.000 Anfragen/Tag'\n} }];"
+      },
+      "id": "b85c96cc-dab5-4cf6-a8fb-0a2b856801be",
+      "name": "Code – kein Trim1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1152,
+        512
+      ],
+      "notes": "Bereinigt Text, schätzt Tokens, kürzt auf 3.000 Zeichen"
+    },
+    {
+      "parameters": {
+        "jsCode": "/**\n * Improved HTML to Text Cleaner\n * Optimized for LLM processing and readability.\n */\nfunction decodeHtmlEntities(str = '') {\n  if (!str) return '';\n  str = str.replace(/&#(\\d+);/g, (_, n) => String.fromCharCode(parseInt(n, 10)));\n  str = str.replace(/&#x([0-9a-fA-F]+);/g, (_, n) => String.fromCharCode(parseInt(n, 16)));\n  const entities = {\n    amp: '&', lt: '<', gt: '>', quot: '\"', apos: \"'\", nbsp: ' ',\n    copy: '©', reg: '®', trade: '™', bull: '•', ldquo: '\"', rdquo: '\"',\n    ndash: '–', mdash: '—', euro: '€', pound: '£', deg: '°'\n  };\n  return str.replace(/&([a-zA-Z0-9]+);/g, (match, entity) => {\n    return entities[entity] || match;\n  });\n}\n\nfunction cleanHtml(html) {\n  if (!html) return '';\n  let text = html;\n  const skipTags = ['script', 'style', 'noscript', 'svg', 'canvas', 'iframe', 'head', 'footer', 'nav', 'header', 'aside'];\n  skipTags.forEach(tag => {\n    const regex = new RegExp(`<${tag}[^>]*>[\\\\s\\\\S]*?<\\\\/${tag}>`, 'gi');\n    text = text.replace(regex, '');\n  });\n  const blockTags = ['p', 'div', 'article', 'section', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li', 'tr', 'blockquote'];\n  blockTags.forEach(tag => {\n    const openRegex = new RegExp(`<${tag}[^>]*>`, 'gi');\n    const closeRegex = new RegExp(`<\\\\/${tag}>`, 'gi');\n    text = text.replace(openRegex, '\\n').replace(closeRegex, '\\n');\n  });\n  text = text.replace(/<br\\s*\\/?>/gi, '\\n');\n  text = text.replace(/<(td|th)[^>]*>/gi, ' ');\n  text = text.replace(/<[^>]+>/g, '');\n  return text;\n}\n\nfunction normalizeWhitespace(text) {\n  return text\n    .replace(/\\r/g, '')\n    .replace(/[ \\t]+/g, ' ')\n    .replace(/\\n\\s*\\n/g, '\\n\\n')\n    .trim();\n}\n\nreturn items.map(item => {\n  const rawHtml = item.json?.data || item.json?.html;\n  if (!rawHtml || typeof rawHtml !== 'string') {\n    return { json: { ...item.json, data: 'Error: No valid HTML string found' } };\n  }\n  try {\n    let output = cleanHtml(rawHtml);\n    output = decodeHtmlEntities(output);\n    output = normalizeWhitespace(output);\n\n    // Token & Kosten-Schätzung\n    const tokens = Math.round(output.split(/\\s+/).filter(Boolean).length * 1.3);\n    const kosten = tokens / 1_000_000 * 2.50;\n\n    return {\n      json: {\n        ...item.json,\n        cleaned_text:    output,\n        beschreibung:    '✅ Mit Trim',\n        chars:           output.length,\n        tokens:          tokens,\n        kosten_usd:      '$' + kosten.toFixed(6),\n        kosten_pro_1000: '$' + (kosten * 1000).toFixed(4) + ' bei 1.000 Anfragen/Tag'\n      }\n    };\n  } catch (error) {\n    return { json: { ...item.json, error: error.message } };\n  }\n});"
+      },
+      "id": "fc7c4c2e-0def-45f1-b2ad-1af28a5db1a1",
+      "name": "Code – mit Trim1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1152,
+        704
+      ],
+      "notes": "Bereinigt Text, schätzt Tokens, kürzt auf 3.000 Zeichen"
+    },
+    {
+      "parameters": {
+        "url": "https://bild.de",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        928,
+        608
+      ],
+      "id": "a9adbdfb-bb7b-4df2-9894-bff23d564631",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0686dd93-93ea-4c87-a2cc-c6c055379276",
+              "name": "beschreibung",
+              "value": "={{ $json.beschreibung }}",
+              "type": "string"
+            },
+            {
+              "id": "507d8dc6-aa80-480e-800a-db8401465903",
+              "name": "chars",
+              "value": "={{ $json.chars }}",
+              "type": "number"
+            },
+            {
+              "id": "ebebb28e-901d-41ec-9d9b-ff16aafe8d58",
+              "name": "tokens",
+              "value": "={{ $json.tokens }}",
+              "type": "number"
+            },
+            {
+              "id": "f4ebe115-db71-4dca-9b84-38879cb185e1",
+              "name": "kosten_usd",
+              "value": "={{ $json.kosten_usd }}",
+              "type": "string"
+            },
+            {
+              "id": "b55d26b1-66d2-4530-ae85-a0ca09b8f1ac",
+              "name": "kosten_pro_1000",
+              "value": "={{ $json.kosten_pro_1000 }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1376,
+        512
+      ],
+      "id": "2151bd06-c49c-424d-b087-5a093991c2db",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7da7dc3a-ec25-492e-b3c3-bdd1b2a8d843",
+              "name": "beschreibung",
+              "value": "={{ $json.beschreibung }}",
+              "type": "string"
+            },
+            {
+              "id": "acae7c23-4483-4db6-bb9d-ce78271fd29a",
+              "name": "chars",
+              "value": "={{ $json.chars }}",
+              "type": "number"
+            },
+            {
+              "id": "1faadcbe-3142-4656-93a6-84aad9efe532",
+              "name": "tokens",
+              "value": "={{ $json.tokens }}",
+              "type": "number"
+            },
+            {
+              "id": "d83bad37-14b7-4845-9293-6e3f0b26f8c9",
+              "name": "kosten_usd",
+              "value": "={{ $json.kosten_usd }}",
+              "type": "string"
+            },
+            {
+              "id": "1c80b217-4029-444b-82ae-9e3ab9ac4f53",
+              "name": "kosten_pro_1000",
+              "value": "={{ $json.kosten_pro_1000 }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1376,
+        704
+      ],
+      "id": "ec965af8-ec2f-41a6-b6b0-866b2ca07e24",
+      "name": "Edit Fields2"
+    }
+  ],
+  "connections": {
+    "HTTP Request – Bild laden": {
+      "main": [
+        [
+          {
+            "node": "Analyze an image2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Analyze an image3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "Code – kein Trim",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code – mit Trim",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File1": {
+      "main": [
+        [
+          {
+            "node": "Code – Token-Trimmer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request – PDF laden": {
+      "main": [
+        [
+          {
+            "node": "Extract from File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code – kein Trim": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code – mit Trim": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        []
+      ]
+    },
+    "Code – Token-Trimmer": {
+      "main": [
+        [
+          {
+            "node": "Information Extractor1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor": {
+      "main": [
+        []
+      ]
+    },
+    "HTTP Request – Bild laden1": {
+      "main": [
+        [
+          {
+            "node": "Transcribe a recording",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Drive – List Files",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive – List Files": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive – Download": {
+      "main": [
+        [
+          {
+            "node": "PDF or Image1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File3": {
+      "main": [
+        [
+          {
+            "node": "IF – Digital oder Scan?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF – Digital oder Scan?1": {
+      "main": [
+        [
+          {
+            "node": "Information Extractor4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor4": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Image JSON1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets2": {
+      "main": [
+        [
+          {
+            "node": "Agent4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message2": {
+      "main": [
+        [
+          {
+            "node": "Move to Processed1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move to Processed1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items2": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Google Drive – Download",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PDF or Image1": {
+      "main": [
+        [
+          {
+            "node": "Extract from File3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Analyze an image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agent4",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent4": {
+      "main": [
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 01 – Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 02 – Google Drive List Files",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 02 – Google Drive List Files": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 03 – Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 03 – Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "AUFGABE 04 – Google Drive Download",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 04 – Google Drive Download": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 05 – IF: PDF oder Bild?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 05 – IF: PDF oder Bild?": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 06 – Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Analyze an image1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 06 – Extract from File": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 07 – IF: Digital oder Scan?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 07 – IF: Digital oder Scan?": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 08a – Information Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AUFGABE 08b – Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 08a – Information Extractor": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 09 – Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 08d – Code: JSON parsen": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 09 – Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 09 – Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 10 – Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 10 – Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 11 – Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 11 – Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AUFGABE 11 – Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 11 – Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 12 – Gmail: Send",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 12 – Gmail: Send": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 13 – Google Drive Move",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 13 – Google Drive Move": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 03 – Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze an image": {
+      "main": [
+        [
+          {
+            "node": "Parse Image JSON1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor4",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze an image1": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 08d – Code: JSON parsen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AUFGABE 08a – Information Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze an image2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze an image3": {
+      "main": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code – kein Trim1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code – mit Trim1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code – kein Trim1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code – mit Trim1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

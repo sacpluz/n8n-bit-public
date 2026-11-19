@@ -1,0 +1,333 @@
+{
+  "name": "VORLAGE – Modul 00 – Grundlagen: UI, JSON & Data Mapping (Challenge)",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Playground – Expressions ausprobieren\nHier könnt ihr gefahrlos testen. Diese Nodes hängen nicht am Trigger.\n\n1. **Playground – Bestellung** öffnen → *Execute step*\n2. **Playground – Expressions** öffnen → *Execute step* → Input links mit Output rechts vergleichen\n3. Eine Expression ändern, z. B. `{{ $json.customer.address.zip }}` → `{{ $json.customer.email }}`\n4. Ein Feld aus dem Input (Schema) per **Drag & Drop** in ein neues Feld ziehen\n5. Output von *Playground – Bestellung* **pinnen** 📌 und nochmal ausführen\n\n**Typen:** String = Text · Number = Zahl · Boolean = true/false",
+        "height": 720,
+        "width": 960
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        -260
+      ],
+      "id": "4531f6d8-e8e7-435f-918f-951403517a8e",
+      "name": "Playground"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Spielwiese: gleiche Struktur wie die Beispieldaten\nreturn [{\n  json: {\n    orderId: \"B-2001\",\n    Status: \"versendet\",\n    customer: {\n      name: \"Jonas Weber\",\n      email: \"jonas.weber@example.com\",\n      address: { city: \"Karlsruhe\", zip: \"76131\" }\n    },\n    items: [\n      { product: \"Monitor\", quantity: 1, price: 219 },\n      { product: \"HDMI-Kabel\", quantity: 2, price: 9.9 }\n    ],\n    total: 238.8,\n    expressVersand: false\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -480,
+        120
+      ],
+      "id": "27eed116-2f58-4213-9639-8197f7d100a0",
+      "name": "Playground – Bestellung"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9fa65cc8-27ce-4c95-9863-6f34b0cba82f",
+              "name": "bestellung",
+              "value": "={{ $json.orderId }}",
+              "type": "string"
+            },
+            {
+              "id": "50758e82-79f0-4b6e-bb5d-8ec1e17c760b",
+              "name": "plz",
+              "value": "={{ $json.customer.address.zip }}",
+              "type": "string"
+            },
+            {
+              "id": "a0191009-9d39-4afd-ac41-8a679ec2913e",
+              "name": "menge_erste_position",
+              "value": "={{ $json.items[0].quantity }}",
+              "type": "number"
+            },
+            {
+              "id": "7810a0ed-e0f6-4443-b3db-4ab8cf9138d5",
+              "name": "express",
+              "value": "={{ $json.expressVersand }}",
+              "type": "boolean"
+            },
+            {
+              "id": "a0dd59d8-f549-4f57-8614-8f6e4d3c9436",
+              "name": "satz",
+              "value": "=Bestellung {{ $json.orderId }} geht nach {{ $json.customer.address.city }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -240,
+        120
+      ],
+      "id": "e1c47195-3891-4a1b-9934-80e7d268bd59",
+      "name": "Playground – Expressions"
+    },
+    {
+      "parameters": {
+        "content": "## ▶️ So startet ihr\n- **Execute workflow** (unten, orange): startet beim Trigger und läuft alles durch.\n- **Execute step** (im Node): führt nur diesen Node aus, mit den Daten der Nodes davor.\n- **Pin** (📌 im Output): friert den Output ein, der Node läuft dann nicht neu.\n\nIn diesem Modul gibt es kein Scoreboard. Hier wird nur geübt.",
+        "height": 250,
+        "width": 520,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        580,
+        -260
+      ],
+      "id": "f1bc96d7-5d9f-4603-90a0-68de97f88488",
+      "name": "Hinweis – Start"
+    },
+    {
+      "parameters": {
+        "content": "## Modul 0 – UI, JSON & Data Mapping\nLinks: **Playground** zum Ausprobieren (jeden Node einzeln mit *Execute step*).\nRechts: **Aufgaben**. Die Nodes sind schon verbunden, ihr tragt die Felder ein.\n\n**Handout mit allen Aufgaben (im zweiten Browser-Tab öffnen):**\nhttps://github.com/sacpluz/n8n-bit-public/blob/main/modul-00-grundlagen/README.md\n\nDer Node **Ergebnis prüfen** sagt euch im Feld `hinweise`, was noch nicht stimmt.",
+        "height": 300,
+        "width": 700
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        580,
+        -560
+      ],
+      "id": "868ecd55-3097-46b1-84ce-509cbcf60e12",
+      "name": "Hinweis – Aufgaben"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        640,
+        0
+      ],
+      "id": "c36ed317-8f3d-44a8-bd56-e3b6055bce94",
+      "name": "Start – Execute workflow"
+    },
+    {
+      "parameters": {
+        "jsCode": "// BEREITS FERTIG – nicht verändern\nreturn [{\n  json: {\n    orderId: \"A-1042\",\n    Status: \"offen\",\n    customer: {\n      name: \"Miriam Koch\",\n      email: \"miriam.koch@example.com\",\n      address: { city: \"Mannheim\", zip: \"68159\" }\n    },\n    items: [\n      { product: \"Laptop-Ständer\", quantity: 2, price: 39.9 },\n      { product: \"USB-C Dock\",     quantity: 1, price: 129 },\n      { product: \"Maus\",           quantity: 3, price: 24.5 }\n    ],\n    total: 282.3\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        860,
+        0
+      ],
+      "id": "7fb9fa28-c529-471c-9ce4-43e884d69ba1",
+      "name": "Beispieldaten"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": []
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1080,
+        0
+      ],
+      "id": "f3c0f85e-ede7-4bb5-a6c1-adc1f2b57873",
+      "name": "AUFGABE 1 – Set: Verschachtelte Felder",
+      "notes": "Aufgabe: Felder 'kunde' (Name des Kunden) und 'stadt' (Stadt aus der Adresse) anlegen"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": []
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1300,
+        0
+      ],
+      "id": "f186705c-41a9-4557-be33-ffa128bda5c5",
+      "name": "AUFGABE 2 – Set: Arrays",
+      "notes": "Aufgabe: Felder 'erster_artikel' (String) und 'anzahl_positionen' (Number) anlegen"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": []
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1520,
+        0
+      ],
+      "id": "fdc44e98-22db-44c3-8f79-a7c332408897",
+      "name": "AUFGABE 3 – Set: Groß-/Kleinschreibung",
+      "notes": "Aufgabe: Feld 'status_text' mit dem Status der Bestellung anlegen"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": []
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1740,
+        0
+      ],
+      "id": "23c739d8-0d20-4b8f-a653-6ded5ce2239f",
+      "name": "AUFGABE 4 – Set: Anderen Node referenzieren",
+      "notes": "Aufgabe: Feld 'bestellnummer' direkt aus dem Node 'Beispieldaten' holen"
+    },
+    {
+      "parameters": {
+        "jsCode": "// BEREITS FERTIG – nicht verändern\nconst r = $input.first().json;\nconst soll = {\n  kunde:             { wert: \"Miriam Koch\",    aufgabe: 1 },\n  stadt:             { wert: \"Mannheim\",       aufgabe: 1 },\n  erster_artikel:    { wert: \"Laptop-Ständer\", aufgabe: 2 },\n  anzahl_positionen: { wert: 3,                aufgabe: 2, typ: \"number\" },\n  status_text:       { wert: \"offen\",          aufgabe: 3 },\n  bestellnummer:     { wert: \"A-1042\",         aufgabe: 4 },\n  grosse_bestellung: { wert: true,             aufgabe: 5, typ: \"boolean\" }\n};\nconst typName = { number: \"Number\", boolean: \"Boolean\" };\nconst hinweise = [];\nfor (const [feld, s] of Object.entries(soll)) {\n  const v = r[feld];\n  if (v === undefined || v === null || v === \"\") {\n    const aehnlich = Object.keys(r).find(k => k.toLowerCase() === feld.toLowerCase());\n    hinweise.push(aehnlich\n      ? `Aufgabe ${s.aufgabe}: Feld '${feld}' fehlt, es gibt aber '${aehnlich}'. Groß-/Kleinschreibung zählt!`\n      : `Aufgabe ${s.aufgabe}: Feld '${feld}' fehlt oder ist leer. Stimmt der Pfad in der Expression?`);\n  } else if (String(v) !== String(s.wert)) {\n    hinweise.push(`Aufgabe ${s.aufgabe}: Feld '${feld}' ist '${v}', erwartet wird '${s.wert}'.`);\n  } else if (s.typ && typeof v !== s.typ) {\n    hinweise.push(`Aufgabe ${s.aufgabe}: Wert von '${feld}' stimmt, ist aber Text. Typ im Set-Node auf ${typName[s.typ]} stellen.`);\n  }\n}\nreturn [{\n  json: {\n    timestamp: new Date().toLocaleString('de-DE', { timeZone: 'Europe/Berlin' }),\n    korrekt:   hinweise.length === 0 ? \"✅ Ja\" : \"❌ Nein\",\n    hinweise:  hinweise.length ? hinweise.join(\" | \") : \"Alles richtig. Weiter mit Modul 1!\",\n    kunde: r.kunde, stadt: r.stadt, erster_artikel: r.erster_artikel,\n    anzahl_positionen: r.anzahl_positionen, status_text: r.status_text,\n    bestellnummer: r.bestellnummer, grosse_bestellung: r.grosse_bestellung\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2180,
+        0
+      ],
+      "id": "30098e88-44dc-455f-a491-6568912a8d1a",
+      "name": "Ergebnis prüfen"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": []
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1960,
+        0
+      ],
+      "id": "4b7fb06c-7279-4ab7-ae09-53908013dc9d",
+      "name": "AUFGABE 5 – Set: Ja/Nein-Wert (Boolean)",
+      "notes": "Aufgabe: Feld 'grosse_bestellung' (Boolean) anlegen: true, wenn total über 100 liegt"
+    }
+  ],
+  "connections": {
+    "Start – Execute workflow": {
+      "main": [
+        [
+          {
+            "node": "Beispieldaten",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Beispieldaten": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 1 – Set: Verschachtelte Felder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 1 – Set: Verschachtelte Felder": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 2 – Set: Arrays",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 2 – Set: Arrays": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 3 – Set: Groß-/Kleinschreibung",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 3 – Set: Groß-/Kleinschreibung": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 4 – Set: Anderen Node referenzieren",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 4 – Set: Anderen Node referenzieren": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 5 – Set: Ja/Nein-Wert (Boolean)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Playground – Bestellung": {
+      "main": [
+        [
+          {
+            "node": "Playground – Expressions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 5 – Set: Ja/Nein-Wert (Boolean)": {
+      "main": [
+        [
+          {
+            "node": "Ergebnis prüfen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

@@ -1,0 +1,156 @@
+{
+  "name": "VORLAGE – Modul 08 – AI + Structured Data",
+  "nodes": [
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"news\": [\n      {\n        \"title\": \"title of the news\",\n        \"summary\": \"summary of the news\",\n        \"category\": [\"select one or more of: AI Model & Platform Launc, AI Tools & Products, AI Industry Trends, AI Research && Breakthroughs, Other\"]\n      }\n    ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1312,
+        -224
+      ],
+      "id": "a47f0cb1-5326-4461-b138-b25299e6cefe",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "url": "https://aiweekly.co/rss",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (n8n Workshop Fruit Extractor)"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        496,
+        -416
+      ],
+      "id": "62b029f5-776b-4c38-a619-7a829e357212",
+      "name": "HTTP Request1",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "content": "## 🗺️ AI + Strukturierte Daten – Node-Übersicht\n| 4 Nodes | Kategorie: AI Agents |\n\n---\n\n**Was passiert hier?**\nEin RSS-Feed wird abgerufen, bereinigt, von einem LLM analysiert –\nund das Ergebnis landet als sauberes JSON in Google Sheets.\n\n---\n\n- **🌐 HTTP Request** – Ruft den RSS-Feed als XML-Rohtext ab. Ohne Custom `User-Agent`-Header blockiert der Server die Anfrage.\n- **⚙️ Code** – Bereinigt den XML-Rohtext: entfernt Metadaten, normalisiert HTML-Entities, gibt lesbaren Plaintext zurück.\n- **🔗 Basic LLM Chain** – Schickt den bereinigten Feed mit Prompt ans Modell. Der Output Parser ist direkt angebunden – kein Freitext, sondern valides JSON.\n- **🤖 Google Gemini Chat Model** – Das angebundene Sprachmodell. Austauschbar gegen andere Modelle ohne den Rest des Workflows zu ändern.\n- **📐 Structured Output Parser** – Definiert das JSON-Schema für die LLM-Antwort. Garantiert eine einheitliche, weiterverarbeitbare Struktur.",
+        "height": 664,
+        "width": 1176,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        448,
+        -704
+      ],
+      "id": "601af8b4-117f-4ea4-9a78-9059278eef47",
+      "name": "Sticky Note - Node Uebersicht1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a professional AI and technology news analyst.\n\nTask:\nAnalyze the following list of news items and identify the most important AI-related technology and IT news.\n\nFocus exclusively on:\n- Artificial Intelligence (AI), Machine Learning, and Generative AI\n- New or upcoming AI models, platforms, or systems\n- New AI tools, products, or developer platforms\n- Significant AI technology trends or industry shifts\n- Major technical breakthroughs in AI with real-world impact\n\nExplicitly exclude:\n- Non-AI political or general technology news\n- Business or company news without a clear AI technology focus\n- Opinion pieces, speculation, or hype without concrete announcements\n- Duplicate or very similar stories\n\nSelection criteria:\n- High relevance for the AI, technology, or IT community\n- Clear technological innovation or capability change\n- Practical or strategic impact (developers, enterprises, products)\n- Current and time-sensitive topics\n\nInstructions:\n- Select a maximum of 5 top AI technology news stories.\n- Base your selection only on the provided content.\n- Do not invent or assume information not present in the text.\n\nFor each selected news story, provide:\n- title: a short, clear headline\n- summary: 1–2 concise sentences describing the core AI-related development\n- category: one of the following (choose the best match)\n  - AI Model & Platform Launch\n  - AI Tools & Products\n  - AI Industry Trends\n  - AI Research & Breakthroughs\n  - Other\n\nInput news items:\n{{ $json.data }}\n",
+        "hasOutputParser": true,
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        1152,
+        -416
+      ],
+      "id": "a852e3dd-98e0-4a61-bf02-3e4de6376543",
+      "name": "Basic LLM Chain - News Collector1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1152,
+        -224
+      ],
+      "id": "5ab4b3d1-1640-4833-85a2-0a3baacf484f",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AFWG1PCtzBeCv5kY",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "function cleanRSSFeed(xmlString) {\n  return xmlString\n    .replace(/<\\?xml[^>]*\\?>/g, '')\n    .replace(/<channel>/, '')\n    .replace(/<\\/channel>/, '')\n    .replace(/<title>AI Weekly[^<]*<\\/title>/, '')\n    .replace(/<link>https:\\/\\/aiweekly[^<]*<\\/link>/, '')\n    .replace(/<description>The leading[^<]*<\\/description>/, '')\n    .replace(/<language>[^<]*<\\/language>/g, '')\n    .replace(/<atom:link[^/]*\\/>/g, '')\n    .replace(/<lastBuildDate>[^<]*<\\/lastBuildDate>/g, '')\n    .replace(/<rss[^>]*>/g, '')\n    .replace(/<\\/rss>/g, '')\n    .replace(/<guid[^>]*>.*?<\\/guid>/gs, '')\n    .replace(/<link>.*?<\\/link>/gs, '')\n    .replace(/<\\/?item>/g, '')\n    .replace(/&amp;amp;/g, '&')\n    .replace(/&amp;/g, '&')\n    .replace(/&lt;/g, '<')\n    .replace(/&gt;/g, '>')\n    .replace(/-&gt;/g, '→')\n    .replace(/\\n{3,}/g, '\\n\\n')\n    .trim();\n}\n\nconst cleaned = cleanRSSFeed($input.first().json.data);\n\nreturn [{ json: { cleaned } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        816,
+        -416
+      ],
+      "id": "4bcf9623-8088-4561-91e5-a75a0baa6962",
+      "name": "Code in JavaScript1"
+    }
+  ],
+  "connections": {
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Basic LLM Chain - News Collector1",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain - News Collector1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain - News Collector1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

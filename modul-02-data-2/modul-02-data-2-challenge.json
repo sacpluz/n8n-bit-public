@@ -1,0 +1,430 @@
+{
+  "name": "VORLAGE – Modul 02 – Data 2: Datenqualität (Challenge)",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Data 2 – Datenqualität\n- **Filter:** Items nach Bedingungen selektieren — wie ein IF ohne Verzweigung, Items die nicht passen werden verworfen\n- **Remove Duplicates:** Doppelte Items anhand ausgewählter Felder erkennen und entfernen\n- **Sort:** Items nach einem oder mehreren Feldern auf- oder absteigend sortieren\n- **Limit:** Ausgabe auf eine maximale Anzahl von Items begrenzen",
+        "height": 528,
+        "width": 1232,
+        "color": 4
+      },
+      "id": "d253285d-e8b6-4cce-8b6e-e40e6e07eaa8",
+      "name": "Playground – Beschreibung",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Beispieldaten für den Playground\nreturn [\n  // ── Aktive Abonnenten ──────────────────────────────────────────────────────\n  { json: { name: 'Frank Hoffmann', email: 'frank@example.com', active: true, signup_date: '2024-06-01', opens_per_month: 15 } },\n  { json: { name: 'Clara Weber', email: 'clara@example.com', active: true, signup_date: '2024-05-22', opens_per_month: 12 } },\n  { json: { name: 'Greta Lange', email: 'greta@example.com', active: true, signup_date: '2024-04-18', opens_per_month: 9 } },\n  { json: { name: 'Anna Müller', email: 'anna@example.com', active: true, signup_date: '2024-03-15', opens_per_month: 8 } },\n  { json: { name: 'David Bauer', email: 'david@example.com', active: true, signup_date: '2023-11-08', opens_per_month: 5 } },\n  { json: { name: 'Hans Meyer', email: 'hans@example.com', active: true, signup_date: '2023-09-30', opens_per_month: 3 } },\n  { json: { name: 'Iris Wagner', email: 'iris@example.com', active: true, signup_date: '2023-08-15', opens_per_month: 6 } },\n  { json: { name: 'Katharina Schulz', email: 'katharina@example.com', active: true, signup_date: '2023-06-10', opens_per_month: 4 } },\n  { json: { name: 'Lars Braun', email: 'lars@example.com', active: true, signup_date: '2023-05-03', opens_per_month: 2 } },\n  { json: { name: 'Nico Hartmann', email: 'nico@example.com', active: true, signup_date: '2023-04-11', opens_per_month: 7 } },\n  { json: { name: 'Olivia Becker', email: 'olivia@example.com', active: true, signup_date: '2023-03-25', opens_per_month: 5 } },\n  { json: { name: 'Peter Schäfer', email: 'peter@example.com', active: true, signup_date: '2023-02-14', opens_per_month: 1 } },\n  { json: { name: 'Quin Maier', email: 'quin@example.com', active: true, signup_date: '2023-01-08', opens_per_month: 3 } },\n  { json: { name: 'Rosa Krause', email: 'rosa@example.com', active: true, signup_date: '2022-12-19', opens_per_month: 2 } },\n  { json: { name: 'Stefan Wolf', email: 'stefan@example.com', active: true, signup_date: '2022-11-05', opens_per_month: 4 } },\n  { json: { name: 'Thomas Schneider', email: 'thomas@example.com', active: true, signup_date: '2022-10-18', opens_per_month: 6 } },\n  { json: { name: 'Ursula Zimmermann', email: 'ursula@example.com', active: true, signup_date: '2022-09-22', opens_per_month: 5 } },\n  { json: { name: 'Viktor Koch', email: 'viktor@example.com', active: true, signup_date: '2022-08-14', opens_per_month: 3 } },\n  { json: { name: 'Waltraud Fischer', email: 'waltraud@example.com', active: true, signup_date: '2022-07-07', opens_per_month: 2 } },\n  { json: { name: 'Xenia Herrmann', email: 'xenia@example.com', active: true, signup_date: '2022-06-01', opens_per_month: 8 } },\n  { json: { name: 'Yannick Schwarz', email: 'yannick@example.com', active: true, signup_date: '2022-05-15', opens_per_month: 4 } },\n  { json: { name: 'Zara Becker', email: 'zara@example.com', active: true, signup_date: '2022-04-03', opens_per_month: 3 } },\n  { json: { name: 'Adam Richter', email: 'adam@example.com', active: true, signup_date: '2022-03-11', opens_per_month: 5 } },\n  { json: { name: 'Bianca Voigt', email: 'bianca@example.com', active: true, signup_date: '2022-02-20', opens_per_month: 2 } },\n  { json: { name: 'Christian Keller', email: 'christian@example.com', active: true, signup_date: '2022-01-08', opens_per_month: 6 } },\n  // ── Inaktive Abonnenten ────────────────────────────────────────────────────\n  { json: { name: 'Ben Schmidt', email: 'ben@example.com', active: false, signup_date: '2024-01-10', opens_per_month: 0 } },\n  { json: { name: 'Eva Klein', email: 'eva@example.com', active: false, signup_date: '2024-02-14', opens_per_month: 0 } },\n  { json: { name: 'Jonas Richter', email: 'jonas@example.com', active: false, signup_date: '2023-07-22', opens_per_month: 0 } },\n  { json: { name: 'Maria Fischer', email: 'maria@example.com', active: false, signup_date: '2024-05-01', opens_per_month: 0 } },\n  { json: { name: 'Tanja Zimmermann', email: 'tanja@example.com', active: false, signup_date: '2023-10-30', opens_per_month: 0 } },\n  { json: { name: 'Ulrich Neumann', email: 'ulrich@example.com', active: false, signup_date: '2024-03-08', opens_per_month: 0 } },\n  { json: { name: 'Vera Hoffmann', email: 'vera@example.com', active: false, signup_date: '2023-12-01', opens_per_month: 0 } },\n  { json: { name: 'Werner Köhler', email: 'werner@example.com', active: false, signup_date: '2024-04-22', opens_per_month: 0 } },\n  { json: { name: 'Axel Braun', email: 'axel@example.com', active: false, signup_date: '2024-06-15', opens_per_month: 0 } },\n  { json: { name: 'Britta Sommer', email: 'britta@example.com', active: false, signup_date: '2024-05-10', opens_per_month: 0 } },\n  // ── Duplikate ───────────────────────────────────────────────────────────────\n  { json: { name: 'Frank Hoffmann', email: 'frank@example.com', active: true, signup_date: '2024-06-01', opens_per_month: 15 } },\n  { json: { name: 'Clara Weber', email: 'clara@example.com', active: true, signup_date: '2024-05-22', opens_per_month: 12 } },\n  { json: { name: 'Greta Lange', email: 'greta@example.com', active: true, signup_date: '2024-04-18', opens_per_month: 9 } },\n  { json: { name: 'Anna Müller', email: 'anna@example.com', active: true, signup_date: '2024-03-15', opens_per_month: 8 } },\n  { json: { name: 'David Bauer', email: 'david@example.com', active: true, signup_date: '2023-11-08', opens_per_month: 5 } },\n  { json: { name: 'Hans Meyer', email: 'hans@example.com', active: true, signup_date: '2023-09-30', opens_per_month: 3 } },\n  { json: { name: 'Iris Wagner', email: 'iris@example.com', active: true, signup_date: '2023-08-15', opens_per_month: 6 } },\n  { json: { name: 'Katharina Schulz', email: 'katharina@example.com', active: true, signup_date: '2023-06-10', opens_per_month: 4 } },\n  { json: { name: 'Frank Hoffmann', email: 'frank@example.com', active: true, signup_date: '2024-06-01', opens_per_month: 15 } },\n  { json: { name: 'Clara Weber', email: 'clara@example.com', active: true, signup_date: '2024-05-22', opens_per_month: 12 } },\n  { json: { name: 'Greta Lange', email: 'greta@example.com', active: true, signup_date: '2024-04-18', opens_per_month: 9 } },\n  { json: { name: 'Anna Müller', email: 'anna@example.com', active: true, signup_date: '2024-03-15', opens_per_month: 8 } },\n  { json: { name: 'David Bauer', email: 'david@example.com', active: true, signup_date: '2023-11-08', opens_per_month: 5 } },\n  { json: { name: 'Lars Braun', email: 'lars@example.com', active: true, signup_date: '2023-05-03', opens_per_month: 2 } },\n  { json: { name: 'Nico Hartmann', email: 'nico@example.com', active: true, signup_date: '2023-04-11', opens_per_month: 7 } }\n];"
+      },
+      "id": "b46621ca-d065-42b4-8f6e-f44bcf915567",
+      "name": "Playground – Beispieldaten",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -112,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cond-active-1",
+              "leftValue": "={{ $json.active }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "e4d6a2b2-42e3-4553-a9cf-61dac17e3d52",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        128,
+        400
+      ],
+      "notes": "Filtert Items — hier: nur aktive Abonnenten (active = true)"
+    },
+    {
+      "parameters": {
+        "compare": "selectedFields",
+        "fieldsToCompare": "email",
+        "options": {}
+      },
+      "id": "328ce004-6f24-4258-a778-406bdb7baa01",
+      "name": "Remove Duplicates",
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        352,
+        400
+      ],
+      "notes": "Entfernt Duplikate — hier: gleiche E-Mail-Adresse"
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "signup_date",
+              "order": "descending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f2a6364e-665a-46cc-bd2e-e83d172e0a95",
+      "name": "Sort",
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        576,
+        400
+      ],
+      "notes": "Sortiert Items — hier: signup_date absteigend (neueste zuerst)"
+    },
+    {
+      "parameters": {
+        "maxItems": 20
+      },
+      "id": "b07644b0-0bdb-44fb-8897-304844e10c75",
+      "name": "Limit",
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        800,
+        400
+      ],
+      "notes": "Begrenzt Ausgabe — hier: maximal 5 Items"
+    },
+    {
+      "parameters": {
+        "content": "## Modul 2 – Datenqualität: Newsletter-Verteiler bereinigen\nLinks: **Playground** zum Ausprobieren (jeden Node einzeln mit *Execute step*).\nRechts: **Challenge**. Die Nodes sind schon verbunden, ihr konfiguriert sie.\n\n**Handout mit allen Aufgaben (im zweiten Browser-Tab öffnen):**\nhttps://github.com/sacpluz/n8n-bit-public/blob/main/modul-02-data-2/README.md\n\nDer Node **Ergebnis prüfen** sagt euch im Feld `hinweise`, was noch nicht stimmt.",
+        "height": 300,
+        "width": 700
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1584,
+        48
+      ],
+      "id": "4a70998b-fcc7-44f2-99de-a0d9b3ca6d0f",
+      "name": "Hinweis – Aufgaben"
+    },
+    {
+      "parameters": {
+        "content": "## ▶️ So startet ihr\n- **Execute workflow** (unten, orange): startet beim Trigger und läuft alles durch.\n- **Execute step** (im Node): führt nur diesen Node aus, mit den Daten der Nodes davor.\n- **Pin** (📌 im Output): friert den Output ein, der Node läuft dann nicht neu.\n\nEuer Name kommt automatisch aus dem Workflow-Namen. Nichts eintragen.",
+        "height": 250,
+        "width": 520,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2720,
+        -170
+      ],
+      "id": "7848afe6-6179-4acc-948c-45ad1bb126eb",
+      "name": "Hinweis – Start"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        2768,
+        192
+      ],
+      "id": "22b991ec-c263-43b9-be11-49d318f91815",
+      "name": "Start – Execute workflow"
+    },
+    {
+      "parameters": {
+        "jsCode": "// BEREITS FERTIG – nicht verändern\nreturn [\n  // ── 40 aktive Abonnenten (rank 1–40 nach Datum) ──────────────────────────────\n  { json: { name: 'Frank Hoffmann', email: 'frank@example.com', active: true, signup_date: '2024-06-01', opens_per_month: 15 } },\n  { json: { name: 'Clara Weber', email: 'clara@example.com', active: true, signup_date: '2024-05-22', opens_per_month: 12 } },\n  { json: { name: 'Greta Lange', email: 'greta@example.com', active: true, signup_date: '2024-04-18', opens_per_month: 9 } },\n  { json: { name: 'Anna Müller', email: 'anna@example.com', active: true, signup_date: '2024-03-15', opens_per_month: 8 } },\n  { json: { name: 'David Bauer', email: 'david@example.com', active: true, signup_date: '2023-11-08', opens_per_month: 5 } },\n  { json: { name: 'Hans Meyer', email: 'hans@example.com', active: true, signup_date: '2023-09-30', opens_per_month: 3 } },\n  { json: { name: 'Iris Wagner', email: 'iris@example.com', active: true, signup_date: '2023-08-15', opens_per_month: 6 } },\n  { json: { name: 'Katharina Schulz', email: 'katharina@example.com', active: true, signup_date: '2023-06-10', opens_per_month: 4 } },\n  { json: { name: 'Lars Braun', email: 'lars@example.com', active: true, signup_date: '2023-05-03', opens_per_month: 2 } },\n  { json: { name: 'Nico Hartmann', email: 'nico@example.com', active: true, signup_date: '2023-04-11', opens_per_month: 7 } },\n  { json: { name: 'Olivia Becker', email: 'olivia@example.com', active: true, signup_date: '2023-03-25', opens_per_month: 5 } },\n  { json: { name: 'Peter Schäfer', email: 'peter@example.com', active: true, signup_date: '2023-02-14', opens_per_month: 1 } },\n  { json: { name: 'Quin Maier', email: 'quin@example.com', active: true, signup_date: '2023-01-08', opens_per_month: 3 } },\n  { json: { name: 'Rosa Krause', email: 'rosa@example.com', active: true, signup_date: '2022-12-19', opens_per_month: 2 } },\n  { json: { name: 'Stefan Wolf', email: 'stefan@example.com', active: true, signup_date: '2022-11-05', opens_per_month: 4 } },\n  { json: { name: 'Thomas Schneider', email: 'thomas@example.com', active: true, signup_date: '2022-10-18', opens_per_month: 6 } },\n  { json: { name: 'Ursula Zimmermann', email: 'ursula@example.com', active: true, signup_date: '2022-09-22', opens_per_month: 5 } },\n  { json: { name: 'Viktor Koch', email: 'viktor@example.com', active: true, signup_date: '2022-08-14', opens_per_month: 3 } },\n  { json: { name: 'Waltraud Fischer', email: 'waltraud@example.com', active: true, signup_date: '2022-07-07', opens_per_month: 2 } },\n  { json: { name: 'Xenia Herrmann', email: 'xenia@example.com', active: true, signup_date: '2022-06-01', opens_per_month: 8 } },\n  { json: { name: 'Yannick Schwarz', email: 'yannick@example.com', active: true, signup_date: '2022-05-15', opens_per_month: 4 } },\n  { json: { name: 'Zara Becker', email: 'zara@example.com', active: true, signup_date: '2022-04-03', opens_per_month: 3 } },\n  { json: { name: 'Adam Richter', email: 'adam@example.com', active: true, signup_date: '2022-03-11', opens_per_month: 5 } },\n  { json: { name: 'Bianca Voigt', email: 'bianca@example.com', active: true, signup_date: '2022-02-20', opens_per_month: 2 } },\n  { json: { name: 'Christian Keller', email: 'christian@example.com', active: true, signup_date: '2022-01-08', opens_per_month: 6 } },\n  { json: { name: 'Diana Pohl', email: 'diana@example.com', active: true, signup_date: '2021-12-14', opens_per_month: 4 } },\n  { json: { name: 'Erik Schreiber', email: 'erik@example.com', active: true, signup_date: '2021-11-25', opens_per_month: 3 } },\n  { json: { name: 'Franziska Langer', email: 'franziska@example.com', active: true, signup_date: '2021-10-30', opens_per_month: 5 } },\n  { json: { name: 'Georg Huber', email: 'georg@example.com', active: true, signup_date: '2021-09-17', opens_per_month: 2 } },\n  { json: { name: 'Heike Brandt', email: 'heike@example.com', active: true, signup_date: '2021-08-05', opens_per_month: 1 } },\n  { json: { name: 'Ingrid Lorenz', email: 'ingrid@example.com', active: true, signup_date: '2021-07-22', opens_per_month: 4 } },\n  { json: { name: 'Johann Probst', email: 'johann@example.com', active: true, signup_date: '2021-06-10', opens_per_month: 3 } },\n  { json: { name: 'Karoline Mayer', email: 'karoline@example.com', active: true, signup_date: '2021-05-03', opens_per_month: 2 } },\n  { json: { name: 'Lukas Krüger', email: 'lukas@example.com', active: true, signup_date: '2021-04-18', opens_per_month: 5 } },\n  { json: { name: 'Miriam Sauer', email: 'miriam@example.com', active: true, signup_date: '2021-03-07', opens_per_month: 3 } },\n  { json: { name: 'Norbert Frank', email: 'norbert@example.com', active: true, signup_date: '2021-02-14', opens_per_month: 1 } },\n  { json: { name: 'Petra Roth', email: 'petra@example.com', active: true, signup_date: '2021-01-25', opens_per_month: 2 } },\n  { json: { name: 'Rainer König', email: 'rainer@example.com', active: true, signup_date: '2020-12-12', opens_per_month: 4 } },\n  { json: { name: 'Sandra Beck', email: 'sandra@example.com', active: true, signup_date: '2020-11-08', opens_per_month: 3 } },\n  { json: { name: 'Tobias Winkler', email: 'tobias@example.com', active: true, signup_date: '2020-10-15', opens_per_month: 2 } },\n  // ── 20 inaktive Abonnenten (werden durch Filter entfernt) ──────────────\n  { json: { name: 'Ben Schmidt', email: 'ben@example.com', active: false, signup_date: '2024-01-10', opens_per_month: 0 } },\n  { json: { name: 'Eva Klein', email: 'eva@example.com', active: false, signup_date: '2024-02-14', opens_per_month: 0 } },\n  { json: { name: 'Jonas Richter', email: 'jonas@example.com', active: false, signup_date: '2023-07-22', opens_per_month: 0 } },\n  { json: { name: 'Maria Fischer', email: 'maria@example.com', active: false, signup_date: '2024-05-01', opens_per_month: 0 } },\n  { json: { name: 'Tanja Zimmermann', email: 'tanja@example.com', active: false, signup_date: '2023-10-30', opens_per_month: 0 } },\n  { json: { name: 'Ulrich Neumann', email: 'ulrich@example.com', active: false, signup_date: '2024-03-08', opens_per_month: 0 } },\n  { json: { name: 'Vera Hoffmann', email: 'vera@example.com', active: false, signup_date: '2023-12-01', opens_per_month: 0 } },\n  { json: { name: 'Werner Köhler', email: 'werner@example.com', active: false, signup_date: '2024-04-22', opens_per_month: 0 } },\n  { json: { name: 'Axel Braun', email: 'axel@example.com', active: false, signup_date: '2024-06-15', opens_per_month: 0 } },\n  { json: { name: 'Britta Sommer', email: 'britta@example.com', active: false, signup_date: '2024-05-10', opens_per_month: 0 } },\n  { json: { name: 'Clemens Hahn', email: 'clemens@example.com', active: false, signup_date: '2024-04-01', opens_per_month: 0 } },\n  { json: { name: 'Doris Stein', email: 'doris@example.com', active: false, signup_date: '2024-03-22', opens_per_month: 0 } },\n  { json: { name: 'Eberhard Fuchs', email: 'eberhard@example.com', active: false, signup_date: '2024-02-09', opens_per_month: 0 } },\n  { json: { name: 'Friederike Mann', email: 'friederike@example.com', active: false, signup_date: '2024-01-28', opens_per_month: 0 } },\n  { json: { name: 'Gerhard Jung', email: 'gerhard@example.com', active: false, signup_date: '2023-12-15', opens_per_month: 0 } },\n  { json: { name: 'Hildegard Schmitt', email: 'hildegard@example.com', active: false, signup_date: '2023-11-20', opens_per_month: 0 } },\n  { json: { name: 'Ingo Lorenz', email: 'ingo@example.com', active: false, signup_date: '2023-10-05', opens_per_month: 0 } },\n  { json: { name: 'Josefine Probst', email: 'josefine@example.com', active: false, signup_date: '2023-09-12', opens_per_month: 0 } },\n  { json: { name: 'Klaus Mayer', email: 'klausmayer@example.com', active: false, signup_date: '2023-08-25', opens_per_month: 0 } },\n  { json: { name: 'Lieselotte Roth', email: 'lieselotte@example.com', active: false, signup_date: '2023-07-01', opens_per_month: 0 } },\n  // ── 40 Duplikate aktiver Einträge (werden durch Remove Duplicates entfernt) ──\n  { json: { name: 'Frank Hoffmann', email: 'frank@example.com', active: true, signup_date: '2024-06-01', opens_per_month: 15 } },\n  { json: { name: 'Clara Weber', email: 'clara@example.com', active: true, signup_date: '2024-05-22', opens_per_month: 12 } },\n  { json: { name: 'Greta Lange', email: 'greta@example.com', active: true, signup_date: '2024-04-18', opens_per_month: 9 } },\n  { json: { name: 'Anna Müller', email: 'anna@example.com', active: true, signup_date: '2024-03-15', opens_per_month: 8 } },\n  { json: { name: 'David Bauer', email: 'david@example.com', active: true, signup_date: '2023-11-08', opens_per_month: 5 } },\n  { json: { name: 'Frank Hoffmann', email: 'frank@example.com', active: true, signup_date: '2024-06-01', opens_per_month: 15 } },\n  { json: { name: 'Clara Weber', email: 'clara@example.com', active: true, signup_date: '2024-05-22', opens_per_month: 12 } },\n  { json: { name: 'Greta Lange', email: 'greta@example.com', active: true, signup_date: '2024-04-18', opens_per_month: 9 } },\n  { json: { name: 'Anna Müller', email: 'anna@example.com', active: true, signup_date: '2024-03-15', opens_per_month: 8 } },\n  { json: { name: 'David Bauer', email: 'david@example.com', active: true, signup_date: '2023-11-08', opens_per_month: 5 } },\n  { json: { name: 'Hans Meyer', email: 'hans@example.com', active: true, signup_date: '2023-09-30', opens_per_month: 3 } },\n  { json: { name: 'Iris Wagner', email: 'iris@example.com', active: true, signup_date: '2023-08-15', opens_per_month: 6 } },\n  { json: { name: 'Katharina Schulz', email: 'katharina@example.com', active: true, signup_date: '2023-06-10', opens_per_month: 4 } },\n  { json: { name: 'Lars Braun', email: 'lars@example.com', active: true, signup_date: '2023-05-03', opens_per_month: 2 } },\n  { json: { name: 'Nico Hartmann', email: 'nico@example.com', active: true, signup_date: '2023-04-11', opens_per_month: 7 } },\n  { json: { name: 'Frank Hoffmann', email: 'frank@example.com', active: true, signup_date: '2024-06-01', opens_per_month: 15 } },\n  { json: { name: 'Clara Weber', email: 'clara@example.com', active: true, signup_date: '2024-05-22', opens_per_month: 12 } },\n  { json: { name: 'Greta Lange', email: 'greta@example.com', active: true, signup_date: '2024-04-18', opens_per_month: 9 } },\n  { json: { name: 'Anna Müller', email: 'anna@example.com', active: true, signup_date: '2024-03-15', opens_per_month: 8 } },\n  { json: { name: 'David Bauer', email: 'david@example.com', active: true, signup_date: '2023-11-08', opens_per_month: 5 } },\n  { json: { name: 'Hans Meyer', email: 'hans@example.com', active: true, signup_date: '2023-09-30', opens_per_month: 3 } },\n  { json: { name: 'Iris Wagner', email: 'iris@example.com', active: true, signup_date: '2023-08-15', opens_per_month: 6 } },\n  { json: { name: 'Katharina Schulz', email: 'katharina@example.com', active: true, signup_date: '2023-06-10', opens_per_month: 4 } },\n  { json: { name: 'Lars Braun', email: 'lars@example.com', active: true, signup_date: '2023-05-03', opens_per_month: 2 } },\n  { json: { name: 'Frank Hoffmann', email: 'frank@example.com', active: true, signup_date: '2024-06-01', opens_per_month: 15 } },\n  { json: { name: 'Clara Weber', email: 'clara@example.com', active: true, signup_date: '2024-05-22', opens_per_month: 12 } },\n  { json: { name: 'Greta Lange', email: 'greta@example.com', active: true, signup_date: '2024-04-18', opens_per_month: 9 } },\n  { json: { name: 'Anna Müller', email: 'anna@example.com', active: true, signup_date: '2024-03-15', opens_per_month: 8 } },\n  { json: { name: 'Nico Hartmann', email: 'nico@example.com', active: true, signup_date: '2023-04-11', opens_per_month: 7 } },\n  { json: { name: 'Olivia Becker', email: 'olivia@example.com', active: true, signup_date: '2023-03-25', opens_per_month: 5 } },\n  { json: { name: 'Peter Schäfer', email: 'peter@example.com', active: true, signup_date: '2023-02-14', opens_per_month: 1 } },\n  { json: { name: 'Quin Maier', email: 'quin@example.com', active: true, signup_date: '2023-01-08', opens_per_month: 3 } },\n  { json: { name: 'Frank Hoffmann', email: 'frank@example.com', active: true, signup_date: '2024-06-01', opens_per_month: 15 } },\n  { json: { name: 'Clara Weber', email: 'clara@example.com', active: true, signup_date: '2024-05-22', opens_per_month: 12 } },\n  { json: { name: 'Greta Lange', email: 'greta@example.com', active: true, signup_date: '2024-04-18', opens_per_month: 9 } },\n  { json: { name: 'Hans Meyer', email: 'hans@example.com', active: true, signup_date: '2023-09-30', opens_per_month: 3 } },\n  { json: { name: 'Iris Wagner', email: 'iris@example.com', active: true, signup_date: '2023-08-15', opens_per_month: 6 } },\n  { json: { name: 'Katharina Schulz', email: 'katharina@example.com', active: true, signup_date: '2023-06-10', opens_per_month: 4 } },\n  { json: { name: 'Rosa Krause', email: 'rosa@example.com', active: true, signup_date: '2022-12-19', opens_per_month: 2 } },\n  { json: { name: 'Stefan Wolf', email: 'stefan@example.com', active: true, signup_date: '2022-11-05', opens_per_month: 4 } }\n];"
+      },
+      "id": "0224b083-096f-4ab0-971a-7411fda3dfbe",
+      "name": "Abonnenten generieren",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2992,
+        192
+      ],
+      "notes": "BEREITS FERTIG – nicht verändern"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "3e4de82c-0804-402e-8ddc-da235f532609",
+      "name": "AUFGABE 1 – Remove Duplicates: E-Mail-Duplikate entfernen",
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        3216,
+        192
+      ],
+      "notes": "Aufgabe: Entferne doppelte Einträge anhand der E-Mail-Adresse.\nModus: Remove items with already seen values · Vergleichsfeld: email"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "9429e244-f4ff-449b-a286-ca6ac9e509f1",
+      "name": "AUFGABE 2 – Filter: Nur aktive Abonnenten",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        3440,
+        192
+      ],
+      "notes": "Aufgabe: Nur Abonnenten mit active = true sollen weiterkommen.\nBedingung: {{ $json.active }} · Typ: Boolean · Operation: is true"
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": []
+        },
+        "options": {}
+      },
+      "id": "8d6ea47f-97f1-42e0-8612-0e79cd925d27",
+      "name": "AUFGABE 3 – Sort: Öffnungen, dann Anmeldedatum",
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        3664,
+        192
+      ],
+      "notes": "Aufgabe: Sortiere nach signup_date – neueste Abonnenten zuerst (Descending)"
+    },
+    {
+      "parameters": {},
+      "id": "1ef376e6-3a9c-4fb5-b1ed-43a2133287c9",
+      "name": "AUFGABE 4 – Limit: Top 5 ausgeben",
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        3888,
+        192
+      ],
+      "notes": "Aufgabe: Begrenze die Ausgabe auf maximal 5 Items"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "subscribers",
+        "options": {}
+      },
+      "id": "9407e52d-b1d1-4433-baad-97c8bec53be8",
+      "name": "Ergebnisse sammeln",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        4112,
+        192
+      ],
+      "notes": "BEREITS FERTIG – sammelt alle Items in einem Array 'subscribers'"
+    },
+    {
+      "parameters": {
+        "jsCode": "// BEREITS FERTIG – nicht verändern\nconst subscribers = $input.first().json.subscribers;\nif (!Array.isArray(subscribers)) {\n  throw new Error(\"Feld 'subscribers' fehlt. Der Node 'Ergebnisse sammeln' bekommt keine Daten. Sind alle vier Aufgaben-Nodes konfiguriert?\");\n}\nconst actualNames = subscribers.map(s => s.name);\nconst expectedNames = ['Frank Hoffmann', 'Clara Weber', 'Greta Lange', 'Anna Müller', 'Xenia Herrmann'];\n\nconst hinweise = [];\nif (subscribers.length !== 5) hinweise.push(`Es kommen ${subscribers.length} statt 5 Einträge an. Aufgabe 4 (Limit) prüfen.`);\nif (subscribers.some(s => s.active !== true)) hinweise.push(\"Es sind inaktive Abonnenten dabei. Aufgabe 2 (Filter) prüfen.\");\nif (new Set(subscribers.map(s => s.email)).size !== subscribers.length) hinweise.push(\"Es sind doppelte E-Mail-Adressen dabei. Aufgabe 1 (Remove Duplicates, Feld 'email') prüfen.\");\nif (actualNames[0] !== 'Frank Hoffmann') hinweise.push(\"An erster Stelle steht nicht Frank Hoffmann. Aufgabe 3 (Sort): erst 'opens_per_month', dann 'signup_date', beide Descending.\");\nconst correct = hinweise.length === 0 && expectedNames.every((n, i) => actualNames[i] === n);\nif (hinweise.length === 0 && !correct) hinweise.push(\"Die Reihenfolge stimmt noch nicht. Zweites Sortierfeld 'signup_date' (Descending) prüfen.\");\n\nreturn [{\n  json: {\n    timestamp:       new Date().toLocaleString('de-DE', { timeZone: 'Europe/Berlin' }),\n    korrekt:         correct ? '✅ Ja' : '❌ Nein',\n    hinweise:        hinweise.length ? hinweise.join(' | ') : 'Alles richtig!',\n    anzahl_ergebnis: subscribers.length,\n    erster_kontakt:  actualNames[0] || '-',\n    alle_namen:      actualNames.join(', ')\n  }\n}];"
+      },
+      "id": "092a1d6b-e27a-495a-bb91-e1fce33f79bf",
+      "name": "Ergebnis prüfen",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4336,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://SCOREBOARD-URL-EINTRAGEN.example/webhook/scoreboard-submit",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ name: $workflow.name.split(/\\s[–-]\\s/)[0], modul: '02', ergebnis: $json }) }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        4528,
+        192
+      ],
+      "id": "11e3cfd6-2a4d-4d31-8bf8-c987ec26333f",
+      "name": "Scoreboard – Ergebnis senden"
+    }
+  ],
+  "connections": {
+    "Playground – Beispieldaten": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Remove Duplicates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Duplicates": {
+      "main": [
+        [
+          {
+            "node": "Sort",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start – Execute workflow": {
+      "main": [
+        [
+          {
+            "node": "Abonnenten generieren",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Abonnenten generieren": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 1 – Remove Duplicates: E-Mail-Duplikate entfernen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 1 – Remove Duplicates: E-Mail-Duplikate entfernen": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 2 – Filter: Nur aktive Abonnenten",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 2 – Filter: Nur aktive Abonnenten": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 3 – Sort: Öffnungen, dann Anmeldedatum",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 3 – Sort: Öffnungen, dann Anmeldedatum": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 4 – Limit: Top 5 ausgeben",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 4 – Limit: Top 5 ausgeben": {
+      "main": [
+        [
+          {
+            "node": "Ergebnisse sammeln",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ergebnisse sammeln": {
+      "main": [
+        [
+          {
+            "node": "Ergebnis prüfen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ergebnis prüfen": {
+      "main": [
+        [
+          {
+            "node": "Scoreboard – Ergebnis senden",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

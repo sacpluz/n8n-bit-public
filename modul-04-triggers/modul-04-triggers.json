@@ -1,0 +1,883 @@
+{
+  "name": "VORLAGE – Modul 04 – Triggers",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# 🎯 ZONE 1 – NODE PLAYGROUND\n### Triggers & Scheduling\n\n## Die vier Wege wie ein Workflow starten kann:\n\n⏱️ **ZEIT-BASIERT**\nDer Workflow startet automatisch zu einem definierten Zeitpunkt oder Intervall – ohne dass ein Mensch etwas tut.\n→ Schedule Trigger (Cron, stündlich, täglich, alle X Sekunden)\n\n🖱️ **MANUELL**\nEin Mensch startet den Workflow bewusst per Klick direkt in n8n – kein externes Ereignis, kein Zeitplan.\n→ Manual Trigger (der \"Execute workflow\"-Button)\n⚠️ Pro Workflow ist nur ein Manual Trigger erlaubt – deshalb ist er hier im Playground nicht abgebildet. Er kommt in Zone 2 als Aufgabe 6 vor.\n\n🌐 **EVENT-BASIERT (Push)**\nEin externes, internes System oder ein Mensch schickt aktiv etwas an n8n – n8n wartet passiv bis etwas ankommt.\n→ Webhook (HTTP-Anfrage von außen)\n→ On form submission (jemand füllt ein Formular aus)\n→ When chat message received (jemand schreibt im Chat)\n→ Workflow Input Trigger (ein anderer n8n Workflow sendet an diesen Trigger)\n→ Produktspezifische Trigger: z.B. Calendly, Gumroad, Stripe – jeder Dienst kann bei bestimmten Ereignissen einen Webhook feuern\n\n🔄 **POLLING (Pull)**\nn8n fragt selbst regelmäßig bei einem Dienst nach ob etwas Neues da ist – kein Push von außen.\n→ Gmail Trigger (prüft jede Minute das Postfach)\n→ Google Sheets Trigger (prüft ob neue Zeilen erschienen sind)\n→ Viele weitere App-Trigger funktionieren nach diesem Prinzip\n\n💡 Faustregel: Push-Trigger reagieren sofort. Polling-Trigger haben immer eine Verzögerung.\n\n---\n⚠️ **Hinweis für diesen Workshop:**\nIn einem echten Produktiv-Workflow hat jeder Workflow genau einen Trigger – er reagiert auf ein bestimmtes Ereignis und läuft dann durch.\n\nIn diesem Modul wollen wir jedoch alle Trigger-Typen in einem einzigen Workflow demonstrieren – das ist technisch gesehen nicht der vorgesehene Einsatz. n8n ist nicht darauf ausgelegt, mehrere Trigger gleichzeitig innerhalb eines Workflows zu kombinieren und deren Ergebnisse zu sammeln.\n\nDeshalb werden hier alle Trigger so gut wie manuell ausgelöst: Du konfigurierst jeden Trigger, löst ihn einmal bewusst aus und bestätigst am Ende mit Aufgabe 6 dass alle durchgelaufen sind. Das Ziel ist das Kennenlernen und Verstehen der verschiedenen Trigger-Typen – nicht der produktive Einsatz.\n\n---\n",
+        "height": 732,
+        "width": 980,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1632,
+        -128
+      ],
+      "typeVersion": 1,
+      "id": "9c4ebccc-4522-467b-b8e6-0ac45dc4e1d5",
+      "name": "Playground – Übersicht"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [
+        -1232,
+        640
+      ],
+      "typeVersion": 1.2,
+      "id": "738ba555-125a-45a2-a5ce-a5224383ec44",
+      "name": "Schedule Trigger (Playground)"
+    },
+    {
+      "parameters": {
+        "path": "playground-webhook",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        -1232,
+        864
+      ],
+      "webhookId": "play-webhook-001",
+      "typeVersion": 2,
+      "id": "bf31516d-cd27-4fc4-8881-f1504b6e342a",
+      "name": "Webhook (Playground)"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {}
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "position": [
+        -1232,
+        1104
+      ],
+      "typeVersion": 1.2,
+      "id": "ba743e5a-53f6-47cf-8f3e-f2ea9e20fd1e",
+      "name": "Gmail Trigger (Playground)",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "mNpGDhsWXfzEvJh2",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "position": [
+        -768,
+        1120
+      ],
+      "typeVersion": 1,
+      "id": "a14acd98-740f-41c5-b6bf-7ef1a7235845",
+      "name": "Google Sheets Trigger (Playground)",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "1PC2VsgDYjiAcmib",
+          "name": "Google Sheets Trigger OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Test"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "position": [
+        -992,
+        864
+      ],
+      "webhookId": "e4c529ef-9a0d-4102-b426-f7036db33088",
+      "typeVersion": 2.2,
+      "id": "373dfd34-21ce-4fa8-9e5d-24477ce29fda",
+      "name": "On form submission (Playground)"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        -768,
+        864
+      ],
+      "typeVersion": 1.1,
+      "id": "75c74a1a-7381-437a-adc3-b65315b457e6",
+      "name": "Workflow Input Trigger (Playground)"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "position": [
+        -992,
+        1120
+      ],
+      "typeVersion": 1,
+      "id": "33d73b25-c4a3-48de-9b8a-7225f9fe15f4",
+      "name": "Google Drive Trigger (Playground)"
+    },
+    {
+      "parameters": {
+        "content": "## Zeit-Basierter Trigger\n",
+        "height": 80,
+        "width": 272
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1552,
+        640
+      ],
+      "id": "0a753187-bb2e-4ce2-98a1-f97094c6762a",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Event-Basierte Trigger (Push)\n\n💬 When chat message received\n→ Kann im Playground nicht gezeigt werden\nda pro Workflow nur ein Chat Trigger erlaubt ist.\nWird in Zone 2 (Challenge) verwendet.\n",
+        "height": 128,
+        "width": 400
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1680,
+        848
+      ],
+      "id": "4f790eb5-8fb4-4c4f-89b4-6c9637af498c",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Polling Trigger (Pull)\n",
+        "height": 80,
+        "width": 256
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1536,
+        1120
+      ],
+      "id": "dfe488c9-7951-4cd8-b087-f46e735ff702",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "# 🏋️ ZONE 2 – CHALLENGE\n## \"Wer zuerst alle 6 Trigger zum Feuern bringt gewinnt!\"\n\n### ⚠️ Vor dem Start – einmalig erledigen:\nÖffne jeden **Edit Fields Node** hinter den Triggern und ersetze\n**'HIER_NAMEN_EINTRAGEN'** durch deinen Vor- und Nachnamen. **(Ausgenommen Aufgabe 1 hier muss euer Name im Formular unter Name eingetragen werden)**\nOhne gleicher Schreibweise des Namen wird dein Ergebnis nicht dem Scoreboard zugeordnet!\n\n### Deine Aufgabe:\nKonfiguriere alle 5 Trigger-Nodes korrekt und bringe jeden zum Feuern.\nJeder Trigger schreibt seinen Eintrag ins Google Sheet (Part 4 Data).\nWenn du alle 5 ausgeführt hast, betätige Aufgabe 6 – der manuelle Trigger\nfasst alles zusammen und überträgt dein Ergebnis ins Scoreboard.\n\n### ⚠️ Reihenfolge einhalten – Aufgaben der Reihe nach abarbeiten!\nStarte erst mit Aufgabe 2 wenn Aufgabe 1 erfolgreich war.\nAufgabe 6 erst ausführen wenn alle 5 Trigger gefeuert haben.\n\n### Die 6 Trigger:\n1. ⏱️ **Schedule** → alle 10 Sekunden (Workflow aktivieren!)\n2. 🌐 **Webhook** → POST auf `/briefing` (Production URL per Mail an Facilitator)\n3. 📝 **Formular** → 3 Felder (Name, Abteilung, Nachricht)\n4. 💬 **Chat** → beliebige Nachricht\n5. 📧 **Gmail** → bei neuer E-Mail an die Trainings-Adresse\n6. 🖱️ **Manuell** → Wenn alle 5 erledigt sind: Workflow ausführen und Ergebnis einreichen\n\n### 🏆 Gamification:\nDer **Timestamp** der manuellen Einreichung (Aufgabe 6) entscheidet.\n**Korrektheit geht vor Geschwindigkeit** — alle 5 Trigger müissen gefeuert haben.",
+        "height": 632,
+        "width": 1900,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -240,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "adcab68f-37ed-4168-83c5-dfe89e27cc92",
+      "name": "Zone 2 Header"
+    },
+    {
+      "parameters": {
+        "content": "### AUFGABE 3 – Schedule Trigger\n⏱️ Stelle den Trigger so ein dass er **alle 10 Sekunden** feuert.\n\nEinstellung:\n→ Trigger Interval: Seconds\n→ Value: 10\n\nHier muss manuell getriggered werden",
+        "height": 252,
+        "width": 308,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        960,
+        592
+      ],
+      "typeVersion": 1,
+      "id": "e7e7faa6-9b67-43db-822b-2d7a495785a7",
+      "name": "Aufgabe 1 Hinweis"
+    },
+    {
+      "parameters": {
+        "content": "### 🎯 AUFGABE 2 – Webhook\nKonfiguriere einen Webhook der auf POST-Anfragen reagiert.\n\n- **Path**: challenge-webhook\n- **Method**: POST\n\nDer Facilitator-Workflow schickt alle 10 sekunden etwas gegen diesen Webook. Der Faciliator-Workflow wird vom Workshop-Moderator gesteuert. Kein To Do für dich.",
+        "height": 268,
+        "width": 372,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        336,
+        576
+      ],
+      "typeVersion": 1,
+      "id": "12ea9bea-c410-4286-aa08-55a64ec0138c",
+      "name": "Aufgabe 2 Hinweis"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "challenge-webhook-001",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        496,
+        912
+      ],
+      "webhookId": "challenge-webhook-001",
+      "typeVersion": 2,
+      "id": "daefd555-7f4b-4baa-bc25-dd33100fd9de",
+      "name": "AUFGABE 2 – Webhook: POST /briefing",
+      "notes": "🎯 AUFGABE 2: HTTP Method → POST, Path → briefing\n\nProduction URL kopieren und per Mail mit Betreff 'n8n-webhook' an den Facilitator schicken."
+    },
+    {
+      "parameters": {
+        "content": "### AUFGABE 1 – Formular\n📝 Erstelle ein Formular mit 3 Feldern.\n\nPflicht:\n- Name (Text) => **Deinen Vor- und Nachname eintragen**  ⚠️  ⚠️  ⚠️ \n- Abteilung (Text)\n- Nachricht (Textarea)\n\nTipp: n8n generiert eine Live-URL – öffne sie im Browser und fülle das Formular aus!",
+        "height": 252,
+        "width": 308,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -240,
+        592
+      ],
+      "typeVersion": 1,
+      "id": "1bd446fd-c5b5-4d23-b935-f038f2a2b35b",
+      "name": "Aufgabe 3 Hinweis"
+    },
+    {
+      "parameters": {
+        "content": "### AUFGABE 4 – Chat Trigger\n💬 Konfiguriere den Chat Trigger.\n\nKeine komplizierte Einstellung nötig – einfach aktivieren!\n\nTipp: n8n öffnet ein Chat-Widget. Schreibe irgendeine Nachricht und der Trigger feuert!",
+        "height": 252,
+        "width": 340,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1488,
+        608
+      ],
+      "typeVersion": 1,
+      "id": "d9cb9a1b-d7b6-4e5f-b743-b217b44e4325",
+      "name": "Aufgabe 4 Hinweis"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "position": [
+        1536,
+        928
+      ],
+      "webhookId": "play-chat-001",
+      "typeVersion": 1.1,
+      "id": "15329021-bffe-4e07-8447-5079274daf7c",
+      "name": "AUFGABE 4 - Chat Trigger",
+      "notes": "🎯 AUFGABE 4: Workflow aktivieren → 'Open Chat' klicken → Nachricht schreiben → Trigger feuert!"
+    },
+    {
+      "parameters": {
+        "content": "### AUFGABE 5 – Gmail Trigger\n📧 Konfiguriere den Gmail Trigger.\n\n**Poll**: Jede Minute\n**Filter**: Bereits definiert prüfe was definiert wurde\n**Sender**: Deine BridgingIT Mail-Adresse eintragen. Beispiel vorname.nachname@bridging-it.de\n\nSende nach dem Setup der Node eine Nachricht an n8n.training.bridgingit@gmail.com sodass die Mail vom Trigger erkannt wird.\n\n",
+        "height": 284,
+        "width": 340,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2000,
+        608
+      ],
+      "typeVersion": 1,
+      "id": "e0a0ce37-01b1-49bc-9b70-390d354976c2",
+      "name": "Aufgabe 5 Hinweis"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": []
+        },
+        "filters": {
+          "q": "Trigger_Aufgabe_5"
+        }
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "position": [
+        2128,
+        944
+      ],
+      "typeVersion": 1.2,
+      "id": "12a1c001-fc6c-4aa8-b3e8-0685f837824d",
+      "name": "AUFGABE 5 – Gmail Trigger: bei neuer E-Mail",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "mNpGDhsWXfzEvJh2",
+          "name": "Gmail account 2"
+        }
+      },
+      "notes": "🎯 AUFGABE 5: Poll Times → Every Minute, Credential verbinden.\n\nEine beliebige E-Mail senden → innerhalb 60s feuert der Trigger."
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "31c59d64-772f-414f-ad7f-2cd6d55be527",
+              "name": "Name",
+              "value": "={{ $workflow.name.split(/\\s[–-]\\s/)[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "sch-s-001",
+              "name": "trigger_source",
+              "value": "schedule",
+              "type": "string"
+            },
+            {
+              "id": "sch-s-002",
+              "name": "fired_at",
+              "value": "={{ $now.format('dd.M.yyyy, HH:mm:ss') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1056,
+        1136
+      ],
+      "id": "f5f5bef9-f00a-4aa4-9ec2-b6b0aa20fd96",
+      "name": "Edit Fields Schedule"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8dc48974-9678-497a-a808-13d3f7779c6d",
+              "name": "Name",
+              "value": "={{ $workflow.name.split(/\\s[–-]\\s/)[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "wh-s-001",
+              "name": "trigger_source",
+              "value": "webhook",
+              "type": "string"
+            },
+            {
+              "id": "wh-s-002",
+              "name": "fired_at",
+              "value": "={{ $now.format('dd.M.yyyy, HH:mm:ss') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        512,
+        1136
+      ],
+      "id": "75ecd8c0-5b9b-463d-b32a-9452c8e71c69",
+      "name": "Edit Fields Webhook"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fe3f6ce8-7220-4a87-8f13-e2b1b3a366af",
+              "name": "Name",
+              "value": "={{ $json.Name }}",
+              "type": "string"
+            },
+            {
+              "id": "fm-s-001",
+              "name": "trigger_source",
+              "value": "form",
+              "type": "string"
+            },
+            {
+              "id": "fm-s-002",
+              "name": "fired_at",
+              "value": "={{ $now.format('dd.M.yyyy, HH:mm:ss') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -112,
+        1136
+      ],
+      "id": "9e2270e6-85f5-4b79-bb1f-3dc7eb73bdb1",
+      "name": "Edit Fields Formular"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9607b620-8b99-4f1e-9a04-cb1dc56bba28",
+              "name": "Name",
+              "value": "={{ $workflow.name.split(/\\s[–-]\\s/)[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "ch-s-001",
+              "name": "trigger_source",
+              "value": "chat",
+              "type": "string"
+            },
+            {
+              "id": "ch-s-002",
+              "name": "fired_at",
+              "value": "={{ $now.format('dd.M.yyyy, HH:mm:ss') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1568,
+        1152
+      ],
+      "id": "7f20ad69-0b84-4e54-9d18-7e0a22cf1461",
+      "name": "Edit Fields Chat"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bd1ce895-321f-4c5a-9966-ff8a666679c8",
+              "name": "Name",
+              "value": "={{ $workflow.name.split(/\\s[–-]\\s/)[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "gm-s-001",
+              "name": "trigger_source",
+              "value": "gmail",
+              "type": "string"
+            },
+            {
+              "id": "gm-s-002",
+              "name": "fired_at",
+              "value": "={{ $now.format('dd.M.yyyy, HH:mm:ss') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2144,
+        1184
+      ],
+      "id": "a0a0dd2d-a429-4df6-9f03-6c736e3363ad",
+      "name": "Edit Fields Gmail"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": []
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [
+        1040,
+        912
+      ],
+      "typeVersion": 1.2,
+      "id": "85f257d6-fd4f-4fe2-8adf-9f8b7eb1ddd4",
+      "name": "AUFGABE 3 – Schedule: alle 10 Sekunden",
+      "notes": "🎯 AUFGABE 1: Stelle diesen Schedule Trigger auf alle 10 Sekunden.\n\n- Trigger Interval → Seconds\n- Every → 10\n\nWorkflow aktivieren und beobachten wie der Node alle 10s grün aufleuchtet!"
+    },
+    {
+      "parameters": {
+        "formTitle": "Test",
+        "formFields": {
+          "values": []
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "position": [
+        -128,
+        928
+      ],
+      "webhookId": "1ffd0d01-f464-4ec9-957f-f7ca5ffbb2bf",
+      "typeVersion": 2.2,
+      "id": "d2690919-65a5-4467-98d1-2502de2ecd0e",
+      "name": "AUFGABE 1 – Formular: 3 Felder konfigurieren",
+      "notes": "🎯 AUFGABE 3: Formular mit 3 Feldern:\n1. Name (Text, Pflicht)\n2. Abteilung (Text, Pflicht)\n3. Nachricht (Textarea)\n\nFormular-URL öffnen, ausfüllen und absenden!"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://SCOREBOARD-URL-EINTRAGEN.example/webhook/scoreboard-submit",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ name: $json.Name, modul: '04', ergebnis: { trigger_source: $json.trigger_source } }) }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -112,
+        1344
+      ],
+      "id": "dcc030c4-80d1-420f-b079-a579179f457b",
+      "name": "Scoreboard – Formular senden"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://SCOREBOARD-URL-EINTRAGEN.example/webhook/scoreboard-submit",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ name: $json.Name, modul: '04', ergebnis: { trigger_source: $json.trigger_source } }) }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        512,
+        1344
+      ],
+      "id": "687c7b26-b509-46f5-93cb-4e99805e295b",
+      "name": "Scoreboard – Webhook senden"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://SCOREBOARD-URL-EINTRAGEN.example/webhook/scoreboard-submit",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ name: $json.Name, modul: '04', ergebnis: { trigger_source: $json.trigger_source } }) }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1072,
+        1344
+      ],
+      "id": "39107eb2-ef47-4305-8197-f593fa49e810",
+      "name": "Scoreboard – Schedule senden"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://SCOREBOARD-URL-EINTRAGEN.example/webhook/scoreboard-submit",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ name: $json.Name, modul: '04', ergebnis: { trigger_source: $json.trigger_source } }) }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1568,
+        1376
+      ],
+      "id": "e6467632-72cc-48d2-84c6-2110146ff31b",
+      "name": "Scoreboard – Chat senden"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://SCOREBOARD-URL-EINTRAGEN.example/webhook/scoreboard-submit",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ name: $json.Name, modul: '04', ergebnis: { trigger_source: $json.trigger_source } }) }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2144,
+        1392
+      ],
+      "id": "0c614c77-ff31-4fa2-ba30-4c87ab561511",
+      "name": "Scoreboard – Gmail senden"
+    },
+    {
+      "parameters": {
+        "content": "## ⚠️ ⚠️ ⚠️ \n## Diesen Node bearbeiten! ->\nHier bitte im \"Edit Fields\" Node den Placeholder für **Name**  mit deinem Namen ändern",
+        "height": 240,
+        "width": 224,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        752,
+        1088
+      ],
+      "id": "0e66798e-3e6c-4bfa-8dc0-4fae766bda0e",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## ⚠️ ⚠️ ⚠️ \n## Diesen Node bearbeiten! ->\nHier bitte im \"Edit Fields\" Node den Placeholder für **Name**  mit deinem Namen ändern",
+        "height": 240,
+        "width": 224,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        208,
+        1088
+      ],
+      "id": "0e02ac0e-1078-46d2-8a58-002a9c70cb3b",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "content": "## ⚠️ ⚠️ ⚠️ \n## Diesen Node bearbeiten! ->\nHier bitte im \"Edit Fields\" Node den Placeholder für **Name**  mit deinem Namen ändern",
+        "height": 240,
+        "width": 224,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1264,
+        1104
+      ],
+      "id": "af2bb7c5-8800-4fa7-9a36-154f02f3e216",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "## ⚠️ ⚠️ ⚠️ \n## Diesen Node bearbeiten! ->\nHier bitte im \"Edit Fields\" Node den Placeholder für **Name**  mit deinem Namen ändern",
+        "height": 240,
+        "width": 224,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1856,
+        1136
+      ],
+      "id": "55c4c4ed-6100-4d34-a804-7a6cf41e82ab",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "## ✅✅✅\n## Diesen Node nicht bearbeiten -> \n\nKein To-Do für dich.",
+        "height": 240,
+        "width": 224,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -432,
+        1088
+      ],
+      "id": "f1fd0cf0-3387-4744-9c41-1ff34e049624",
+      "name": "Sticky Note9"
+    }
+  ],
+  "connections": {
+    "AUFGABE 2 – Webhook: POST /briefing": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 4 - Chat Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields Chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 5 – Gmail Trigger: bei neuer E-Mail": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields Schedule": {
+      "main": [
+        [
+          {
+            "node": "Scoreboard – Schedule senden",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields Webhook": {
+      "main": [
+        [
+          {
+            "node": "Scoreboard – Webhook senden",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields Formular": {
+      "main": [
+        [
+          {
+            "node": "Scoreboard – Formular senden",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields Chat": {
+      "main": [
+        [
+          {
+            "node": "Scoreboard – Chat senden",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields Gmail": {
+      "main": [
+        [
+          {
+            "node": "Scoreboard – Gmail senden",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 3 – Schedule: alle 10 Sekunden": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields Schedule",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 1 – Formular: 3 Felder konfigurieren": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields Formular",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

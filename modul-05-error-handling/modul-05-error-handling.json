@@ -1,0 +1,1013 @@
+{
+  "name": "VORLAGE – Modul 05 – Error Handling",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        6096,
+        624
+      ],
+      "id": "d43487cb-3f5f-4904-b9c1-ffb0080fe27b",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1cn09fDKz7TinG7pQMz-1ReQTE_RE9gpzCjd1YY15KY8",
+          "mode": "list",
+          "cachedResultName": "Error Logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cn09fDKz7TinG7pQMz-1ReQTE_RE9gpzCjd1YY15KY8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cn09fDKz7TinG7pQMz-1ReQTE_RE9gpzCjd1YY15KY8/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $now.format('yyyy-MM-dd HH:mm:ss') }}",
+            "Workflow": "={{ $json.workflow.name }}",
+            "URL": "={{ $json.execution.url }}",
+            "Error Message": "={{ $json.execution.error.message }}",
+            "Node": "={{ $json.execution.error.node.name }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Workflow",
+              "displayName": "Workflow",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "URL",
+              "displayName": "URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Node",
+              "displayName": "Node",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Error Message",
+              "displayName": "Error Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        6384,
+        544
+      ],
+      "id": "a568adba-a307-48b5-9e17-ffb6df243dc6",
+      "name": "Log Error",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Gx2RUPyFzBzfcHae",
+          "name": "Google Sheets OAuth2 API"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "content": "# NODE SETTINGS\n\n#### Jeder Node hat unter **Settings** drei Fehler-Optionen: **Stop Workflow** (Standard), **Continue** und **Continue using Error Output**. Dazu kommt **Retry on Fail** für API-Aufrufe.",
+        "height": 336,
+        "width": 872
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4096,
+        -2272
+      ],
+      "id": "3b62c0d0-d8d7-4ac3-bb03-30e88a6c610e",
+      "name": "Header – Node Settings"
+    },
+    {
+      "parameters": {
+        "content": "**On Error: Stop Workflow**\n\n- Standard-Aktion\n- Workflow stoppt komplett bei einem Fehler\n- Rotes X am Node\n- Nichts danach wird ausgeführt\n- Fehler: string vs. number",
+        "height": 220,
+        "width": 320,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4096,
+        -1872
+      ],
+      "id": "90c55c00-622d-4150-a756-651bb7feb75f",
+      "name": "Sticky – Stop Workflow"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "asgn-stop-01",
+              "name": "Band",
+              "value": "Seeed",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4528,
+        -1824
+      ],
+      "id": "751e9709-39d2-497d-8797-71f385a65bb9",
+      "name": "Edit Fields – Fehler auslösen (Stop)"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9b01c1b1-e958-4a7f-805a-5f153c83b438",
+              "name": "Spotify_Streams",
+              "value": "={{ $json.Band }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4768,
+        -1824
+      ],
+      "id": "1e9d536d-3648-4839-8ffe-e16c59298be1",
+      "name": "Edit Fields – Folgenode (läuft NICHT)"
+    },
+    {
+      "parameters": {
+        "content": "**On Error: Continue**\n\n- Workflow läuft trotz Fehler weiter\n- Fehlermeldung wird als Daten weitergegeben\n- Nicht ideal bei kritischen Verarbeitungsschritten\n- Grüner Haken trotz Fehler",
+        "height": 220,
+        "width": 320,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4096,
+        -1616
+      ],
+      "id": "38e450fc-e951-43a0-8fce-573fb2c8c535",
+      "name": "Sticky – Continue"
+    },
+    {
+      "parameters": {
+        "content": "**On Error: Continue (use Error Output)**\n\n- Zwei Ausgänge: **Success** und **Error**\n- Auch bekannt als Error Path / Branching Flow\n- Fehler-Zweig kann für Alerting genutzt werden\n- Unterschied zu Continue: kontrollierte Weiterleitung",
+        "height": 220,
+        "width": 320,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4096,
+        -1344
+      ],
+      "id": "ac89e5c7-8e84-4296-83b3-d4ea3a460bdb",
+      "name": "Sticky – Error Output"
+    },
+    {
+      "parameters": {
+        "content": "**Retry on Failure**\n\n- Node wird mehrfach erneut ausgeführt\n- Standard: 3 Versuche, je 1 Sekunde Pause\n- Erkennbar am Loop-Icon oben rechts am Node\n- Sehr nützlich bei API Rate Limiting\n- On Error. Wieder alle 3 Möglichkeiten",
+        "height": 220,
+        "width": 320,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4096,
+        -1072
+      ],
+      "id": "4cc6a666-fe8a-43ef-a74c-294cfa0ca86a",
+      "name": "Sticky – Retry on Failure"
+    },
+    {
+      "parameters": {
+        "content": "**Execution Log**\n\nUnter **Executions** kannst du jeden vergangenen Workflow-Run öffnen. Mit **Debug in Editor** werden die exakten Fehler-Daten in den Workflow geladen — ideal zum Debuggen von Edge Cases in Produktion. **Reagenzglas** bedeutet in Testing - Pandon: Published.",
+        "height": 192,
+        "width": 320,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4096,
+        -784
+      ],
+      "id": "7b8186a7-9048-419d-a724-9900f836ccda",
+      "name": "Sticky – Execution Log"
+    },
+    {
+      "parameters": {
+        "content": "# AI AGENT – FEHLERBEHANDLUNG\n\n#### Drei Schwachstellen: Anbieter-Ausfall (→ Fallback Model), Tool-Fehler (→ System Prompt), und allgemeine Node-Fehler (→ On Error Settings).",
+        "width": 1136,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4096,
+        -560
+      ],
+      "id": "a4e0a55d-41c9-4266-a19c-ef166491bccf",
+      "name": "Header – AI Agent"
+    },
+    {
+      "parameters": {
+        "content": "**Fallback Model**\n\n- Im Agent unter **Settings → Fallback Model** aktivieren\n- Unterschiedliche Anbieter verwenden!\n- z.B. OpenAI primär → Anthropic als Backup\n- Wenn ein Anbieter down ist, springt der andere ein",
+        "height": 220,
+        "width": 340,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4112,
+        -368
+      ],
+      "id": "e3d72c26-bdd7-4606-aeac-283b3721b668",
+      "name": "Sticky – Fallback Model"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.1,
+      "position": [
+        4544,
+        -144
+      ],
+      "id": "9a6b29be-67e8-4b4d-a1c5-70c6d90a553b",
+      "name": "OpenAI Chat Model – Primär"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.2,
+      "position": [
+        4640,
+        -144
+      ],
+      "id": "a87f3761-7f51-464e-9be1-ae65368a6869",
+      "name": "Anthropic Chat Model – Fallback"
+    },
+    {
+      "parameters": {
+        "content": "**Tool Failures**\n\nIm **System Prompt** des Agents explizit definieren, was bei einem Tool-Fehler passieren soll:\n\n*\"If you cannot send the email, respond with exactly: EMAIL_NOT_SENT_TOOL_ERROR\"*\n\nDanach mit IF-Node abfangen und weitermachen.",
+        "height": 260,
+        "width": 360,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        5104,
+        -352
+      ],
+      "id": "f84b5d84-ebcc-45bc-b4d2-4a12719d3f63",
+      "name": "Sticky – Tool Failures"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        5520,
+        -352
+      ],
+      "id": "2e1540e2-5394-4efc-bb09-d5b128f936bd",
+      "name": "When chat message received",
+      "webhookId": "a1000021-webb-cccc-dddd-000000000021"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Du wirst Eingaben aus dem Chat entgegennehmen und eine E-Mail an fakeemail@gmail.com senden.\n\nUm die E-Mail zu senden, verwende das Gmail-Tool. Wenn du keine E-Mail sendest, antworte mit: „email not sent tool error“"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        5744,
+        -352
+      ],
+      "id": "bac80310-350d-4ee3-8b2c-481d2c86fbfc",
+      "name": "AI Agent – Tool Fehlerbehandlung"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.1,
+      "position": [
+        5632,
+        -144
+      ],
+      "id": "2aee8836-1e6d-4553-a91b-90c226df9e50",
+      "name": "OpenAI Chat Model – Tool Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        5872,
+        -144
+      ],
+      "id": "daec7c87-4ac0-4950-9a2f-289a5b0eec0c",
+      "name": "Gmail – Send Email Tool (Deaktiviert)",
+      "webhookId": "a1000024-webb-cccc-dddd-000000000024",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "# STOP AND ERROR NODE\n\n#### Wirft absichtlich einen Fehler mit eigener Nachricht. Typischerweise nach einem **IF** oder **Switch** — z.B. wenn ein Datensatz nicht ins System darf.",
+        "width": 1200,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4096,
+        336
+      ],
+      "id": "f7e7b425-de89-43d9-9fa2-8c8036215e11",
+      "name": "Header – Stop and Error"
+    },
+    {
+      "parameters": {
+        "content": "**Stop and Error Node**\n\nTypisch nach **IF** oder **Switch**.\n\nError Message Beispiel:\n`Not allowed`\n\nOder mit Expression:\n`={{ \"Nicht erlaubt: \" + $json.customer_name }}`\n\nKann auch ein **Objekt** zurückgeben.",
+        "height": 260,
+        "width": 320,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4128,
+        528
+      ],
+      "id": "7eb8859c-5570-48c8-8d64-9407204bad55",
+      "name": "Sticky – Stop and Error Hinweis"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        4576,
+        624
+      ],
+      "id": "7f83f929-b26b-4f1d-9850-c007215723fe",
+      "name": "When clicking 'Execute workflow'"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "asgn-cust-01",
+              "name": "customer_name",
+              "value": "Max Mustermann",
+              "type": "string"
+            },
+            {
+              "id": "asgn-cust-02",
+              "name": "is_customer",
+              "value": false,
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4800,
+        624
+      ],
+      "id": "a500d2fd-68c6-4030-bb08-863a4684437e",
+      "name": "Edit Fields – Kundendaten setzen"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cond-cust-01",
+              "leftValue": "={{ $json.is_customer }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        5024,
+        624
+      ],
+      "id": "f506aac4-42bf-4f70-9c22-6ffa46a5ff7c",
+      "name": "IF – Ist Kunde?"
+    },
+    {
+      "parameters": {
+        "errorMessage": "=Not allowed – {{ $json.customer_name }} ist kein registrierter Kunde"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        5248,
+        752
+      ],
+      "id": "32100ea4-114a-4f6c-a12b-6628e4ea1b59",
+      "name": "Stop and Error – Not allowed"
+    },
+    {
+      "parameters": {
+        "content": "# ERROR TRIGGER WORKFLOW *(separater Workflow in n8n)*\n\n#### Startet automatisch wenn ein anderer Workflow crasht. Muss **nicht aktiv** gesetzt sein — der einzige Node in n8n mit dieser Eigenschaft. Setup: Im Haupt-Workflow unter **⋮ → Settings → Error Workflow** diesen Workflow auswählen.",
+        "height": 180,
+        "width": 1500,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        5600,
+        336
+      ],
+      "id": "a5481a6c-400d-451a-b5e9-3addf7a35714",
+      "name": "Header – Error Trigger Workflow"
+    },
+    {
+      "parameters": {
+        "content": "**Verfügbare Felder im Error Trigger:**\n\n```\n$json.execution.id\n$json.execution.url\n$json.error.message\n$json.error.description\n$json.workflow.id\n$json.workflow.name\n```\n\n**Empfehlung:** Mindestens ein zentrales Error-Logging-Workflow einrichten. Alle anderen Workflows zeigen darauf.",
+        "height": 280,
+        "width": 360,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        5600,
+        544
+      ],
+      "id": "baad2886-7d02-47d0-9c8b-b164666c5b7b",
+      "name": "Sticky – Error Trigger Felder"
+    },
+    {
+      "parameters": {
+        "sendTo": "admin@beispiel.de",
+        "subject": "=⚠️ n8n Fehler: {{ $json.workflow_name }}",
+        "emailType": "text",
+        "message": "=Ein Fehler ist aufgetreten:\n\nWorkflow: {{ $json.workflow_name }}\nFehler: {{ $json.error_message }}\nZeitpunkt: {{ $json.error_date }}\n\nLink zum Run:\n{{ $json.execution_url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        6384,
+        736
+      ],
+      "id": "08f9b213-f659-4c05-9919-5b7505e72131",
+      "name": "Gmail – Admin benachrichtigen",
+      "webhookId": "a1000036-webb-cccc-dddd-000000000036"
+    },
+    {
+      "parameters": {
+        "content": "# DEBUG HELPER NODE\n\n#### Provoziert absichtlich einen Fehler um den **Error Trigger** zu testen — ohne einen echten fehlerhaften Workflow brauchen zu müssen.",
+        "height": 140,
+        "width": 780,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4096,
+        928
+      ],
+      "id": "96b42e9f-ccad-449d-ac09-7338a62c8406",
+      "name": "Header – Debug Helper"
+    },
+    {
+      "parameters": {
+        "content": "**DebugHelper – throwError**\n\nNützlich um den **Error Trigger** Workflow zu testen, ohne auf einen echten Fehler warten zu müssen.\n\n**Oder**, um in einem Workflow mit Testdaten zu arbeiten.\n\n1. DebugHelper ausführen → Workflow crasht\n2. Error Trigger Workflow feuert\n3. Fehler landet im Log / Gmail\n",
+        "height": 236,
+        "width": 320,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4128,
+        1104
+      ],
+      "id": "460d57b5-7612-44a4-9eea-12451b7b2d80",
+      "name": "Sticky – DebugHelper Erklärung"
+    },
+    {
+      "parameters": {
+        "category": "randomData",
+        "randomDataType": "creditCard"
+      },
+      "type": "n8n-nodes-base.debugHelper",
+      "typeVersion": 1,
+      "position": [
+        4576,
+        1152
+      ],
+      "id": "4ce303b1-e6d8-4e58-8584-6ded594a7c62",
+      "name": "DebugHelper – throwError"
+    },
+    {
+      "parameters": {
+        "content": "https://www.youtube.com/watch?v=P6mDoYk9pW4",
+        "height": 80,
+        "width": 400
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        5552,
+        1008
+      ],
+      "id": "3b896935-d838-4877-a1e7-a3a8441ef17b",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "# 🛠️ Setup Guide  \n**Author:** [Nate Herk](https://www.youtube.com/@nateherk)\n\n---\n### 1️⃣ Link This as Your Error Workflow  \n- Go to **Settings** → **Error Workflow** → Select this workflow as your global error handler.\n- The parent workflow must be active.\n---\n\n#### 2️⃣ Error Logger (Google Sheets)  \n🔗 **[Make a copy of the template](https://docs.google.com/spreadsheets/d/1Aiz1cpv1k6Qlmp1Cjmj0ZtNuG6fC_cG24O_XaiP8NOs/edit?usp=sharing)**  \n- Set up your Google Sheets credentials  \n- Connect your Google credential  \n- Customize the sheet as needed (optional)\n---\n\n#### 3️⃣ Slack Notifications (Optional)  \n- Connect your Slack credential in the Slack node  \n- Choose a channel or user to send error alerts to\n",
+        "height": 436,
+        "width": 600
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        6640,
+        560
+      ],
+      "id": "77b7e7a5-6042-4287-a92b-9996531c1b9a",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4112,
+        -2128
+      ],
+      "id": "54adb11b-4dd0-46ac-9a66-2c1afd485eb4",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        4432,
+        -2128
+      ],
+      "id": "25d405bb-0248-4547-96e6-07bdc304b787",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "80c45580-46bd-467f-b5c7-a0faec7e4572",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        4736,
+        -2128
+      ],
+      "id": "3acd9ef6-a023-40de-bd21-d27f9f94adf6",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "asgn-stop-01",
+              "name": "Band",
+              "value": "Seeed",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4528,
+        -1584
+      ],
+      "id": "ec6f8d3d-bb4b-4246-b7df-befa735a7b11",
+      "name": "Edit Fields – Fehler auslösen (Stop)1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9b01c1b1-e958-4a7f-805a-5f153c83b438",
+              "name": "Spotify_Streams",
+              "value": "={{ $json.Band }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4768,
+        -1584
+      ],
+      "id": "88854212-1ebe-43ff-8907-dd072ac4b712",
+      "name": "Edit Fields – Folgenode (läuft NICHT)1",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "asgn-stop-01",
+              "name": "Band",
+              "value": "Seeed",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4528,
+        -1296
+      ],
+      "id": "f41e68f9-5698-41c6-95a9-fe5e9de66bb8",
+      "name": "Edit Fields – Fehler auslösen (Stop)2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9b01c1b1-e958-4a7f-805a-5f153c83b438",
+              "name": "Spotify_Streams",
+              "value": "={{ $json.Band }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4768,
+        -1296
+      ],
+      "id": "bce3ab72-9fb7-4ee8-a139-efe10e4eb589",
+      "name": "Edit Fields – Folgenode (läuft NICHT)2",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        5024,
+        -1280
+      ],
+      "id": "89cfeb6f-5516-43d1-bcb7-ed76d818cce7",
+      "name": "Send a message",
+      "webhookId": "8fa6693f-7392-4018-b040-31b9c1a858db",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "8lfonAtWfQkxGw6L",
+          "name": "Gmail account BIT"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://dog.ceo/api/breeds/image/random7",
+        "options": {}
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4768,
+        -1008
+      ],
+      "id": "e98ebd86-656e-4320-a38d-8d600a1d838b",
+      "name": "HTTP Request – Retry on Fail1"
+    },
+    {
+      "parameters": {
+        "url": "https://dog.ceo/api/breeds/image/random",
+        "options": {}
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4528,
+        -1008
+      ],
+      "id": "8f3d30e5-588d-48be-9676-16e0f96b1bdf",
+      "name": "HTTP Request – Retry on Fail - Funktioniert"
+    },
+    {
+      "parameters": {
+        "needsFallback": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        4560,
+        -352
+      ],
+      "id": "b75aa789-531e-4fda-9fd1-56c901b7c1f0",
+      "name": "AI Agent"
+    }
+  ],
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Log Error",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Gmail – Admin benachrichtigen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Error": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields – Fehler auslösen (Stop)": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields – Folgenode (läuft NICHT)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model – Primär": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model – Fallback": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent – Tool Fehlerbehandlung",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model – Tool Agent": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent – Tool Fehlerbehandlung",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail – Send Email Tool (Deaktiviert)": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent – Tool Fehlerbehandlung",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields – Kundendaten setzen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields – Kundendaten setzen": {
+      "main": [
+        [
+          {
+            "node": "IF – Ist Kunde?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF – Ist Kunde?": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Stop and Error – Not allowed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields – Fehler auslösen (Stop)1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields – Folgenode (läuft NICHT)1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields – Fehler auslösen (Stop)2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields – Folgenode (läuft NICHT)2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields – Folgenode (läuft NICHT)2": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

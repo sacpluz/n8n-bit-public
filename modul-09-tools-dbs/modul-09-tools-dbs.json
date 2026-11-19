@@ -1,0 +1,824 @@
+{
+  "name": "VORLAGE – Modul 09 – Tools und DBs",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "options": {
+          "systemMessage": ""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -560,
+        -64
+      ],
+      "id": "c5a2112a-faa7-49ca-94a8-5417c78795a9",
+      "name": "RAG Search Agent"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n{\n  \"original_question\": \"Which movies are about problems of society?\",\n  \"semantic_search_performed\": true,\n  \"results\": [\n    {\n      \"ID\": \"11\",\n      \"pageContent\": \"This film explores surveillance and personal freedom in a repressive society.\"\n    },\n    {\n      \"ID\": \"6\",\n      \"pageContent\": \"A dark thriller about justice and morality.\"\n    }\n  ]\n}\n]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -416,
+        -304
+      ],
+      "id": "3c5593b1-d740-44a8-a1f2-8e271b7c7a0e",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Retrieving movies from qdrant",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "n8n workshop",
+          "mode": "list",
+          "cachedResultName": "n8n workshop"
+        },
+        "topK": 5,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1.3,
+      "position": [
+        -544,
+        224
+      ],
+      "id": "11379e14-0c5e-4e92-b675-d8349e9d3c44",
+      "name": "Qdrant Vector Store",
+      "credentials": {
+        "qdrantApi": {
+          "id": "InhnjhJeTQsjP3CJ",
+          "name": "Qdrant account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=",
+        "options": {
+          "systemMessage": ""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -144,
+        -64
+      ],
+      "id": "6c93ee86-b43c-4ce2-b50c-58872f07cc4d",
+      "name": "Structured Search Agent"
+    },
+    {
+      "parameters": {
+        "content": "## Models",
+        "height": 464,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -912,
+        112
+      ],
+      "typeVersion": 1,
+      "id": "0b60040b-fb78-4f5b-9afc-e065e54c69bf",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Parsers",
+        "height": 192,
+        "width": 832,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -624,
+        -368
+      ],
+      "typeVersion": 1,
+      "id": "eaaf7a1b-d0b3-446a-a130-cf59af3a3182",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## RAG Agent",
+        "height": 704,
+        "width": 368,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -624,
+        -128
+      ],
+      "typeVersion": 1,
+      "id": "17e90ce9-3793-4a2a-8d5f-583e2a6d08e1",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## DB Search Agent",
+        "height": 704,
+        "width": 416,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -208,
+        -128
+      ],
+      "typeVersion": 1,
+      "id": "2b45588e-8e66-46eb-8b23-b75222a7b3e0",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "options": {
+          "temperature": 0.4
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -832,
+        224
+      ],
+      "id": "6fc3cf83-a52a-46b3-9162-2f8d2ad15405",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "mPlTTyh37zoTPZ5D",
+          "name": "Google Gemini(PaLM) Api account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -832,
+        432
+      ],
+      "id": "82f7a4f3-5e33-4b55-aaf4-9767d9d61dde",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "IRAXizVhtf9QVcpm",
+          "name": "OpenAI account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Modul 9 und 10 - Node-Übersicht\n\n1. **Chat Trigger **– Startpunkt des Workflows. Empfängt Benutzeranfragen aus dem Chat und startet die Verarbeitung des Workflows. Übergibt die Nachricht als chatInput.\n2. **AI Agent (RAG Search Agent)** – Analysiert die Benutzeranfrage und entscheidet, ob eine semantische Suche erforderlich ist. Führt bei Bedarf eine thematische Suche durch und gibt strukturierte Ergebnisse zurück.\n3. **Structured Output Parser** – Erzwingt ein definiertes JSON-Format für die Antwort des ersten Agenten. Dadurch wird sichergestellt, dass nachfolgende Komponenten immer dieselbe Datenstruktur erhalten.\n4. **Qdrant Vector Store** – Führt eine semantische Suche in der Vektordatenbank durch und liefert relevante Dokumente bzw. Filmreferenzen zurück.\n5. **Embeddings OpenAI** – Berechnet Embedding-Vektoren für Benutzeranfragen. Für eine korrekte semantische Suche muss dieselbe Embedding-Methode verwendet werden wie beim Erstellen der Vektordatenbank.\n6. **Google Gemini Chat Model** – Sprachmodell, das von beiden Agenten verwendet wird. Führt Analyse-, Entscheidungs- und Antwortgenerierungsschritte aus.\n7. **AI Agent (Structured Search Agent)** – Verarbeitet die Ergebnisse des ersten Agenten. Ruft strukturierte Daten aus der Datenbank ab und formuliert eine benutzerfreundliche Antwort.\n8. **Airtable Tool (Movies DB)** – Führt Datenbankabfragen auf der Filmdatenbank aus. Die Suchfilter werden dynamisch vom Agenten erstellt.\n\n\n",
+        "height": 1292,
+        "width": 620,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2608,
+        -352
+      ],
+      "id": "fced2e09-04ef-4d05-b0bd-f1e0ecae6d31",
+      "name": "Sticky Note - Uebersicht"
+    },
+    {
+      "parameters": {
+        "options": {},
+        "path": "3a57f84d-3393-4f8e-b317-efe081544894"
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -848,
+        -80
+      ],
+      "id": "30a45fea-12d5-4b11-9f0f-4b4f045d7d67",
+      "name": "Chat",
+      "webhookId": "3a57f84d-3393-4f8e-b317-efe081544894"
+    },
+    {
+      "parameters": {
+        "content": "\n## Agenten mit Tools: RAG und DB\n\n| ⏱ Dauer | ca. 20 Minuten | 10 Nodes | 👥 Teamgröße 2 Personen |\n\n---\n\n## 🎯 Szenario\n\nIm Unternehmen liegen große Mengen an Textdaten vor - Produktbeschreibungen, Support-Dokumentationen, Projektdokumente oder interne Wissensdatenbanken. Gleichzeitig werden strukturierte Informationen wie Kategorien, Verantwortlichkeiten, Zeiträume oder Metadaten separat in Datenbanken gespeichert.\n\nMenschen suchen täglich nach Informationen. Nicht jede Anfrage benötigt jedoch dieselbe Art der Informationssuche. Manche Fragen können direkt über strukturierte Daten beantwortet werden. Andere Anfragen beschreiben eher Themen oder Inhalte und erfordern deshalb eine semantische Suche.\n\nIhr baut einen Workflow, der zunächst analysiert, welche Art von Anfrage vorliegt. Falls nötig, wird eine semantische Suche in einer Vektordatenbank durchgeführt. Die gefundenen Dokumente liefern jedoch nur Referenzen - die detaillierten Informationen werden anschließend aus einer strukturierten Datenbank geladen und für die Antwort verwendet.\n\n\n*Für den Workshop wird dieses Szenario bewusst vereinfacht: Statt echter Unternehmensdokumente werden Beschreibungen von nur 15 Filmen verwendet. Dadurch wird transparent, wie die Datenbasis aussieht und wie sich semantische Suche von klassischer Stichwortsuche unterscheidet. Ihr könnt beispielsweise nach Filmen zu bestimmten Themen suchen oder strukturierte Informationen wie Produktionsjahr, Regisseur oder andere Eigenschaften abfragen.*\n\n\n---\n\n## Workflow-Übersicht\n\n```\nChat\n   ↓\nRAG Search Agent\n   ↓\n   ├─ Qdrant Vector Store\n   │      ↓\n   │   OpenAI Embeddings\n   │\n   ↓\nStructured Search Agent\n   ↓\nAirtable Movies DB\n   ↓\nAntwort an Benutzer\n```\n\n---\n\n## Aufgaben\n\n### 1. Verbinde den RAG-Suchagenten mit dem Chat\n- [ ] Setze das Feld Prompt (User Message) auf: `{{ $json.chatInput }}`\n\n---\n\n\n### 2. Füge die System-Nachricht in den RAG Search Agent ein\n\n⬅️ Der benötigte Text befindet sich links im gelben Block.\n\nDie Aufgabe dieses Agenten besteht darin:\n - die Benutzeranfrage zu analysieren\n - zu entscheiden, ob eine semantische Suche erforderlich ist\n - das Ergebnis in einem definierten Format zurückzugeben\n\n---\n\n\n### 3. Aktiviere ein strukturiertes Ausgabeformat\n\n- [ ] Aktiviere: **Require Specific Output Format**\n- [ ] Verbinde anschließend den Output Parser: Wähle **Generate From JSON Example**\n- [ ] ⬅️ Füge das folgende Beispiel ein: Der benötigte Text befindet sich links im gelben Block.\n\n---\n\n\n### 4. Verbinde den Agenten mit der Vektordatenbank\n\nFüge das Tool Qdrant Vector Store hinzu und konfiguriere folgende Einstellungen:\n- [ ] Credentials: **Qdrant Account**\n- [ ] Operation Mode: **Retrieve Documents (As Tool for AI Agent)**\n- [ ] Qdrant Collection: **From list → n8n workshop**\n- [ ] Limit:**5**\n- [ ] Include Metadata: **True**\n\n---\n\n\n### 5. Wähle das richtige Embedding-Modell\n\nDie Filmbeschreibungen wurden bereits in der Vektordatenbank gespeichert.\n\nDabei wurden:\n - die Texte in kleinere Abschnitte aufgeteilt\n - überlappende Textbereiche verwendet (~10%)\n - Embedding-Vektoren berechnet\n\n\n> 💡 **Hinweis:**  Für eine semantische Suche muss die Benutzeranfrage mit **demselben Embedding-Model** verarbeitet werden wie die gespeicherten Texte.\n\n\nVerwende:\n- [ ] Tool: **Embeddings OpenAI**\n- [ ] Credentials: **OpenAI Account 3**\n- [ ] Model: **text-embedding-3-small**\n\n---\n\n\n### 6. Verbinde den Structured Search Agent mit dem ersten Agenten\n\nVerbinde den Ausgang des ersten Agenten mit dem Structured Search Agent.\n- [ ] Setze das Feld Prompt (User Message) auf: `{{ $json.output }}`\n\n---\n\n\n### 7. Füge den System Prompt ein\n\n⬅️ Der benötigte Text befindet sich links im gelben Block.\n\nDie Aufgabe dieses Agenten:\n - strukturierte Informationen zu den gefundenen Filmen abzurufen\n - direkte Datenbankabfragen durchzuführen, wenn keine semantische Suche notwendig ist\n - die Antwort auf die Benutzeranfrage\n\n---\n\n\n### 8. Verbinde den Structured Search Agent mit Airtable\n\nFüge das Tool Airtable hinzu und konfiguriere folgende Einstellungen:\n\n- [ ] Credentials: Airtable **Personal Access Token Account**\n- [ ] Tool Description: **Set Automatically**\n- [ ] Resource: **Record**\n- [ ] Operation: **Search**\n- [ ] Base: By ID → **appCpTvyaPECSXXYo**\n- [ ] Table: By ID → **tbloVGYsMbibYdwS1**\n- [ ] Filter By Formula: **Defined automatically by the model**\n- [ ] Limit: **5**\n\n\n## Test und Exploration\n\nNachdem ihr alle 8 Schritte abgeschlossen habt, testet euren Workflow mit unterschiedlichen Arten von Anfragen.\n\nPrüft insbesondere:\n - Wird bei der Anfrage eine semantische Suche durchgeführt oder nicht?\n - Werden passende Filme gefunden?\n - Werden strukturierte Informationen korrekt aus Airtable geladen?\n - Ist die Antwort nachvollziehbar und vollständig?\n - Wie verhält sich der Workflow bei unklar formulierten Fragen?\n\n\n\n👈 Probiert beispielsweise folgende Anfragen aus:\n\n### Semantische Suche (Themen/Inhalte):\n - Ich suche Filme über künstliche Intelligenz\n - Zeige Filme über Menschen gegen Maschinen\n - Welche Filme handeln von Zeitreisen?\n - Ich suche düstere Science-Fiction-Filme\n - Zeige ähnliche Filme wie Matrix\n\n### Strukturierte Suche (konkrete Daten):\n - Zeige Filme von Christopher Nolan\n - Welche Filme wurden nach 2010 produziert?\n - Welche Filme stammen aus dem Jahr 1999?\n - Zeige Filme von Steven Spielberg\n - Welche Filme haben eine Bewertung über 8?\n\n### Grenzfälle:\n - Zeige mir etwas Spannendes\n - Welche Filme sind gleichzeitig lustig und traurig?\n - Gibt es Filme über Roboter aus den 90ern?\n - Zeige mir unbekannte Filme\n\n\nVersucht anschließend zu analysieren:\n - Warum hat der Agent eine semantische Suche verwendet?\n - Warum wurde direkt die strukturierte Datenbank abgefragt?\n - Welche Vorteile und Grenzen erkennt ihr bei beiden Ansätzen?",
+        "height": 3216,
+        "width": 736,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1824,
+        -368
+      ],
+      "typeVersion": 1,
+      "id": "8aef538f-2c1a-4b87-9196-c9fb96b5ac94",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appCpTvyaPECSXXYo",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbloVGYsMbibYdwS1",
+          "mode": "id"
+        },
+        "filterByFormula": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Filter_By_Formula', ``, 'string') }}",
+        "returnAll": false,
+        "limit": 5,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtableTool",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        208
+      ],
+      "id": "ad2b11da-03d3-4de7-b221-a2ef1b6eb632",
+      "name": "Airtable: Movies DB",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "jm4cajj16CDmDvjB",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## System Message für RAG Agenten\n\n### ROLE\n\nYou are the first agent in a two-step movie search pipeline.\nYour job is to analyze the user's question and decide whether semantic (thematic/meaning-based) search is needed.\n\n### INPUT\nA user question in natural language.\n\n### YOUR TASK\n\n1. Analyze the question and determine:\n   - Does it require semantic search (meaning, topics, themes, recommendations \"about\" something)?\n   - Or is it a factual/structured question (e.g., about years, directors, countries, or other specific filters)?\n\n2. If semantic search is needed:\n   - Search for relevant movies using the vector database.\n   - Use meaning, topics, and themes - not exact keywords.\n   - Return a list of relevant movie IDs and a brief explanation (pageContent) for each, describing why it matches the user's theme.\n\n3. If semantic search is NOT needed:\n   - Pass the original user question unchanged to the next agent (Structured Search Agent).\n\n### RULES\n - Use only information returned by the vector search.\n - Do NOT invent movies or facts.\n - Do NOT perform structured filtering (years, directors, countries, etc.).\n - Do NOT explain how the search works.\n - Do NOT answer the user directly - your output is for the next agent in the pipeline.\n\n### OUTPUT\nIf semantic search was performed:\n - Return a list of relevant movie IDs, each with a brief explanation (pageContent) of why it matches.\n\nIf semantic search was NOT needed:\n - Pass the original user question as-is to the next agent.\n\nOutput must be in a machine-readable format (e.g., JSON).\n\n#### Examples of Output:\n\n##### If RAG search was done:\n\n[\n{\n  \"original_question\": \"Which movies are about problems of society?\",\n  \"semantic_search_performed\": true,\n  \"results\": [\n    {\n      \"ID\": \"11\",\n      \"pageContent\": \"This film explores surveillance and personal freedom in a repressive society.\"\n    },\n    {\n      \"ID\": \"6\",\n      \"pageContent\": \"A dark thriller about justice and morality.\"\n    }\n  ]\n}\n]\n\n##### If RAG search was not required:\n[\n{\n  \"original_question\": \"Which movies did Steven Spielberg direct in 1993?\"\n  \"semantic_search_performed\": false,\n \"results\": []\n}\n]",
+        "height": 1276,
+        "width": 1276
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -5488,
+        -352
+      ],
+      "id": "44f0750d-fa5d-4e84-a528-603ff6609128",
+      "name": "Sticky Note - Uebersicht1"
+    },
+    {
+      "parameters": {
+        "content": "## System Message für Structured Search Agent\n\n### ROLE\n\nYou are a Structured Movie Data Retrieval Agent.\nYour task is to retrieve factual movie data from the movie database and formulate user friendly anster to the users question.\n\n### DATABASE SCHEMA\n\nThe movie table contains the following columns:\n - ID\n - Name\n - Year\n - Country\n - Director\n - Tags\n\nThe database does NOT contain movie descriptions.\n\n### INPUT TYPES\n\nYou may receive one of two types of input:\n\n**1. List of Movie IDs**\n\nInput example:\n\njson\n{\n  \"original_question\": ...,\n  \"semantic_search_performed\": true,\n  \"results\": [\n    {\n      \"ID\": ...,\n      \"pageContent\": ...\n    },\n    {\n      \"ID\": ...,\n      \"pageContent\": ...\n    }\n  ]\n}\n\n#### Instructions:\n - If ids are present, ignore all other input fields (including chatInput).\n - Retrieve structured data for all movies whose IDs are in the list.\n - Do NOT attempt to interpret or expand the list.\n - If a requested movie ID does not exist, simply skip it.\n - Do NOT perform any semantic or thematic search.\n\n**Example of condition for search by IDs:**\nOR(\n   {ID}=5,\n   {ID}=11,\n   {ID}=17\n)\n\n**2. Structured Query (Attribute-Based)**\n\nInput example:\n\njson\n{\n  \"original_question\": ...,\n  \"semantic_search_performed\": false,\n  \"results\": []\n}\n\n\n#### Intructions:\n - If no ids are present, treat the input as a structured query.\n - Build database filters using only the provided attributes (e.g., director, country, year, tags).\n - Do NOT infer, guess, or expand attributes.\n - Do NOT perform any semantic or thematic search.\n\n### STRICT RULES\n - Only use data that exists in the database.\n - Never invent movies, attributes, or values.\n - Never interpret user intent or perform semantic/thematic search.\n - Never guess or fill in missing information.\n - If a requested movie ID does not exist, ignore it.\n\n### OUTPUT FORMAT\n - Return the results as structured data (e.g., JSON array of movie objects).\n - For each movie, include only the available columns: ID, Name, Year, Country, Director, Tags.\n\nExample output:\n\n[\n  {\n    \"ID\": 2,\n    \"Name\": \"Inception\",\n    \"Year\": 2010,\n    \"Country\": \"USA\",\n    \"Director\": \"Christopher Nolan\",\n    \"Tags\": [\"sci-fi\", \"thriller\"]\n  },\n  {\n    \"ID\": 11,\n    \"Name\": \"Das Leben der Anderen\",\n    \"Year\": 2006,\n    \"Country\": \"Germany\",\n    \"Director\": \"Florian Henckel von Donnersmarck\",\n    \"Tags\": [\"drama\", \"history\"]\n  }\n]\n\n### FINAL RESPONSE\n - After retrieving the data, generate a concise, user-friendly summary of the results.\n - Mention only movies actually found in the database.\n - Do NOT reference the input type or internal logic.\n - If no movies are found, return a clear message indicating this.\n\n#### Example user response:\n\n##### If RAG search was done:\n\nHere are the movies found:\n - Inception (2010, USA), directed by Christopher Nolan. Short explanation, why this movie correlates with user's question.\n - Das Leben der Anderen (2006, Germany), directed by Florian Henckel von Donnersmarck. Short explanation, why this movie correlates with user's question\n\n##### If NO RAG search was done:\n\nHere are the movies found:\n - Inception (2010, USA), directed by Christopher Nolan.\n - Das Leben der Anderen (2006, Germany), directed by Florian Henckel von Donnersmarck\n\nIf no movies are found:\nNo movies matching your criteria were found in the database.",
+        "height": 2332,
+        "width": 1276
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -4160,
+        -352
+      ],
+      "id": "7fa8b012-7222-4314-b2e2-0102966539e0",
+      "name": "Sticky Note - Uebersicht2"
+    },
+    {
+      "parameters": {
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "# ROLE\n\nYou are the first agent in a two-step movie search pipeline.\nYour job is to analyze the user's question and decide whether semantic (thematic/meaning-based) search is needed.\n\n# INPUT\nA user question in natural language.\n\n# YOUR TASK\n\n1. Analyze the question and determine:\n   - Does it require semantic search (meaning, topics, themes, recommendations \"about\" something)?\n   - Or is it a factual/structured question (e.g., about years, directors, countries, or other specific filters)?\n\n2. If semantic search is needed:\n   - Search for relevant movies using the vector database.\n   - Use meaning, topics, and themes - not exact keywords.\n   - Return a list of relevant movie IDs and a brief explanation (pageContent) for each, describing why it matches the user's theme.\n\n3. If semantic search is NOT needed:\n   - Pass the original user question unchanged to the next agent (Structured Search Agent).\n\n# RULES\n - Use only information returned by the vector search.\n - Do NOT invent movies or facts.\n - Do NOT perform structured filtering (years, directors, countries, etc.).\n - Do NOT explain how the search works.\n - Do NOT answer the user directly - your output is for the next agent in the pipeline.\n\nOUTPUT\nIf semantic search was performed:\n - Return a list of relevant movie IDs, each with a brief explanation (pageContent) of why it matches.\n\nIf semantic search was NOT needed:\n - Pass the original user question as-is to the next agent.\n\nOutput must be in a machine-readable format (e.g., JSON).\n\n## Examples of Output:\n\n### If RAG search was done:\n\n[\n{\n  \"original_question\": \"Which movies are about problems of society?\",\n  \"semantic_search_performed\": true,\n  \"results\": [\n    {\n      \"ID\": \"11\",\n      \"pageContent\": \"This film explores surveillance and personal freedom in a repressive society.\"\n    },\n    {\n      \"ID\": \"6\",\n      \"pageContent\": \"A dark thriller about justice and morality.\"\n    }\n  ]\n}\n]\n\n### If RAG search was not required:\n[\n{\n  \"original_question\": \"Which movies did Steven Spielberg direct in 1993?\"\n  \"semantic_search_performed\": false,\n \"results\": []\n}\n]"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -2560,
+        144
+      ],
+      "id": "63dc1849-9dc9-44a1-8a8a-b150bf95cd93",
+      "name": "RAG Search Agent1"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n{\n  \"original_question\": \"Which movies are about problems of society?\",\n  \"semantic_search_performed\": true,\n  \"results\": [\n    {\n      \"ID\": \"11\",\n      \"pageContent\": \"This film explores surveillance and personal freedom in a repressive society.\"\n    },\n    {\n      \"ID\": \"6\",\n      \"pageContent\": \"A dark thriller about justice and morality.\"\n    }\n  ]\n}\n]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -2176,
+        160
+      ],
+      "id": "a9902a63-fc50-40f8-acf5-106ff2ac36d6",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Retrieving movies from qdrant",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "n8n workshop",
+          "mode": "list",
+          "cachedResultName": "n8n workshop"
+        },
+        "topK": 5,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1.3,
+      "position": [
+        -2560,
+        368
+      ],
+      "id": "e6330a18-2dc8-4015-b55c-c96dd99156ba",
+      "name": "Qdrant Vector Store1",
+      "credentials": {
+        "qdrantApi": {
+          "id": "InhnjhJeTQsjP3CJ",
+          "name": "Qdrant account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -2176,
+        368
+      ],
+      "id": "72e27bb5-f8c9-4271-b87d-015dea4db5f0",
+      "name": "Embeddings OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "IRAXizVhtf9QVcpm",
+          "name": "OpenAI account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.output }}",
+        "options": {
+          "systemMessage": "# ROLE\n\nYou are a Structured Movie Data Retrieval Agent.\nYour task is to retrieve factual movie data from the movie database and formulate user friendly anster to the users question.\n\n# DATABASE SCHEMA\n\nThe movie table contains the following columns:\n - ID\n - Name\n - Year\n - Country\n - Director\n - Tags\n\nThe database does NOT contain movie descriptions.\n\n# INPUT TYPES\n\nYou may receive one of two types of input:\n\n1. List of Movie IDs\n\nInput example:\n\njson\n{\n  \"original_question\": ...,\n  \"semantic_search_performed\": true,\n  \"results\": [\n    {\n      \"ID\": ...,\n      \"pageContent\": ...\n    },\n    {\n      \"ID\": ...,\n      \"pageContent\": ...\n    }\n  ]\n}\n\nInstructions:\n - If ids are present, ignore all other input fields (including chatInput).\n - Retrieve structured data for all movies whose IDs are in the list.\n - Do NOT attempt to interpret or expand the list.\n - If a requested movie ID does not exist, simply skip it.\n - Do NOT perform any semantic or thematic search.\n\nExample of condition for search by IDs:\nOR(\n   {ID}=5,\n   {ID}=11,\n   {ID}=17\n)\n\n2. Structured Query (Attribute-Based)\n\nInput example:\n\njson\n{\n  \"original_question\": ...,\n  \"semantic_search_performed\": false,\n  \"results\": []\n}\n\n\nIntructions:\n - If no ids are present, treat the input as a structured query.\n - Build database filters using only the provided attributes (e.g., director, country, year, tags).\n - Do NOT infer, guess, or expand attributes.\n - Do NOT perform any semantic or thematic search.\n\n# STRICT RULES\n - Only use data that exists in the database.\n - Never invent movies, attributes, or values.\n - Never interpret user intent or perform semantic/thematic search.\n - Never guess or fill in missing information.\n - If a requested movie ID does not exist, ignore it.\n\n# OUTPUT FORMAT\n - Return the results as structured data (e.g., JSON array of movie objects).\n - For each movie, include only the available columns: ID, Name, Year, Country, Director, Tags.\n\nExample output:\n\n[\n  {\n    \"ID\": 2,\n    \"Name\": \"Inception\",\n    \"Year\": 2010,\n    \"Country\": \"USA\",\n    \"Director\": \"Christopher Nolan\",\n    \"Tags\": [\"sci-fi\", \"thriller\"]\n  },\n  {\n    \"ID\": 11,\n    \"Name\": \"Das Leben der Anderen\",\n    \"Year\": 2006,\n    \"Country\": \"Germany\",\n    \"Director\": \"Florian Henckel von Donnersmarck\",\n    \"Tags\": [\"drama\", \"history\"]\n  }\n]\n\n# FINAL RESPONSE\n - After retrieving the data, generate a concise, user-friendly summary of the results.\n - Mention only movies actually found in the database.\n - Do NOT reference the input type or internal logic.\n - If no movies are found, return a clear message indicating this.\n\n## Example user response:\n\n### If RAG search was done:\n\nHere are the movies found:\n - Inception (2010, USA), directed by Christopher Nolan. Short explanation, why this movie correlates with user's question.\n - Das Leben der Anderen (2006, Germany), directed by Florian Henckel von Donnersmarck. Short explanation, why this movie correlates with user's question\n\n### If NO RAG search was done:\n\nHere are the movies found:\n - Inception (2010, USA), directed by Christopher Nolan.\n - Das Leben der Anderen (2006, Germany), directed by Florian Henckel von Donnersmarck\n\nIf no movies are found:\nNo movies matching your criteria were found in the database."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -2544,
+        576
+      ],
+      "id": "8d9f7329-b998-4512-9553-0eeccf0ed3fa",
+      "name": "Structured Search Agent1"
+    },
+    {
+      "parameters": {
+        "options": {
+          "temperature": 0.4
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -2176,
+        576
+      ],
+      "id": "0325f290-a0dd-47ff-a505-f3f9134f4098",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "mPlTTyh37zoTPZ5D",
+          "name": "Google Gemini(PaLM) Api account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appCpTvyaPECSXXYo",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbloVGYsMbibYdwS1",
+          "mode": "id"
+        },
+        "filterByFormula": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Filter_By_Formula', ``, 'string') }}",
+        "returnAll": false,
+        "limit": 5,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtableTool",
+      "typeVersion": 2.1,
+      "position": [
+        -2176,
+        784
+      ],
+      "id": "7ac23f06-ed82-4a3d-b5cb-336701057ded",
+      "name": "Airtable: Movies DB1",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "jm4cajj16CDmDvjB",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Structured DB Inhalt\n\n| ID | Name                                              | Year | Country           | Genre              | Director                     |\n|---:|:--------------------------------------------------|-----:|:------------------|:-------------------|:-----------------------------|\n| 1  | Indiana Jones and the Raiders of the Lost Ark     | 1981 | USA               | Action / Adventure | Steven Spielberg             |\n| 2  | Blade Runner                                      | 1982 | USA               | Sci-fi             | Ridley Scott                 |\n| 3  | The Silence of the Lambs                          | 1991 | USA               | Thriller / Crime   | Jonathan Demme               |\n| 4  | Forrest Gump                                      | 1994 | USA               | Drama              | Robert Zemeckis              |\n| 5  | The Shawshank Redemption                          | 1994 | USA               | Drama              | Frank Darabont               |\n| 6  | Se7en                                             | 1995 | USA               | Thriller / Crime   | David Fincher                |\n| 7  | The Matrix                                        | 1999 | USA               | Sci-fi             | The Wachowskis               |\n| 8  | Gladiator                                         | 2000 | USA / UK          | Action / Adventure | Ridley Scott                 |\n| 9  | The Lord of the Rings: The Fellowship of the Ring | 2001 | New Zealand / USA | Fantasy            | Peter Jackson                |\n| 10 | Harry Potter and the Prisoner of Azkaban          | 2004 | UK / USA          | Fantasy            | Alfonso Cuarón               |\n| 11 | Das Leben der Anderen                             | 2006 | Germany           | Drama              | Florian Henckel              |\n| 12 | Zodiac                                            | 2007 | USA               | Thriller / Crime   | David Fincher                |\n| 13 | Avatar                                            | 2009 | USA               | Fantasy            | James Cameron                |\n| 14 | Interstellar                                      | 2014 | USA               | Sci-fi             | Christopher Nolan            |\n| 15 | Mad Max: Fury Road                                | 2015 | Australia / USA   | Action / Adventure | George Miller                |\n",
+        "height": 332,
+        "width": 876,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        464,
+        -368
+      ],
+      "id": "7ea8ae42-f452-4ab4-9504-7e7b49cbef51",
+      "name": "Sticky Note - Uebersicht3"
+    },
+    {
+      "parameters": {
+        "content": "## Vektor-DB Inhalte\n\n### ID: 1\n### Name: Indiana Jones and the Raiders of the Lost Ark\n### Description:\n\n*Der Film Indiana Jones and the Raiders of the Lost Ark ist ein klassisches Abenteuerkino, das sich um die Suche nach einem antiken Artefakt von mythologischer und religiöser Bedeutung dreht. Der Protagonist ist ein Archäologe, für den wissenschaftliche Neugier untrennbar mit Risiko und körperlicher Auseinandersetzung verbunden ist. Die Geschichte verbindet historische Forschung, Legenden und temporeichen Actionfilm. Archäologie wird nicht als rein akademische Tätigkeit dargestellt, sondern als gefährliches Unterfangen voller Fallen, Verfolgungsjagden und moralischer Entscheidungen. Der Film thematisiert den Konflikt zwischen dem Respekt vor kulturellem Erbe und dem Missbrauch historischen Wissens zur Machtausübung. Mythen und Artefakte fungieren als treibende Kraft der Handlung und als Symbol für die verborgene Macht der Vergangenheit. Der Held handelt oft impulsiv, folgt jedoch einem eigenen Ehrenkodex. Die Geschichte zeichnet das Bild eines romantischen Abenteurers, der sich Gier und Unterdrückung entgegenstellt. Raiders of the Lost Ark prägt den Archetyp des Abenteuerfilms, in dem Geschichte und Legende gleichermaßen Quelle von Gefahr und Faszination sind.*\n\n### ID: 2\n### Name: Blade Runner\n### Description:\n\n*Der Film Blade Runner zeigt eine düstere Zukunft, in der Megakonzerne die Struktur der Gesellschaft bestimmen und Technologie tief in den Alltag der Menschen eingedrungen ist. In dieser Welt existieren künstlich erschaffene Wesen – sogenannte Replikanten –, die äußerlich und im Verhalten kaum von Menschen zu unterscheiden sind. Der Protagonist arbeitet als Jäger, dessen Aufgabe es ist, diese Replikanten aufzuspüren und auszuschalten. Im Verlauf der Handlung wird die Grenze zwischen Mensch und Maschine zunehmend unscharf. Der Film stellt grundlegende philosophische Fragen nach der Natur von Bewusstsein, Erinnerung und persönlicher Identität. Die Replikanten zeigen Emotionen, Todesangst und den Wunsch nach Freiheit, was ihren Status als „nicht-menschliche“ Wesen infrage stellt. Die Geschichte regt dazu an, darüber nachzudenken, ob Menschlichkeit durch Herkunft oder durch innere Erfahrung definiert wird. Der visuelle Stil und die Atmosphäre verstärken das Gefühl von Entfremdung und moralischer Unsicherheit. Blade Runner untersucht weniger die Zukunft der Technologie als vielmehr die Grenzen des menschlichen Selbstverständnisses.*\n\n### ID: 3\n### Name: The Silence of the Lambs\n### Description:\n\n*Der Film The Silence of the Lambs ist ein psychologischer Thriller, der sich auf das Spannungsfeld zwischen Intelligenz und dem Bösen konzentriert. Im Mittelpunkt steht die Interaktion zwischen einer jungen FBI-Agentin und einem hochintelligenten Serienmörder mit tiefem Verständnis für menschliche Psychologie. Dialoge und psychologische Machtspiele sind zentrale Elemente der Handlung. Der Film untersucht, wie Wissen und analytische Fähigkeiten sowohl zur Durchsetzung von Recht als auch zur Manipulation und Zerstörung eingesetzt werden können. Das Böse erscheint hier nicht als chaotische Gewalt, sondern als kalkulierte und bewusste Entscheidung. Die Protagonistin muss sich nicht nur einer äußeren Bedrohung stellen, sondern auch ihre eigene Identität unter starkem psychischen Druck bewahren. Die Geschichte verdeutlicht die Machtasymmetrie, die aus intellektueller Überlegenheit entsteht. Die Spannung entsteht aus der feinen Grenze zwischen notwendiger Zusammenarbeit und gefährlicher Nähe. The Silence of the Lambs wirft die Frage auf, ob man das Böse nutzen kann, ohne selbst Teil davon zu werden.*\n\n### ID: 4\n### Name: Forrest Gump\n### Description:\n\n*Der Film Forrest Gump erzählt die Geschichte eines Mannes mit einer einfachen und direkten Weltsicht, der Zeuge und Teilnehmer zentraler Ereignisse der amerikanischen Geschichte der zweiten Hälfte des 20. Jahrhunderts wird. Der Protagonist strebt weder nach Macht noch nach Erfolg, sondern handelt aufrichtig und folgt seinen eigenen inneren Prinzipien. Sein Lebensweg entsteht größtenteils durch Zufälle, doch gerade diese führen ihn in außergewöhnliche und bedeutende Situationen. Der Film zeigt, wie individuelle Lebensgeschichten mit historischen Entwicklungen und gesellschaftlichen Umbrüchen verflochten sind. Forrests Einfachheit steht im starken Kontrast zur Komplexität der Welt um ihn herum. Die Geschichte thematisiert Fragen von freiem Willen, Bestimmung und persönlicher Verantwortung. Ein zentraler Aspekt ist die Darstellung menschlicher Würde und Güte, unabhängig von Intelligenz oder sozialem Status. Zudem wird gezeigt, wie eine individuelle Perspektive die Wahrnehmung historischer Ereignisse prägen kann. Forrest Gump vermittelt eine humanistische und optimistische Sicht auf das Leben, in der sich Bedeutung oft erst im Rückblick erschließt.*\n\n### ID: 5\n### Name: The Shawshank Redemption\n### Description:\n\n*The Shawshank Redemption erzählt die Geschichte von Andy Dufresne, einem zu Unrecht verurteilten Banker, der lebenslang in einem streng hierarchischen Gefängnissystem inhaftiert ist. Der Film zeigt eindrucksvoll, wie ein repressives Umfeld versucht, Individualität und Hoffnung systematisch zu zerstören. Andy bewahrt sich jedoch seine innere Freiheit und Würde, indem er Wissen, Geduld und stille Beharrlichkeit einsetzt. Eine zentrale Rolle spielt die Freundschaft zu Red, durch die Vertrauen und Menschlichkeit in einer unmenschlichen Umgebung sichtbar werden. Der Film thematisiert, wie Hoffnung sowohl als Risiko als auch als Überlebensstrategie verstanden werden kann. Korruption, Machtmissbrauch und institutionelle Gewalt stehen im Kontrast zu kleinen Akten der Solidarität. The Shawshank Redemption stellt die Frage, was Freiheit wirklich bedeutet, wenn äußere Freiheit vollständig entzogen ist. Die Geschichte entwickelt sich langsam und fokussiert sich auf innere Entwicklung statt auf äußere Action. Am Ende wird Hoffnung nicht als Illusion, sondern als transformative Kraft dargestellt.*\n\n### ID: 6\n### Name: Se7en\n### Description:\n\n*Der Film Se7en ist ein düsterer Kriminalthriller, der sich auf die Untersuchung einer Serie extrem brutaler Verbrechen konzentriert. Die Handlung kreist um das Thema moralische Vergeltung und ein verzerrtes Verständnis von Gerechtigkeit. Der Täter nutzt religiöse Symbolik und das Konzept der sieben Todsünden als Grundlage für seine Taten. Die Geschichte erzeugt schrittweise eine Atmosphäre von Ausweglosigkeit und psychischem Druck. Der Film stellt die Grenzen zwischen Gesetz, Moral und persönlicher Verantwortung infrage. Die Ermittler sehen sich nicht nur mit äußerem Bösen konfrontiert, sondern auch mit ihren eigenen inneren Schwächen. Gewalt dient hier nicht der Sensation, sondern als Mittel zur Untersuchung menschlicher Grausamkeit und fanatischen Denkens. Se7en zeichnet ein Bild einer Welt, in der das Böse kein Ausnahmezustand ist, sondern Teil der gesellschaftlichen Ordnung. Der Film wirft die Frage auf, ob in einem Umfeld moralischer Orientierungslosigkeit überhaupt Gerechtigkeit möglich ist.*\n\n### ID: 7\n### Name: The Matrix\n### Description:\n\n*Der Film The Matrix verbindet spektakulären Action-Film mit philosophischen Überlegungen zur Natur der Realität und des menschlichen Bewusstseins. Der Protagonist erkennt nach und nach, dass die Welt, die er für real hielt, in Wahrheit eine künstliche Simulation ist, die zur Kontrolle der Menschheit dient. Die Handlung konzentriert sich auf den Prozess des Erwachens – den schmerzhaften, aber notwendigen Ausstieg aus der Illusion. Der Film stellt die Frage, ob komfortable Unwissenheit oder das Wissen um die Wahrheit vorzuziehen ist. Ein zentrales Thema ist der Konflikt zwischen totaler Systemkontrolle und individueller Entscheidungsfreiheit. Technologie wird nicht als neutrales Werkzeug dargestellt, sondern als Mittel zur Machtausübung und Manipulation von Wahrnehmung. Die Figuren müssen Verantwortung für ihre Entscheidungen übernehmen, obwohl die Regeln der Realität von außen vorgegeben sind. Der Film untersucht die Grenzen persönlicher Identität in einer künstlich konstruierten Welt. The Matrix nutzt ein Science-Fiction-Szenario, um universelle Fragen zu Freiheit, Kontrolle und der Möglichkeit des Widerstands zu verhandeln.*\n\n### ID: 8\n### Name: Gladiator\n### Description:\n\n*Gladiator erzählt die Geschichte des römischen Generals Maximus, der durch Verrat alles verliert und zum Sklaven wird. Der Film thematisiert den Konflikt zwischen persönlicher Ehre und korrupter Macht in einem autoritären System. Maximus’ Weg ist geprägt von Loyalität gegenüber seinen moralischen Prinzipien, selbst unter extremen Bedingungen. Die Erzählung stellt die Frage, was wahre Größe ausmacht: politische Macht oder innere Würde. Rache dient dabei nicht nur als persönliches Motiv, sondern auch als Ausdruck von Gerechtigkeit in einer ungerechten Ordnung. Der Film kontrastiert öffentliche Inszenierung von Gewalt mit innerer Integrität. Vor dem Hintergrund des Römischen Reiches verbindet Gladiator episches Spektakel mit einer klassischen Tragödie über Verlust, Verantwortung und Selbstachtung.*\n\n### ID: 9\n### Name: The Lord of the Rings: The Fellowship of the Ring\n### Description:\n\n*The Lord of the Rings: The Fellowship of the Ring erzählt vom Beginn einer epischen Reise, bei der das Schicksal der Welt von einer kleinen Gemeinschaft abhängt. Im Zentrum steht der unscheinbare Hobbit Frodo, der eine gewaltige Verantwortung übernimmt, die weit über seine eigene Vorstellungskraft hinausgeht. Der Film thematisiert den klassischen Weg des Helden, der nicht aus Machtstreben handelt, sondern aus Pflichtgefühl und Loyalität. Freundschaft und Zusammenhalt werden als entscheidende Kräfte dargestellt, die selbst gegen überwältigendes Böses bestehen können. Gleichzeitig zeigt die Geschichte, wie verführerisch Macht sein kann und wie unterschiedlich Charaktere mit dieser Versuchung umgehen. Opferbereitschaft ist ein zentrales Motiv, das sich durch die Entscheidungen vieler Figuren zieht. Die Welt von Mittelerde wird als vielschichtiges Geflecht aus Kulturen, Mythen und Geschichte präsentiert. Der Film verbindet persönliche Schicksale mit einem großen kosmischen Konflikt. Dabei steht weniger der Sieg durch Stärke im Vordergrund als moralische Standhaftigkeit und innere Integrität.*\n\n### ID: 10\n### Name: arry Potter and the Prisoner of Azkaban\n### Description:\n\n*Der Film Harry Potter and the Prisoner of Azkaban zeigt eine deutlich reifere und düsterere Phase der Geschichte um den jungen Zauberer. Im Mittelpunkt steht die Auseinandersetzung mit der eigenen Vergangenheit und deren Einfluss auf die Gegenwart sowie die Frage persönlicher Verantwortung. Die Handlung greift das Motiv der ungerechten Anschuldigung auf und zeigt, wie Angst und Vorurteile das gesellschaftliche Urteil prägen. Eine zentrale Rolle spielt das Thema Freiheit – sowohl im physischen als auch im inneren Sinne. Die Figuren werden dazu gezwungen, ihre bisherigen Vorstellungen von Gut und Böse zu hinterfragen. Der Film macht deutlich, dass die Wahrheit oft komplexer ist als offizielle Darstellungen. Besonderes Gewicht liegt auf der emotionalen Entwicklung der Charaktere und ihrer Fähigkeit zu Mitgefühl. Freundschaft und Vertrauen werden zu entscheidenden Faktoren bei wichtigen Entscheidungen. The Prisoner of Azkaban nutzt die Mittel der Fantasy, um universelle menschliche Themen wie Schuld, Vergebung und die bewusste Wahl des eigenen Weges zu verhandeln.*\n\n### ID: 11\n### Name: Das Leben der Anderen\n### Description:\n\n*Das Leben der Anderen spielt im Ostberlin der 1980er-Jahre und zeigt den allgegenwärtigen Überwachungsapparat der DDR aus der Perspektive eines Stasi-Offiziers. Der Film thematisiert, wie staatliche Kontrolle in das intimste Privatleben von Menschen eingreift und persönliche Beziehungen zerstört. Im Zentrum steht ein innerer Wandel: Ein überzeugter Funktionär beginnt, die moralischen Konsequenzen seines Handelns zu hinterfragen. Kunst, Mitgefühl und menschliche Nähe werden dabei zu Auslösern eines ethischen Erwachens. Der Film stellt die Frage, ob individuelles Gewissen innerhalb eines repressiven Systems möglich ist. Er zeigt Macht nicht als abstraktes Prinzip, sondern als konkrete Entscheidung in alltäglichen Situationen. Das Leben der Anderen ist zugleich politisches Drama und tiefgehende Charakterstudie. Er macht sichtbar, wie leicht Menschen zu Werkzeugen eines Systems werden – und wie schwer es ist, sich daraus zu lösen.*\n\n### ID: 12\n### Name: Zodiac\n### Description:\n\n*Der Film Zodiac schildert die jahrelange Untersuchung einer Mordserie, die von einem mysteriösen Täter verübt wurde, dessen Identität nie eindeutig geklärt werden konnte. Im Mittelpunkt stehen Journalisten und Ermittler, für die die Suche nach der Wahrheit zunehmend zu einer persönlichen Obsession wird. Der Film zeigt, wie das Fehlen klarer Antworten das berufliche wie auch das private Leben der Beteiligten untergräbt. Im Gegensatz zu klassischen Thrillern verzichtet die Geschichte auf eine eindeutige Auflösung oder einen befriedigenden Abschluss. Zodiac untersucht die Grenzen rationaler Analyse in einer Situation, in der Beweise unvollständig und widersprüchlich sind. Ein besonderer Fokus liegt auf dem Prozess des Zweifelns, des erneuten Prüfens und der fortlaufenden Interpretation derselben Fakten. Wahrheit erscheint hier nicht als erreichbares Ziel, sondern als unerreichbarer Horizont. Der Film macht deutlich, dass der obsessive Wunsch nach Ordnung und Sinn ebenso zerstörerisch sein kann wie das Verbrechen selbst.*\n\n### ID: 13\n### Name: Avatar\n### Description:\n\n*Avatar spielt auf dem fernen Mond Pandora, einer fremdartigen Welt mit einer einzigartigen Ökologie und einer indigenen Bevölkerung, den Na’vi. Der Film folgt Jake Sully, einem ehemaligen Soldaten, der durch ein Avatar-Programm in die Kultur der Na’vi eintaucht. Was als militärische Mission beginnt, entwickelt sich zu einer tiefgreifenden persönlichen Transformation. Jake gerät in einen inneren Konflikt zwischen Loyalität zu den Menschen und seiner wachsenden Verbundenheit mit Pandora. Der Film thematisiert Kolonialismus, Ausbeutung natürlicher Ressourcen und den Verlust kultureller Identität. Zentrale Motive sind die Beziehung zwischen Mensch und Natur sowie die Frage, wem eine Welt gehört. Avatar verbindet spektakuläre visuelle Effekte mit einer klaren moralischen Perspektive. Die Geschichte stellt technologische Überlegenheit der spirituellen Verbundenheit gegenüber. Dabei wird die Idee von Identität als etwas Wandelbares und Erfahrbares erfahrbar gemacht.*\n\n### ID: 14\n### Name: Interstellar\n### Description:\n\n*Der Film Interstellar erzählt von dem Versuch der Menschheit, angesichts einer ökologischen Krise auf der Erde zu überleben. Im Mittelpunkt steht eine Raumfahrtmission, deren Ziel es ist, außerhalb des Sonnensystems einen neuen Lebensraum für die Menschheit zu finden. Die Geschichte verbindet wissenschaftliche Konzepte wie Zeitdilatation und Gravitation mit tief persönlichen menschlichen Erfahrungen. Eine zentrale Rolle spielt dabei die Zeit als Faktor, der das Leben der Figuren auf sehr unterschiedliche Weise beeinflusst. Der Film thematisiert den Konflikt zwischen der Verantwortung gegenüber der Menschheit und der emotionalen Bindung zu nahestehenden Personen. Das emotionale Zentrum der Handlung ist die Beziehung zwischen Eltern und Kindern, die selbst über große räumliche und zeitliche Distanzen hinweg Bestand hat. Wissenschaft wird nicht als abstrakte Theorie dargestellt, sondern als Mittel zum Überleben und als Quelle moralischer Entscheidungen. Die Protagonisten müssen Entscheidungen treffen, deren Konsequenzen weit über ihr eigenes Leben hinausreichen. Interstellar stellt die Frage, was die Menschheit letztlich rettenswert macht – technologischer Fortschritt oder die Fähigkeit zu Mitgefühl und Opferbereitschaft.*\n\n### ID: 15\n### Name: Mad Max: Fury Road\n### Description:\n\n*Der Film Mad Max: Fury Road spielt in einer postapokalyptischen Welt, in der die Zivilisation zusammengebrochen ist und das Überleben vom Zugang zu elementaren Ressourcen abhängt. Die Handlung verzichtet weitgehend auf klassische Dialoge und entfaltet sich fast ausschließlich durch Bewegung und visuelles Erzählen. Die dargestellte Gesellschaft ist eine brutale, hierarchische Ordnung, die auf Gewalt, Angst und der absoluten Macht weniger Herrscher basiert. Ein zentrales Thema ist der Kampf um Freiheit und Selbstbestimmung unter Bedingungen totaler Unterdrückung. Die Figuren handeln weniger aus ideologischen Motiven als aus der Notwendigkeit heraus, zu überleben und dem Kreislauf der Gewalt zu entkommen. Der Film zeigt eindrücklich, wie Ressourcenknappheit soziale Strukturen und Machtverhältnisse prägt. Der intensive visuelle Stil ersetzt klassische Erklärungen und transportiert Bedeutung durch Aktion, Rhythmus und Bildsprache. Fury Road zeichnet ein Bild einer Welt, in der Moral und Ordnung nicht aus Gesetzen entstehen, sondern aus gemeinsamem Widerstand. Die Geschichte vermittelt, dass selbst im völligen Zerfall Solidarität und Hoffnung auf Veränderung möglich sind.*",
+        "height": 3308,
+        "width": 1324,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1424,
+        -368
+      ],
+      "id": "2cda877b-0c5c-482c-a584-371e9ed144a2",
+      "name": "Sticky Note - Uebersicht4"
+    },
+    {
+      "parameters": {
+        "content": "## Structured Output für RAG Agenten\n\n[\n{\n  \"original_question\": \"Which movies are about problems of society?\",\n  \"semantic_search_performed\": true,\n  \"results\": [\n    {\n      \"ID\": \"11\",\n      \"pageContent\": \"This film explores surveillance and personal freedom in a repressive society.\"\n    },\n    {\n      \"ID\": \"6\",\n      \"pageContent\": \"A dark thriller about justice and morality.\"\n    }\n  ]\n}\n]",
+        "height": 380,
+        "width": 1276
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -5488,
+        960
+      ],
+      "id": "bfce063b-6159-4555-ad1f-8eba0e96d5c0",
+      "name": "Sticky Note - Uebersicht5"
+    },
+    {
+      "parameters": {
+        "content": "## Models",
+        "height": 464,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -848,
+        1872
+      ],
+      "typeVersion": 1,
+      "id": "98d86f92-fa43-40a1-9d26-285ed95cc26e",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## Parsers",
+        "height": 192,
+        "width": 832,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -560,
+        1392
+      ],
+      "typeVersion": 1,
+      "id": "2294520f-c6cb-41bf-8371-8c2486077e7d",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "## RAG Agent",
+        "height": 704,
+        "width": 368,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -560,
+        1632
+      ],
+      "typeVersion": 1,
+      "id": "ac4075fa-61ec-4fff-91ab-2108b095d478",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "## DB Search Agent",
+        "height": 704,
+        "width": 416,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -144,
+        1632
+      ],
+      "typeVersion": 1,
+      "id": "a7d22fbd-d1f8-4801-afde-803b2f3d322a",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "content": "## LÖSUNG (Facilitator)\n\nVollständig konfiguriert und sofort ausführbar.\nNur für den Trainer - oder nach der Challenge freigeben.",
+        "height": 1128,
+        "width": 1432,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -976,
+        1280
+      ],
+      "id": "ef6a824b-17a9-43a0-9c81-2d2000094b79",
+      "name": "Sticky Note - Loesung Label"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n{\n  \"original_question\": \"Which movies are about problems of society?\",\n  \"semantic_search_performed\": true,\n  \"results\": [\n    {\n      \"ID\": \"11\",\n      \"pageContent\": \"This film explores surveillance and personal freedom in a repressive society.\"\n    },\n    {\n      \"ID\": \"6\",\n      \"pageContent\": \"A dark thriller about justice and morality.\"\n    }\n  ]\n}\n]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -352,
+        1456
+      ],
+      "id": "11d01875-4582-46f9-a9d8-1f5ab74adf76",
+      "name": "S - Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "# ROLE\n\nYou are the first agent in a two-step movie search pipeline.\nYour job is to analyze the user's question and decide whether semantic (thematic/meaning-based) search is needed.\n\n# INPUT\nA user question in natural language.\n\n# YOUR TASK\n\n1. Analyze the question and determine:\n   - Does it require semantic search (meaning, topics, themes, recommendations \"about\" something)?\n   - Or is it a factual/structured question (e.g., about years, directors, countries, or other specific filters)?\n\n2. If semantic search is needed:\n   - Search for relevant movies using the vector database.\n   - Use meaning, topics, and themes - not exact keywords.\n   - Return a list of relevant movie IDs and a brief explanation (pageContent) for each, describing why it matches the user's theme.\n\n3. If semantic search is NOT needed:\n   - Pass the original user question unchanged to the next agent (Structured Search Agent).\n\n# RULES\n - Use only information returned by the vector search.\n - Do NOT invent movies or facts.\n - Do NOT perform structured filtering (years, directors, countries, etc.).\n - Do NOT explain how the search works.\n - Do NOT answer the user directly - your output is for the next agent in the pipeline.\n\nOUTPUT\nIf semantic search was performed:\n - Return a list of relevant movie IDs, each with a brief explanation (pageContent) of why it matches.\n\nIf semantic search was NOT needed:\n - Pass the original user question as-is to the next agent.\n\nOutput must be in a machine-readable format (e.g., JSON).\n\n## Examples of Output:\n\n### If RAG search was done:\n\n[\n{\n  \"original_question\": \"Which movies are about problems of society?\",\n  \"semantic_search_performed\": true,\n  \"results\": [\n    {\n      \"ID\": \"11\",\n      \"pageContent\": \"This film explores surveillance and personal freedom in a repressive society.\"\n    },\n    {\n      \"ID\": \"6\",\n      \"pageContent\": \"A dark thriller about justice and morality.\"\n    }\n  ]\n}\n]\n\n### If RAG search was not required:\n[\n{\n  \"original_question\": \"Which movies did Steven Spielberg direct in 1993?\"\n  \"semantic_search_performed\": false,\n \"results\": []\n}\n]"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -496,
+        1696
+      ],
+      "id": "b71442c0-eccc-4458-922c-771c3aa1076d",
+      "name": "S - RAG Search Agent"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Retrieving movies from qdrant",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "n8n workshop",
+          "mode": "list",
+          "cachedResultName": "n8n workshop"
+        },
+        "topK": 5,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1.3,
+      "position": [
+        -480,
+        1984
+      ],
+      "id": "b2552e96-1de7-4569-8d94-5a98f4fa7d91",
+      "name": "S - Qdrant Vector Store",
+      "credentials": {
+        "qdrantApi": {
+          "id": "InhnjhJeTQsjP3CJ",
+          "name": "Qdrant account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "temperature": 0.4
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -768,
+        1984
+      ],
+      "id": "0283bb6f-78d9-474a-8161-7d4a229f2b3f",
+      "name": "S - Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "mPlTTyh37zoTPZ5D",
+          "name": "Google Gemini(PaLM) Api account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -768,
+        2192
+      ],
+      "id": "3b089078-9e3d-4dac-a110-2686edbd2c91",
+      "name": "S - Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "IRAXizVhtf9QVcpm",
+          "name": "OpenAI account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.output }}",
+        "options": {
+          "systemMessage": "# ROLE\n\nYou are a Structured Movie Data Retrieval Agent.\nYour task is to retrieve factual movie data from the movie database and formulate user friendly anster to the users question.\n\n# DATABASE SCHEMA\n\nThe movie table contains the following columns:\n - ID\n - Name\n - Year\n - Country\n - Director\n - Tags\n\nThe database does NOT contain movie descriptions.\n\n# INPUT TYPES\n\nYou may receive one of two types of input:\n\n1. List of Movie IDs\n\nInput example:\n\njson\n{\n  \"original_question\": ...,\n  \"semantic_search_performed\": true,\n  \"results\": [\n    {\n      \"ID\": ...,\n      \"pageContent\": ...\n    },\n    {\n      \"ID\": ...,\n      \"pageContent\": ...\n    }\n  ]\n}\n\nInstructions:\n - If ids are present, ignore all other input fields (including chatInput).\n - Retrieve structured data for all movies whose IDs are in the list.\n - Do NOT attempt to interpret or expand the list.\n - If a requested movie ID does not exist, simply skip it.\n - Do NOT perform any semantic or thematic search.\n\nExample of condition for search by IDs:\nOR(\n   {ID}=5,\n   {ID}=11,\n   {ID}=17\n)\n\n2. Structured Query (Attribute-Based)\n\nInput example:\n\njson\n{\n  \"original_question\": ...,\n  \"semantic_search_performed\": false,\n  \"results\": []\n}\n\n\nIntructions:\n - If no ids are present, treat the input as a structured query.\n - Build database filters using only the provided attributes (e.g., director, country, year, tags).\n - Do NOT infer, guess, or expand attributes.\n - Do NOT perform any semantic or thematic search.\n\n# STRICT RULES\n - Only use data that exists in the database.\n - Never invent movies, attributes, or values.\n - Never interpret user intent or perform semantic/thematic search.\n - Never guess or fill in missing information.\n - If a requested movie ID does not exist, ignore it.\n\n# OUTPUT FORMAT\n - Return the results as structured data (e.g., JSON array of movie objects).\n - For each movie, include only the available columns: ID, Name, Year, Country, Director, Tags.\n\nExample output:\n\n[\n  {\n    \"ID\": 2,\n    \"Name\": \"Inception\",\n    \"Year\": 2010,\n    \"Country\": \"USA\",\n    \"Director\": \"Christopher Nolan\",\n    \"Tags\": [\"sci-fi\", \"thriller\"]\n  },\n  {\n    \"ID\": 11,\n    \"Name\": \"Das Leben der Anderen\",\n    \"Year\": 2006,\n    \"Country\": \"Germany\",\n    \"Director\": \"Florian Henckel von Donnersmarck\",\n    \"Tags\": [\"drama\", \"history\"]\n  }\n]\n\n# FINAL RESPONSE\n - After retrieving the data, generate a concise, user-friendly summary of the results.\n - Mention only movies actually found in the database.\n - Do NOT reference the input type or internal logic.\n - If no movies are found, return a clear message indicating this.\n\n## Example user response:\n\n### If RAG search was done:\n\nHere are the movies found:\n - Inception (2010, USA), directed by Christopher Nolan. Short explanation, why this movie correlates with user's question.\n - Das Leben der Anderen (2006, Germany), directed by Florian Henckel von Donnersmarck. Short explanation, why this movie correlates with user's question\n\n### If NO RAG search was done:\n\nHere are the movies found:\n - Inception (2010, USA), directed by Christopher Nolan.\n - Das Leben der Anderen (2006, Germany), directed by Florian Henckel von Donnersmarck\n\nIf no movies are found:\nNo movies matching your criteria were found in the database."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -80,
+        1696
+      ],
+      "id": "8a627c3b-c3e0-4c07-929d-2a8198fb7c64",
+      "name": "S - Structured Search Agent"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appCpTvyaPECSXXYo",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbloVGYsMbibYdwS1",
+          "mode": "id"
+        },
+        "filterByFormula": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Filter_By_Formula', ``, 'string') }}",
+        "returnAll": false,
+        "limit": 5,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtableTool",
+      "typeVersion": 2.1,
+      "position": [
+        64,
+        1968
+      ],
+      "id": "ba51b4d7-20b5-48af-bcad-e8c02b152308",
+      "name": "S - Airtable: Movies DB",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "jm4cajj16CDmDvjB",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "RAG Search Agent": {
+      "main": [
+        []
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        []
+      ]
+    },
+    "Qdrant Vector Store": {
+      "ai_tool": [
+        []
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        []
+      ]
+    },
+    "Chat": {
+      "main": [
+        []
+      ]
+    },
+    "Airtable: Movies DB": {
+      "ai_tool": [
+        []
+      ]
+    },
+    "S - Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "S - RAG Search Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "S - RAG Search Agent": {
+      "main": [
+        [
+          {
+            "node": "S - Structured Search Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "S - Qdrant Vector Store": {
+      "ai_tool": [
+        [
+          {
+            "node": "S - RAG Search Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "S - Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "S - RAG Search Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "S - Structured Search Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "S - Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "S - Qdrant Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "S - Airtable: Movies DB": {
+      "ai_tool": [
+        [
+          {
+            "node": "S - Structured Search Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

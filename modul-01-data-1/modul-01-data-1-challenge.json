@@ -1,0 +1,668 @@
+{
+  "name": "VORLAGE – Modul 01 – Data 1: Lead Qualification (Challenge)",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Universal Data Processing\n- **Split:** Eine Datenstruktur aufflachen\n- **Aggregate:** Eine Datenstruktur zusammenführen (verschachteln)\n- **Set:** Datenfelder erstellen und bearbeiten – der vielseitigste Knoten\n- **IF:** Entscheidungslogik hinzufügen, um Informationen unterschiedlich weiterzuleiten\n- **Code:** Benutzerdefinierte Manipulation für komplexe Transformationen\n- **Merge:** Mehrere Datenströme zu einem zusammenführen",
+        "height": 1280,
+        "width": 1280
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -480,
+        -176
+      ],
+      "id": "924d1a88-e61e-4525-ad58-a9d92c5f38ae",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3311b5f9-d496-497c-9479-212dc89dd91e",
+              "name": "leads",
+              "value": "[   {     \"name\": \"Sarah Johnson\",     \"email\": \"sarah.johnson@example.com\",     \"phone\": \"+1-202-555-0147\",     \"location\": \"New York, USA\"   },   {     \"name\": \"David Smith\",     \"email\": \"david.smith@example.com\",     \"phone\": \"+44-20-7946-0958\",     \"location\": \"London, UK\"   },   {     \"name\": \"Emily Chen\",     \"email\": \"emily.chen@example.com\",     \"phone\": \"+81-2-9374-1234\",     \"location\": \"Sydney, Australia\"   },   {     \"name\": \"Carlos Mendez\",     \"email\": \"carlos.mendez@example.com\",     \"phone\": \"+34-91-555-0823\",     \"location\": \"Madrid, Spain\"   },   {     \"name\": \"Anika Patel\",     \"email\": \"anika.patel@example.com\",     \"phone\": \"+49-30-4567-8901\",     \"location\": \"Berlin, Germany\"   } ]",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -144,
+        16
+      ],
+      "id": "79e57fb3-1829-4ca5-80c1-6b8bf7b58da0",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "leads",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        64,
+        16
+      ],
+      "id": "1afd0c3f-6c1a-4ac1-95bc-8a33453d8a9d",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        320,
+        -64
+      ],
+      "id": "32ec6fa6-b477-4b5a-b975-282bd8076e8f",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "61813c1a-80a7-414d-b1ee-76a8e4dd9177",
+              "leftValue": "={{ $json.data[0].name }}",
+              "rightValue": "Sarah",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        512,
+        -64
+      ],
+      "id": "94079987-fcfe-433a-b263-6d3cab2d3a0b",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "61813c1a-80a7-414d-b1ee-76a8e4dd9177",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "Sarah",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        320,
+        96
+      ],
+      "id": "ee328e53-4bb7-404d-a472-81ff4c8d5cc4",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.name }}",
+                    "rightValue": "=  Sarah Johnson",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "16c090b7-fac6-42f8-9e72-396b349c87cd"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Sarah"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "91322307-1ff2-4981-8b5d-b9bdcd6ed609",
+                    "leftValue": "={{ $json.name }}",
+                    "rightValue": "David Smith",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "David"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        320,
+        288
+      ],
+      "id": "969dda36-b47a-498a-93b9-a08808f2bde2",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst leads = items.flatMap((item) => item.json.leads);\nreturn leads.map((lead) => ({ json: lead }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        64,
+        448
+      ],
+      "id": "b32ef891-6f5d-4dce-b5b4-46b2ef665b16",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7f26e25c-759d-4211-9ad3-935da1729314",
+              "name": "Hello",
+              "value": "Joe",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -224,
+        688
+      ],
+      "id": "a814706f-f2c4-4c42-970e-6ff50280943e",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -16,
+        688
+      ],
+      "id": "d73f4534-8171-4706-b598-89b6f234fe07",
+      "name": "Wait",
+      "webhookId": "f17be39f-6aaa-448a-b55a-be38ba74b458"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        192,
+        768
+      ],
+      "id": "5f060ff4-5401-41f0-926f-2a4cd8d805f7",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7f26e25c-759d-4211-9ad3-935da1729314",
+              "name": "Hello",
+              "value": "Bellow",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -224,
+        880
+      ],
+      "id": "1f9974e0-aaa8-4732-b914-42878ff372af",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "content": "## Modul 1 – Lead Qualification Pipeline\nLinks: **Playground** zum Ausprobieren (jeden Node einzeln mit *Execute step*).\nRechts: **Challenge**. Die Nodes sind schon verbunden, ihr konfiguriert sie.\n\n**Handout mit allen Aufgaben (im zweiten Browser-Tab öffnen):**\nhttps://github.com/sacpluz/n8n-bit-public/blob/main/modul-01-data-1/README.md\n\nDer Node **Ergebnis prüfen** sagt euch im Feld `hinweise`, was noch nicht stimmt.",
+        "height": 300,
+        "width": 700
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        -192
+      ],
+      "id": "ba3c1e10-3759-4fdc-9e7b-b71aedc1612b",
+      "name": "Hinweis – Aufgaben"
+    },
+    {
+      "parameters": {
+        "content": "## ▶️ So startet ihr\n- **Execute workflow** (unten, orange): startet beim Trigger und läuft alles durch.\n- **Execute step** (im Node): führt nur diesen Node aus, mit den Daten der Nodes davor.\n- **Pin** (📌 im Output): friert den Output ein, der Node läuft dann nicht neu.\n\nEuer Name kommt automatisch aus dem Workflow-Namen. Nichts eintragen.",
+        "height": 250,
+        "width": 520,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2320,
+        -420
+      ],
+      "id": "632e0748-11b5-44e7-bcbe-308559ce1826",
+      "name": "Hinweis – Start"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        2368,
+        -64
+      ],
+      "id": "f6825b63-d591-41d8-b14a-d215acedd02c",
+      "name": "Start – Execute workflow"
+    },
+    {
+      "parameters": {
+        "jsCode": "// BEREITS FERTIG – nicht verändern\nreturn [{\n  json: {\n    leads: [\n      { name: \"Sarah Johnson\", email: \"sarah@example.com\", score: 75, region: \"EMEA\" },\n      { name: \"David Smith\",   email: \"david@example.com\", score: 45, region: \"AMER\" },\n      { name: \"Emily Chen\",    email: \"emily@example.com\", score: 88, region: \"APAC\" },\n      { name: \"Carlos Mendez\", email: \"carlos@example.com\", score: 32, region: \"EMEA\" },\n      { name: \"Anika Patel\",   email: \"anika@example.com\", score: 91, region: \"APAC\" }\n    ]\n  }\n}];"
+      },
+      "id": "f4a8c9b6-b304-4643-8e7b-1ce811422c74",
+      "name": "Leads generieren",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2592,
+        -64
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "e7c6b090-b64d-45d5-ac80-f80cfbf3bafa",
+      "name": "AUFGABE 1 – Split: Array aufflachen",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2816,
+        -64
+      ],
+      "notes": "Aufgabe: Welches Feld soll aufgesplittet werden?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "6bd7e038-8a58-44e8-80f0-fa3048324ab5",
+      "name": "AUFGABE 2 – IF: Score-Schwelle festlegen",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        3040,
+        -64
+      ],
+      "notes": "Aufgabe: Nur Leads mit Score >= 60 sollen weiter. Wie lautet die Bedingung?"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": []
+        },
+        "options": {}
+      },
+      "id": "846992d4-a508-4d40-991e-8d67f760d001",
+      "name": "AUFGABE 3a – Set: Qualifiziert markieren",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3248,
+        -192
+      ],
+      "notes": "Aufgabe: Füge die Felder 'status' = qualified und 'priority' = high hinzu"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": []
+        },
+        "options": {}
+      },
+      "id": "3cd33fa4-ead6-49b5-a1e3-b380a450d91d",
+      "name": "AUFGABE 3b – Set: Abgelehnt markieren",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3248,
+        80
+      ],
+      "notes": "Aufgabe: Füge die Felder 'status' = rejected und 'priority' = low hinzu"
+    },
+    {
+      "parameters": {},
+      "id": "37b62cec-d605-46a9-904a-557a6b107897",
+      "name": "AUFGABE 4 – Merge: Beide Zweige zusammenführen",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [
+        3472,
+        -64
+      ],
+      "notes": "Aufgabe: Verbinde beide Set-Nodes mit diesem Merge (Input 0 und Input 1)"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "",
+        "options": {}
+      },
+      "id": "f48b9bfe-0f76-4172-b6cf-85a782b77800",
+      "name": "AUFGABE 5 – Aggregate: Ergebnis sammeln",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        3696,
+        -64
+      ],
+      "notes": "Aufgabe: Sammle alle Items in einem Feld namens 'processed_leads'"
+    },
+    {
+      "parameters": {
+        "jsCode": "// BEREITS FERTIG – nicht verändern\nconst leads = $input.first().json.processed_leads;\nif (!Array.isArray(leads)) {\n  throw new Error(\"Feld 'processed_leads' fehlt. Aufgabe 5 (Aggregate): Das Destination Field muss exakt 'processed_leads' heißen (alles klein, mit Unterstrich).\");\n}\n\nconst hinweise = [];\nif (leads.length !== 5) hinweise.push(`Es kommen ${leads.length} statt 5 Leads an. Aufgabe 1 (Split) und Aufgabe 4 (Merge, Modus Append) prüfen.`);\nif (leads.some(l => l.name === undefined)) hinweise.push(\"Die ursprünglichen Felder (name, score, region) fehlen. Im Set-Node 'Include Other Input Fields' einschalten.\");\nfor (const feld of ['Type', 'Priority']) {\n  if (leads.some(l => l[feld] === undefined)) {\n    const aehnlich = Object.keys(leads[0] || {}).find(k => k.toLowerCase() === feld.toLowerCase());\n    hinweise.push(aehnlich\n      ? `Feld '${feld}' fehlt, es gibt aber '${aehnlich}'. Groß-/Kleinschreibung zählt!`\n      : `Feld '${feld}' fehlt. Aufgabe 3a und 3b prüfen.`);\n  }\n}\n\nconst qualified = leads.filter(l => l.Type === 'Qualifiziert');\nconst rejected  = leads.filter(l => l.Type === 'Abgelehnt');\nif (hinweise.length === 0 && (qualified.length !== 3 || rejected.length !== 2)) {\n  hinweise.push(`Erwartet: 3 x 'Qualifiziert' und 2 x 'Abgelehnt'. Gefunden: ${qualified.length} und ${rejected.length}. Schwelle in Aufgabe 2 (Score >= 60) und Schreibweise der Werte prüfen.`);\n}\n\nreturn [{\n  json: {\n    timestamp:        new Date().toLocaleString('de-DE', { timeZone: 'Europe/Berlin' }),\n    korrekt:          hinweise.length === 0 ? '✅ Ja' : '❌ Nein',\n    hinweise:         hinweise.length ? hinweise.join(' | ') : 'Alles richtig!',\n    qualified_count:  qualified.length,\n    rejected_count:   rejected.length,\n    qualified_names:  qualified.map(l => l.name).join(', '),\n    rejected_names:   rejected.map(l => l.name).join(', '),\n    high_priority:    qualified.filter(l => l.Priority === 'Hoch').map(l => l.name).join(', '),\n    low_priority:     rejected.filter(l => l.Priority === 'Niedrig').map(l => l.name).join(', ')\n  }\n}];"
+      },
+      "id": "f5302d1c-4eaa-44cd-b611-deb2edc5fdb0",
+      "name": "Ergebnis prüfen",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3904,
+        -64
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://SCOREBOARD-URL-EINTRAGEN.example/webhook/scoreboard-submit",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ name: $workflow.name.split(/\\s[–-]\\s/)[0], modul: '01', ergebnis: $json }) }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        4128,
+        -64
+      ],
+      "id": "f4e2109d-3f37-4498-8a40-3ac521db825c",
+      "name": "Scoreboard – Ergebnis senden"
+    }
+  ],
+  "connections": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start – Execute workflow": {
+      "main": [
+        [
+          {
+            "node": "Leads generieren",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leads generieren": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 1 – Split: Array aufflachen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 1 – Split: Array aufflachen": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 2 – IF: Score-Schwelle festlegen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 2 – IF: Score-Schwelle festlegen": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 3a – Set: Qualifiziert markieren",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AUFGABE 3b – Set: Abgelehnt markieren",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 3a – Set: Qualifiziert markieren": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 4 – Merge: Beide Zweige zusammenführen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 3b – Set: Abgelehnt markieren": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 4 – Merge: Beide Zweige zusammenführen",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "AUFGABE 4 – Merge: Beide Zweige zusammenführen": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 5 – Aggregate: Ergebnis sammeln",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 5 – Aggregate: Ergebnis sammeln": {
+      "main": [
+        [
+          {
+            "node": "Ergebnis prüfen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ergebnis prüfen": {
+      "main": [
+        [
+          {
+            "node": "Scoreboard – Ergebnis senden",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

@@ -1,0 +1,318 @@
+{
+  "name": "VORLAGE – Modul 03 – Workflows steuern (Challenge)",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## ▶️ So startet ihr\n- **Execute workflow** (unten, orange): startet beim Trigger und läuft alles durch.\n- **Execute step** (im Node): führt nur diesen Node aus, mit den Daten der Nodes davor.\n- **Pin** (📌 im Output): friert den Output ein, der Node läuft dann nicht neu.\n\nEuer Name kommt automatisch aus dem Workflow-Namen. Nichts eintragen.",
+        "height": 250,
+        "width": 520,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -60,
+        680
+      ],
+      "id": "9a2bc5cd-6c03-47bd-83c0-9c9253d33415",
+      "name": "Hinweis – Start"
+    },
+    {
+      "parameters": {
+        "content": "## Modul 3 – Workflows steuern: Angebotsvergleich\nStart per **Execute workflow**. Kein Webhook nötig.\nDer **Loop** ist schon verdrahtet: Ausgang *loop* geht in den HTTP Request, Ausgang *done* in die Entscheidungsvorlage.\n\n**Handout mit allen Aufgaben und Code zum Kopieren (im zweiten Browser-Tab öffnen):**\nhttps://github.com/sacpluz/n8n-bit-public/blob/main/modul-03-workflows-steuern/README.md\n\n⚠️ Node-Namen nicht umbenennen: Der Code in Aufgabe 3 verweist auf `Loop Over Items`.",
+        "height": 330,
+        "width": 720
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -860,
+        680
+      ],
+      "id": "cfaed24e-ddcb-45f5-a776-fb8eb91e3133",
+      "name": "Hinweis – Aufgaben"
+    },
+    {
+      "parameters": {
+        "content": "## Playground\nDiesen Node einzeln mit **Execute step** ausführen und den Output ansehen: So sieht die Antwort der Wechselkurs-API aus.",
+        "height": 300,
+        "width": 420,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -860,
+        1080
+      ],
+      "id": "3ed72ad9-8ff5-4d14-a871-da94b72579d5",
+      "name": "Hinweis – Playground"
+    },
+    {
+      "parameters": {
+        "url": "https://api.frankfurter.dev/v1/latest?base=USD&symbols=EUR&amount=1200",
+        "options": {
+          "timeout": 5000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -720,
+        1220
+      ],
+      "id": "132b64d9-c9df-4f5c-8f80-4aa9ce15e2a5",
+      "name": "Playground – HTTP Request (USD → EUR)"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        1040
+      ],
+      "id": "5015cdda-f2a6-4e8b-abea-a1092833681b",
+      "name": "Start – Execute workflow"
+    },
+    {
+      "parameters": {
+        "jsCode": "// BEREITS FERTIG – nicht verändern\nreturn [{\n  json: {\n    offers: [\n      { supplier: \"TechSupply US\",   price: 1200,   currency: \"USD\" },\n      { supplier: \"Nordic Parts\",    price: 11000,  currency: \"SEK\" },\n      { supplier: \"UK Components\",   price: 950,    currency: \"GBP\" },\n      { supplier: \"Swiss Precision\", price: 1100,   currency: \"CHF\" },\n      { supplier: \"Japan Direct\",    price: 180000, currency: \"JPY\" }\n    ]\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        1040
+      ],
+      "id": "3686e2de-1ff0-4f46-b8db-b9ccbd9b00bb",
+      "name": "Angebote laden"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        440,
+        1040
+      ],
+      "id": "347504c4-d2fc-45a9-9853-ebae5e3e4f2b",
+      "name": "AUFGABE 1 – Split Out: Angebote aufteilen"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        660,
+        1040
+      ],
+      "id": "9732bf06-896a-4527-bd83-63ed52aa3d59",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        900,
+        1220
+      ],
+      "id": "47779959-e7f3-4e95-94d6-eadaa965299c",
+      "name": "AUFGABE 2 – HTTP Request: Wechselkurs abrufen"
+    },
+    {
+      "parameters": {
+        "jsCode": "// AUFGABE 3: Code aus dem Handout hier einfügen (alles ersetzen)\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        1220
+      ],
+      "id": "d879b40b-cbd4-4c02-ab5e-7d6f00094b70",
+      "name": "AUFGABE 3 – Code: Lieferant + Kurs zusammenführen"
+    },
+    {
+      "parameters": {
+        "jsCode": "// AUFGABE 4: Code aus dem Handout hier einfügen (alles ersetzen)\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        1020
+      ],
+      "id": "93a1c905-94a9-4148-9380-d03999bc1bf0",
+      "name": "AUFGABE 4 – Code: Entscheidungsvorlage"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": []
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1340,
+        1020
+      ],
+      "id": "779714c5-3cd5-423c-a7a4-db22800fdd41",
+      "name": "AUFGABE 5 – Edit Fields: Ergebnis mappen"
+    },
+    {
+      "parameters": {
+        "jsCode": "// BEREITS FERTIG – nicht verändern\nconst r = $input.first().json;\nconst pflicht = ['cheapest_offer_supplier', 'cheapest_offer_price_EUR', 'timestamp'];\nconst fehlt = pflicht.filter(k => r[k] === undefined || r[k] === null || r[k] === '');\nif (fehlt.length) {\n  const tipp = fehlt.map(k => {\n    const aehnlich = Object.keys(r).find(x => x.toLowerCase() === k.toLowerCase());\n    return aehnlich ? `'${k}' (vorhanden ist '${aehnlich}', Groß-/Kleinschreibung zählt!)` : `'${k}'`;\n  }).join(', ');\n  throw new Error(`Diese Felder fehlen oder sind leer: ${tipp}. Aufgabe 5 (Edit Fields) prüfen. Sind sie dort leer, liefert Aufgabe 4 kein 'cheapestOffer'.`);\n}\nconst hinweise = [];\nif (typeof r.cheapest_offer_price_EUR !== 'number') hinweise.push(\"'cheapest_offer_price_EUR' ist kein Number. Im Edit-Fields-Node den Typ auf Number stellen.\");\nif (!(Number(r.cheapest_offer_price_EUR) > 0)) hinweise.push(\"Der Preis ist 0. Liefert der HTTP Request 'rates.EUR'? Stimmt der Node-Name in $('Loop Over Items')?\");\nreturn [{ json: { ...r, hinweise: hinweise.length ? hinweise.join(' | ') : 'Alles richtig!' } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1560,
+        1020
+      ],
+      "id": "0a8c73b5-6b29-41da-9529-1c72cad52883",
+      "name": "Ergebnis prüfen"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://SCOREBOARD-URL-EINTRAGEN.example/webhook/scoreboard-submit",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ name: $workflow.name.split(/\\s[–-]\\s/)[0], modul: '03', ergebnis: $json }) }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1780,
+        1020
+      ],
+      "id": "7bc2c7cf-f16d-45eb-a821-0a5de8cf9da9",
+      "name": "Scoreboard – Ergebnis senden"
+    }
+  ],
+  "connections": {
+    "Start – Execute workflow": {
+      "main": [
+        [
+          {
+            "node": "Angebote laden",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Angebote laden": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 1 – Split Out: Angebote aufteilen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 1 – Split Out: Angebote aufteilen": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 4 – Code: Entscheidungsvorlage",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AUFGABE 2 – HTTP Request: Wechselkurs abrufen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 2 – HTTP Request: Wechselkurs abrufen": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 3 – Code: Lieferant + Kurs zusammenführen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 3 – Code: Lieferant + Kurs zusammenführen": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 4 – Code: Entscheidungsvorlage": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 5 – Edit Fields: Ergebnis mappen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 5 – Edit Fields: Ergebnis mappen": {
+      "main": [
+        [
+          {
+            "node": "Ergebnis prüfen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ergebnis prüfen": {
+      "main": [
+        [
+          {
+            "node": "Scoreboard – Ergebnis senden",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}
