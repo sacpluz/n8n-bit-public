@@ -33,12 +33,12 @@ Teilnehmer-Workflow                         Facilitator-Workflow „Scoreboard"
 - Der **Zeitstempel** entsteht im Scoreboard-Workflow, also für alle auf derselben Uhr.
 - Die **Wertungslogik** steht nur im Scoreboard-Workflow. Sie lässt sich dort nachlesen, aber nicht von Teilnehmern verstellen.
 - Die Antwort des HTTP Request zeigt sofort `korrekt: true/false` und den Link zur Rangliste.
-- Modul 0 hat kein Scoreboard.
 
 ## Was gewertet wird
 
 | Modul | Korrekt, wenn |
 |---|---|
+| 0 | alle sieben Felder den richtigen Wert haben, `anzahl_positionen` als Zahl und `grosse_bestellung` als Boolean |
 | 1 | genau die drei richtigen Leads `Qualifiziert` / `Hoch` und die zwei anderen `Abgelehnt` / `Niedrig` sind |
 | 2 | genau die fünf erwarteten Abonnenten in der richtigen Reihenfolge ankommen |
 | 3 | ein bekannter Lieferant und ein Preis größer 0 ankommen. Der Kurs ändert sich täglich, deshalb wird der Betrag nicht fest geprüft |

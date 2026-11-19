@@ -1,6 +1,6 @@
 # Modul 0 – Grundlagen: UI, JSON & Data Mapping
 
-| ⏱ Dauer | 30 Minuten (15 min gemeinsam, 15 min Aufgaben) | 5 Nodes | 👥 jede:r für sich | 🏆 ohne Scoreboard |
+| ⏱ Dauer | 30 Minuten (15 min gemeinsam, 15 min Aufgaben) | 5 Nodes | 👥 jede:r für sich | 🏆 Scoreboard |
 |---|---|---|---|---|
 
 **Workflow-Datei:** [`modul-00-grundlagen-challenge.json`](modul-00-grundlagen-challenge.json)
@@ -42,6 +42,7 @@ Ihr bekommt eine Bestellung als JSON. Holt mit **Expressions** einzelne Werte he
 3. **Aufgaben** (rechts): Die Nodes sind schon verbunden. Ihr tragt in jedem Node die Felder ein, von links nach rechts.
 4. Einmal **Execute workflow** klicken, dann jeden Aufgaben-Node mit **Execute step** testen, bevor ihr weitergeht.
 5. Der Node **Ergebnis prüfen** zeigt im Feld `hinweise`, was noch nicht stimmt.
+6. Euer Name fürs Scoreboard kommt automatisch aus dem Workflow-Namen. **Nichts eintragen.**
 
 ---
 
@@ -193,7 +194,7 @@ Kontrolle: `grosse_bestellung` = `true`, im Output ohne Anführungszeichen.
 
 ### Kontrolle
 
-**Execute workflow** klicken. `Ergebnis prüfen` muss `korrekt: ✅ Ja` zeigen.
+**Execute workflow** klicken. `Ergebnis prüfen` muss `korrekt: ✅ Ja` zeigen, dann trägt der letzte Node euer Ergebnis ins Scoreboard ein.
 
 ### Pinnen ausprobieren
 
@@ -215,7 +216,7 @@ Output von `Beispieldaten` pinnen, dann **Execute workflow**: Der Node läuft ni
 
 ## 🏆 Wertung
 
-In diesem Modul gibt es kein Scoreboard. Hier wird nur geübt. Ab Modul 1 zählt die schnellste **korrekte** Abgabe, siehe [Scoreboard](../scoreboard.md).
+Die schnellste **korrekte** Abgabe gewinnt. Korrekt heißt: alle sieben Felder mit dem richtigen Wert und dem richtigen Typ. Falsche Abgaben zählen nicht. Details: [Scoreboard](../scoreboard.md).
 
 ## 🔧 Wenn es nicht klappt
 
