@@ -1,0 +1,774 @@
+{
+  "name": "VORLAGE – Modul 09 – Tools und DBs (Challenge)",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Modul 9 – Agenten mit Tools: Vektorsuche und Datenbank\nZwei Agenten: Der **RAG Search Agent** entscheidet, ob eine Themensuche in der Vektordatenbank nötig ist. Ein **IF** schickt das Ergebnis auf einen von zwei Wegen. Der **Structured Search Agent** holt die Fakten aus Airtable und antwortet.\n\n**Handout mit allen Aufgaben und Texten zum Kopieren (im zweiten Browser-Tab öffnen):**\nhttps://github.com/sacpluz/n8n-bit-public/blob/main/modul-09-tools-dbs/README.md\n\n⚠️ Node-Namen nicht umbenennen: `Ergebnis prüfen` liest die Nodes per Namen.",
+        "height": 330,
+        "width": 720
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -860,
+        600
+      ],
+      "id": "f5b67057-dae1-4e46-9d97-726b9fde849b",
+      "name": "Hinweis – Aufgaben"
+    },
+    {
+      "parameters": {
+        "content": "## ▶️ So startet ihr\n- **Execute workflow** (unten, orange): Abgabe. Läuft mit zwei festen Testfragen durch und trägt euch ins Scoreboard ein.\n- **Open chat** (unten): eigene Fragen stellen, ohne Abgabe.\n- **Execute step** (im Node): führt nur diesen Node aus.\n\nEuer Name gehört in **AUFGABE 0 – Namen eintragen**.",
+        "height": 280,
+        "width": 560,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -60,
+        600
+      ],
+      "id": "6d7fa095-cd19-4e2f-a2ad-915f961bbfe2",
+      "name": "Hinweis – Start"
+    },
+    {
+      "parameters": {
+        "content": "## Playground – Vektorsuche und Datenbank\nJeden Node öffnen und **Execute step** klicken.\n\n1. **Playground – Vektorsuche: Überwachung** → Treffer mit `metadata.ID` und Textstück. Die Suche findet Themen, auch ohne dass das Wort im Text steht\n2. **Playground – Vektorsuche: David Fincher** → Treffer gibt es trotzdem, aber beliebige: Die Vektorsuche kennt keine Regisseure\n3. **Playground – Airtable: Filme von David Fincher** → Formel `{Director}='David Fincher'`, genau zwei Filme\n4. **Playground – Airtable: IDs 6 und 11** → so lädt der zweite Agent die Filme, die die Vektorsuche gefunden hat\n\nMerke: Vektorsuche für **Bedeutung**, Datenbank für **Fakten**. Beide brauchen dasselbe Embedding-Modell beim Speichern und beim Suchen.",
+        "height": 900,
+        "width": 1180,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1700,
+        1000
+      ],
+      "id": "39ac365c-2829-4da4-918e-088f3e369af2",
+      "name": "Hinweis – Playground"
+    },
+    {
+      "parameters": {
+        "mode": "load",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "n8n workshop",
+          "mode": "list",
+          "cachedResultName": "n8n workshop"
+        },
+        "prompt": "Filme über Überwachung durch den Staat",
+        "topK": 3,
+        "includeDocumentMetadata": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1.3,
+      "position": [
+        -1520,
+        1500
+      ],
+      "id": "e0a3112e-5bc0-4e69-a960-7599aca110b4",
+      "name": "Playground – Vektorsuche: Überwachung",
+      "credentials": {
+        "qdrantApi": {
+          "id": "InhnjhJeTQsjP3CJ",
+          "name": "Qdrant account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "load",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "n8n workshop",
+          "mode": "list",
+          "cachedResultName": "n8n workshop"
+        },
+        "prompt": "Filme von David Fincher",
+        "topK": 3,
+        "includeDocumentMetadata": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1.3,
+      "position": [
+        -1180,
+        1500
+      ],
+      "id": "11b59857-0252-4f7f-8da9-4b3392256b87",
+      "name": "Playground – Vektorsuche: David Fincher",
+      "credentials": {
+        "qdrantApi": {
+          "id": "InhnjhJeTQsjP3CJ",
+          "name": "Qdrant account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "text-embedding-3-small",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -1360,
+        1720
+      ],
+      "id": "24bcd1cd-b7d3-42c5-b1e9-73e0be1e17d1",
+      "name": "Playground – Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "IRAXizVhtf9QVcpm",
+          "name": "OpenAI account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appCpTvyaPECSXXYo",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbloVGYsMbibYdwS1",
+          "mode": "id"
+        },
+        "filterByFormula": "{Director}='David Fincher'",
+        "returnAll": false,
+        "limit": 15,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -860,
+        1500
+      ],
+      "id": "02ce940f-4d50-40fc-85cb-a5ce5713c1b8",
+      "name": "Playground – Airtable: Filme von David Fincher",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "jm4cajj16CDmDvjB",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appCpTvyaPECSXXYo",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbloVGYsMbibYdwS1",
+          "mode": "id"
+        },
+        "filterByFormula": "OR({ID}=6, {ID}=11)",
+        "returnAll": false,
+        "limit": 15,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -860,
+        1720
+      ],
+      "id": "7a869b75-079f-4187-9d6b-6f39053783a9",
+      "name": "Playground – Airtable: IDs 6 und 11",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "jm4cajj16CDmDvjB",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        1040
+      ],
+      "id": "80de3958-8bf3-481e-99b5-64985d8e739f",
+      "name": "Start – Execute workflow"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9e9d761a-49fc-4378-a220-123eddd64bed",
+              "name": "name",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -20,
+        1040
+      ],
+      "id": "d6421316-467f-404b-b242-a1fb7ee69e2b",
+      "name": "AUFGABE 0 – Namen eintragen"
+    },
+    {
+      "parameters": {
+        "jsCode": "// BEREITS FERTIG – nicht verändern\n// Zwei feste Testfragen für die Abgabe: eine Themenfrage, eine Faktenfrage\nreturn [\n  { json: { chatInput: 'Welche Filme handeln von staatlicher Überwachung?' } },\n  { json: { chatInput: 'Welche Filme hat David Fincher gedreht?' } }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        200,
+        1040
+      ],
+      "id": "278e7a42-5aff-4f6a-a42f-b821db37eadc",
+      "name": "Testfragen"
+    },
+    {
+      "parameters": {
+        "options": {},
+        "path": "a7c3e2f0-9d41-4b6e-8f15-0c2d9e7b4a61"
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        200,
+        1300
+      ],
+      "id": "01a03644-026b-4bbc-9241-92bf5bb9f8bc",
+      "name": "Chat – eigene Fragen",
+      "webhookId": "a7c3e2f0-9d41-4b6e-8f15-0c2d9e7b4a61"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "",
+        "options": {
+          "systemMessage": ""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        480,
+        1040
+      ],
+      "id": "1d6e53f9-8238-47a5-98b5-4dd7aade6de2",
+      "name": "AUFGABE 1 – RAG Search Agent"
+    },
+    {
+      "parameters": {
+        "options": {
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        420,
+        1500
+      ],
+      "id": "8aada029-cf79-4af1-99e0-f67cfa120b67",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "mPlTTyh37zoTPZ5D",
+          "name": "Google Gemini(PaLM) Api account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": ""
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        700,
+        1300
+      ],
+      "id": "a1ced309-199f-485f-b3df-965759a5435b",
+      "name": "AUFGABE 2 – Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1.3,
+      "position": [
+        560,
+        1300
+      ],
+      "id": "d33b1877-2874-4c8b-ba86-6d65105f1661",
+      "name": "AUFGABE 3 – Qdrant Vector Store",
+      "credentials": {
+        "qdrantApi": {
+          "id": "InhnjhJeTQsjP3CJ",
+          "name": "Qdrant account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        620,
+        1520
+      ],
+      "id": "ef2c3f4b-c131-40c8-942b-8ef1c37c1922",
+      "name": "AUFGABE 4 – Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "IRAXizVhtf9QVcpm",
+          "name": "OpenAI account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        1040
+      ],
+      "id": "935f4bb8-f26c-4d9b-bdbb-679430d2a744",
+      "name": "AUFGABE 5 – IF: Semantische Suche?"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2f903efa-ec39-4cbd-a64b-c4494bf65e53",
+              "name": "prompt",
+              "value": "={{ 'Question: ' + $json.output.original_question + '\\nLook up exactly these movie IDs in the database: ' + $json.output.results.map(r => r.ID).join(', ') + '\\nIf the question also names a year, director, country or genre, apply that filter too.' + '\\nWhy they match:\\n' + $json.output.results.map(r => '- ID ' + r.ID + ': ' + r.pageContent).join('\\n') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1100,
+        940
+      ],
+      "id": "1890dca0-9cfe-4ec9-8bf1-17143fd89c1d",
+      "name": "Prompt – IDs nachschlagen"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "294eb6e9-20e1-4560-a252-e1b9914a0f3a",
+              "name": "prompt",
+              "value": "={{ 'Question: ' + $json.output.original_question + '\\nNo semantic search was done. Answer with a filter on the database columns.' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1100,
+        1140
+      ],
+      "id": "a557976b-75ed-41b8-9847-1c6593d7025b",
+      "name": "Prompt – Frage weitergeben"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1320,
+        1040
+      ],
+      "id": "6b85191b-273c-4864-a869-2cb1cd46d381",
+      "name": "Pfade zusammenführen"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "",
+        "options": {
+          "systemMessage": ""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1540,
+        1040
+      ],
+      "id": "0d52083c-2726-4385-bfac-a2d36f2cc05c",
+      "name": "AUFGABE 6 – Structured Search Agent"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtableTool",
+      "typeVersion": 2.1,
+      "position": [
+        1680,
+        1300
+      ],
+      "id": "682b2e60-791e-4863-a61a-48675cde3f43",
+      "name": "AUFGABE 7 – Airtable: Movies DB",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "jm4cajj16CDmDvjB",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5abb6289-bc0b-46c6-9d5e-f54da6c343c9",
+              "leftValue": "={{ $('Testfragen').isExecuted }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1900,
+        1040
+      ],
+      "id": "19ec97c4-fc19-49c3-8ba3-b875565d4cab",
+      "name": "Abgabe oder Chat?"
+    },
+    {
+      "parameters": {
+        "jsCode": "// BEREITS FERTIG – nicht verändern\n// Prüft beide Testfragen: Überwachung (semantisch, erwartet ID 11) und David Fincher (strukturiert)\nconst hinweise = [];\nconst teilnehmer = String($('AUFGABE 0 – Namen eintragen').first().json.name || '').trim();\nif (!teilnehmer) hinweise.push('AUFGABE 0: Euer Name fehlt. Tragt ihn im ersten Node ein, sonst landet nichts im Scoreboard.');\n\nconst lief = (name) => { try { return $(name).isExecuted; } catch (e) { return false; } };\nconst lies = (o) => { if (typeof o === 'string') { try { return JSON.parse(o); } catch (e) { return o; } } return o; };\n\n// 1) RAG Search Agent: strukturierte Ausgabe?\nconst rag = $('AUFGABE 1 – RAG Search Agent').all().map(i => lies(i.json.output));\nif (rag.some(o => Array.isArray(o))) {\n  hinweise.push('AUFGABE 2: Das JSON-Beispiel im Output Parser ist ein Array ([ … ]). Nehmt das Beispiel aus dem Handout, es beginnt mit {.');\n} else if (rag.some(o => !o || typeof o !== 'object')) {\n  hinweise.push('AUFGABE 2: Der RAG Search Agent liefert Text statt JSON. Require Specific Output Format einschalten und den Structured Output Parser anschließen.');\n} else if (rag.some(o => typeof o.semantic_search_performed !== 'boolean')) {\n  hinweise.push(\"AUFGABE 2: Im Output fehlt das Feld 'semantic_search_performed' (true/false). JSON-Beispiel aus dem Handout prüfen, Schreibweise zählt.\");\n} else {\n  const [ueberwachung, fincher] = rag;\n  if (ueberwachung.semantic_search_performed !== true) {\n    hinweise.push('AUFGABE 1: Die Frage nach Überwachung ist eine Themenfrage, der RAG-Agent hat aber nicht semantisch gesucht. Ist die System Message vollständig eingefügt?');\n  } else {\n    const ids = (ueberwachung.results || []).map(r => String(r.ID));\n    if (!ids.length) hinweise.push('AUFGABE 3: Die Vektorsuche liefert keine Treffer. Ist das Qdrant-Tool angeschlossen und die Collection \"n8n workshop\" gewählt?');\n    else if (!ids.includes('11')) hinweise.push(`AUFGABE 3/4: \"Das Leben der Anderen\" (ID 11) fehlt in den Treffern (gefunden: ${ids.join(', ')}). Embedding-Modell text-embedding-3-small? Include Metadata an?`);\n  }\n  if (fincher && fincher.semantic_search_performed !== false) {\n    hinweise.push('AUFGABE 1: Die Frage nach David Fincher ist eine Faktenfrage, der RAG-Agent hat trotzdem semantisch gesucht. System Message prüfen.');\n  }\n}\n\n// 2) IF: beide Wege benutzt?\nif (!lief('Prompt – IDs nachschlagen')) hinweise.push('AUFGABE 5: Keine Frage kam am true-Ausgang an. Bedingung: {{ $json.output.semantic_search_performed }} – Boolean – is true.');\nif (!lief('Prompt – Frage weitergeben')) hinweise.push('AUFGABE 5: Keine Frage kam am false-Ausgang an. Steht die Bedingung auf \"is true\" (nicht \"exists\")?');\n\n// 3) Antworten des Structured Search Agent\nconst antworten = $input.all().map(i => String(i.json.output || ''));\nconst alles = antworten.join('\\n').toLowerCase();\nif (!alles.includes('leben der anderen')) hinweise.push('AUFGABE 6/7: In den Antworten fehlt \"Das Leben der Anderen\". Prompt im Structured Search Agent = {{ $json.prompt }}? Liefert das Airtable-Tool Daten?');\nif (!/se7en|seven/.test(alles) || !alles.includes('zodiac')) hinweise.push('AUFGABE 6/7: Für David Fincher fehlen \"Se7en\" oder \"Zodiac\". Ist das Airtable-Tool angeschlossen, Base und Table per ID eingetragen, Filter By Formula vom Modell?');\n\nreturn [{ json: {\n  antworten,\n  korrekt: hinweise.length === 0 ? '✅ Ja' : '❌ Nein',\n  hinweise: hinweise.length ? hinweise.join(' | ') : 'Alles richtig!'\n} }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2120,
+        940
+      ],
+      "id": "5482575d-0a05-4fcb-afc7-e027ae46b36f",
+      "name": "Ergebnis prüfen"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://script.google.com/macros/s/AKfycby0WFUYmjXxhIE8tthYDbRlSxwIVUS17YI3BNQe0YvbteiQBmpT53vYSPnwx39QLKqf/exec",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ name: $('AUFGABE 0 – Namen eintragen').first().json.name, modul: 9, korrekt: String($json.korrekt).includes('Ja') ? 'ja' : 'nein', details: $json.hinweise }) }}",
+        "options": {
+          "timeout": 15000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2340,
+        940
+      ],
+      "id": "53ff0844-b8c1-47ab-af13-fb95a67e75b0",
+      "name": "Scoreboard – Ergebnis eintragen"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0c9ca7f7-4a07-4704-82bb-77a6ca89217c",
+              "name": "output",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2120,
+        1160
+      ],
+      "id": "c8b61128-ec18-48fb-aebc-ab7fa00b7815",
+      "name": "Antwort an den Chat"
+    }
+  ],
+  "connections": {
+    "Start – Execute workflow": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 0 – Namen eintragen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 0 – Namen eintragen": {
+      "main": [
+        [
+          {
+            "node": "Testfragen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Testfragen": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 1 – RAG Search Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chat – eigene Fragen": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 1 – RAG Search Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 1 – RAG Search Agent": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 5 – IF: Semantische Suche?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 5 – IF: Semantische Suche?": {
+      "main": [
+        [
+          {
+            "node": "Prompt – IDs nachschlagen",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prompt – Frage weitergeben",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prompt – IDs nachschlagen": {
+      "main": [
+        [
+          {
+            "node": "Pfade zusammenführen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prompt – Frage weitergeben": {
+      "main": [
+        [
+          {
+            "node": "Pfade zusammenführen",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Pfade zusammenführen": {
+      "main": [
+        [
+          {
+            "node": "AUFGABE 6 – Structured Search Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 6 – Structured Search Agent": {
+      "main": [
+        [
+          {
+            "node": "Abgabe oder Chat?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Abgabe oder Chat?": {
+      "main": [
+        [
+          {
+            "node": "Ergebnis prüfen",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Antwort an den Chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ergebnis prüfen": {
+      "main": [
+        [
+          {
+            "node": "Scoreboard – Ergebnis eintragen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AUFGABE 1 – RAG Search Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "AUFGABE 6 – Structured Search Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 3 – Qdrant Vector Store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AUFGABE 1 – RAG Search Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 4 – Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "AUFGABE 3 – Qdrant Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUFGABE 7 – Airtable: Movies DB": {
+      "ai_tool": [
+        [
+          {
+            "node": "AUFGABE 6 – Structured Search Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Playground – Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Playground – Vektorsuche: Überwachung",
+            "type": "ai_embedding",
+            "index": 0
+          },
+          {
+            "node": "Playground – Vektorsuche: David Fincher",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

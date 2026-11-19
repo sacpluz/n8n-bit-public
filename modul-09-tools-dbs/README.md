@@ -1,403 +1,311 @@
-# Modul 09 – Tools und DBs
+# Modul 9 – Agenten mit Tools: Vektorsuche und Datenbank
 
-Dieses Handout ist der Text der Sticky Notes aus dem Workflow, damit ihr ihn im zweiten Browser-Tab lesen und Code kopieren könnt.
+| ⏱ Dauer | 30 Minuten | 8 Aufgaben | 👥 Teams à 2 Personen |
+|---|---|---|---|
 
-**Workflow-Datei:** [`modul-09-tools-dbs.json`](modul-09-tools-dbs.json)
+**Workflow-Datei:** [`modul-09-tools-dbs-challenge.json`](modul-09-tools-dbs-challenge.json)
 
 **Erklärungen zum Modul** (was der Trainer am Beamer zeigt, zum Nachlesen): [TRAINER.md](TRAINER.md)
 
----
-
-## System Message für RAG Agenten
-
-### ROLE
-
-You are the first agent in a two-step movie search pipeline.
-Your job is to analyze the user's question and decide whether semantic (thematic/meaning-based) search is needed.
-
-### INPUT
-A user question in natural language.
-
-### YOUR TASK
-
-1. Analyze the question and determine:
-   - Does it require semantic search (meaning, topics, themes, recommendations "about" something)?
-   - Or is it a factual/structured question (e.g., about years, directors, countries, or other specific filters)?
-
-2. If semantic search is needed:
-   - Search for relevant movies using the vector database.
-   - Use meaning, topics, and themes - not exact keywords.
-   - Return a list of relevant movie IDs and a brief explanation (pageContent) for each, describing why it matches the user's theme.
-
-3. If semantic search is NOT needed:
-   - Pass the original user question unchanged to the next agent (Structured Search Agent).
-
-### RULES
- - Use only information returned by the vector search.
- - Do NOT invent movies or facts.
- - Do NOT perform structured filtering (years, directors, countries, etc.).
- - Do NOT explain how the search works.
- - Do NOT answer the user directly - your output is for the next agent in the pipeline.
-
-### OUTPUT
-If semantic search was performed:
- - Return a list of relevant movie IDs, each with a brief explanation (pageContent) of why it matches.
-
-If semantic search was NOT needed:
- - Pass the original user question as-is to the next agent.
-
-Output must be in a machine-readable format (e.g., JSON).
-
-#### Examples of Output:
-
-##### If RAG search was done:
-
-[
-{
-  "original_question": "Which movies are about problems of society?",
-  "semantic_search_performed": true,
-  "results": [
-    {
-      "ID": "11",
-      "pageContent": "This film explores surveillance and personal freedom in a repressive society."
-    },
-    {
-      "ID": "6",
-      "pageContent": "A dark thriller about justice and morality."
-    }
-  ]
-}
-]
-
-##### If RAG search was not required:
-[
-{
-  "original_question": "Which movies did Steven Spielberg direct in 1993?"
-  "semantic_search_performed": false,
- "results": []
-}
-]
-
----
-
-## Structured Output für RAG Agenten
-
-[
-{
-  "original_question": "Which movies are about problems of society?",
-  "semantic_search_performed": true,
-  "results": [
-    {
-      "ID": "11",
-      "pageContent": "This film explores surveillance and personal freedom in a repressive society."
-    },
-    {
-      "ID": "6",
-      "pageContent": "A dark thriller about justice and morality."
-    }
-  ]
-}
-]
-
----
-
-## System Message für Structured Search Agent
-
-### ROLE
-
-You are a Structured Movie Data Retrieval Agent.
-Your task is to retrieve factual movie data from the movie database and formulate user friendly anster to the users question.
-
-### DATABASE SCHEMA
-
-The movie table contains the following columns:
- - ID
- - Name
- - Year
- - Country
- - Director
- - Tags
-
-The database does NOT contain movie descriptions.
-
-### INPUT TYPES
-
-You may receive one of two types of input:
-
-**1. List of Movie IDs**
-
-Input example:
-
-json
-{
-  "original_question": ...,
-  "semantic_search_performed": true,
-  "results": [
-    {
-      "ID": ...,
-      "pageContent": ...
-    },
-    {
-      "ID": ...,
-      "pageContent": ...
-    }
-  ]
-}
-
-#### Instructions:
- - If ids are present, ignore all other input fields (including chatInput).
- - Retrieve structured data for all movies whose IDs are in the list.
- - Do NOT attempt to interpret or expand the list.
- - If a requested movie ID does not exist, simply skip it.
- - Do NOT perform any semantic or thematic search.
-
-**Example of condition for search by IDs:**
-OR(
-   {ID}=5,
-   {ID}=11,
-   {ID}=17
-)
-
-**2. Structured Query (Attribute-Based)**
-
-Input example:
-
-json
-{
-  "original_question": ...,
-  "semantic_search_performed": false,
-  "results": []
-}
-
-#### Intructions:
- - If no ids are present, treat the input as a structured query.
- - Build database filters using only the provided attributes (e.g., director, country, year, tags).
- - Do NOT infer, guess, or expand attributes.
- - Do NOT perform any semantic or thematic search.
-
-### STRICT RULES
- - Only use data that exists in the database.
- - Never invent movies, attributes, or values.
- - Never interpret user intent or perform semantic/thematic search.
- - Never guess or fill in missing information.
- - If a requested movie ID does not exist, ignore it.
-
-### OUTPUT FORMAT
- - Return the results as structured data (e.g., JSON array of movie objects).
- - For each movie, include only the available columns: ID, Name, Year, Country, Director, Tags.
-
-Example output:
-
-[
-  {
-    "ID": 2,
-    "Name": "Inception",
-    "Year": 2010,
-    "Country": "USA",
-    "Director": "Christopher Nolan",
-    "Tags": ["sci-fi", "thriller"]
-  },
-  {
-    "ID": 11,
-    "Name": "Das Leben der Anderen",
-    "Year": 2006,
-    "Country": "Germany",
-    "Director": "Florian Henckel von Donnersmarck",
-    "Tags": ["drama", "history"]
-  }
-]
-
-### FINAL RESPONSE
- - After retrieving the data, generate a concise, user-friendly summary of the results.
- - Mention only movies actually found in the database.
- - Do NOT reference the input type or internal logic.
- - If no movies are found, return a clear message indicating this.
-
-#### Example user response:
-
-##### If RAG search was done:
-
-Here are the movies found:
- - Inception (2010, USA), directed by Christopher Nolan. Short explanation, why this movie correlates with user's question.
- - Das Leben der Anderen (2006, Germany), directed by Florian Henckel von Donnersmarck. Short explanation, why this movie correlates with user's question
-
-##### If NO RAG search was done:
-
-Here are the movies found:
- - Inception (2010, USA), directed by Christopher Nolan.
- - Das Leben der Anderen (2006, Germany), directed by Florian Henckel von Donnersmarck
-
-If no movies are found:
-No movies matching your criteria were found in the database.
-
----
-
-## Agenten mit Tools: RAG und DB
-
-| ⏱ Dauer | ca. 20 Minuten | 10 Nodes | 👥 Teamgröße 2 Personen |
+> 💡 Handout im **zweiten Browser-Tab** offen lassen. In diesem Modul kopiert ihr System Messages und JSON von hier in den Workflow.
 
 ---
 
 ## 🎯 Szenario
 
-Im Unternehmen liegen große Mengen an Textdaten vor - Produktbeschreibungen, Support-Dokumentationen, Projektdokumente oder interne Wissensdatenbanken. Gleichzeitig werden strukturierte Informationen wie Kategorien, Verantwortlichkeiten, Zeiträume oder Metadaten separat in Datenbanken gespeichert.
+Im Unternehmen liegt Wissen an zwei Stellen: lange Texte (Dokumentationen, Beschreibungen, Tickets) und strukturierte Daten (Kategorien, Jahre, Verantwortliche) in einer Datenbank. Manche Fragen lassen sich nur über den **Inhalt** beantworten („Welche Projekte hatten Probleme mit Datenschutz?“), andere nur über **Fakten** („Welche Projekte leitet Frau Weber?“).
 
-Menschen suchen täglich nach Informationen. Nicht jede Anfrage benötigt jedoch dieselbe Art der Informationssuche. Manche Fragen können direkt über strukturierte Daten beantwortet werden. Andere Anfragen beschreiben eher Themen oder Inhalte und erfordern deshalb eine semantische Suche.
+Ihr baut eine Suche aus zwei Agenten:
 
-Ihr baut einen Workflow, der zunächst analysiert, welche Art von Anfrage vorliegt. Falls nötig, wird eine semantische Suche in einer Vektordatenbank durchgeführt. Die gefundenen Dokumente liefern jedoch nur Referenzen - die detaillierten Informationen werden anschließend aus einer strukturierten Datenbank geladen und für die Antwort verwendet.
+1. Der **RAG Search Agent** entscheidet, ob eine Themensuche nötig ist, und sucht dann in der **Vektordatenbank** (Qdrant).
+2. Ein **IF** schickt das Ergebnis auf einen von zwei Wegen.
+3. Der **Structured Search Agent** holt die Fakten aus der **Datenbank** (Airtable) und formuliert die Antwort.
 
-*Für den Workshop wird dieses Szenario bewusst vereinfacht: Statt echter Unternehmensdokumente werden Beschreibungen von nur 15 Filmen verwendet. Dadurch wird transparent, wie die Datenbasis aussieht und wie sich semantische Suche von klassischer Stichwortsuche unterscheidet. Ihr könnt beispielsweise nach Filmen zu bestimmten Themen suchen oder strukturierte Informationen wie Produktionsjahr, Regisseur oder andere Eigenschaften abfragen.*
-
----
-
-## Workflow-Übersicht
+Statt Unternehmensdaten nehmen wir **15 Filme**. So seht ihr genau, was in den Datenbanken steht (siehe [Anhang](#anhang-inhalt-der-datenbanken)).
 
 ```
-Chat
-   ↓
-RAG Search Agent
-   ↓
-   ├─ Qdrant Vector Store
-   │      ↓
-   │   OpenAI Embeddings
-   │
-   ↓
-Structured Search Agent
-   ↓
-Airtable Movies DB
-   ↓
-Antwort an Benutzer
+Start ─ AUFGABE 0 ─ Testfragen ─┐
+                                ├─ RAG Search Agent ─ IF ─┬─ true:  Prompt – IDs nachschlagen ──┐
+Chat – eigene Fragen ───────────┘     │ Qdrant + Embeddings └─ false: Prompt – Frage weitergeben ┴─ Structured Search Agent ─ Abgabe oder Chat?
+                                                                                                       │ Airtable
 ```
+
+**Input für die Abgabe (steckt schon im Node `Testfragen`):**
+
+```json
+[
+  { "chatInput": "Welche Filme handeln von staatlicher Überwachung?" },
+  { "chatInput": "Welche Filme hat David Fincher gedreht?" }
+]
+```
+
+Die erste Frage braucht die Vektorsuche, die zweite nur die Datenbank. Nur wenn beide richtig beantwortet werden, zählt die Abgabe.
+
+⚠️ **Node-Namen nicht ändern.** `Ergebnis prüfen` liest die Nodes per Namen.
+
+**Credentials:** Qdrant, OpenAI, Gemini und Airtable sind in den Nodes vorausgewählt. Ist ein Feld rot oder leer, nehmt die Credential aus Modul 0 (`Workshop – Qdrant`, `Workshop – OpenAI`, `Workshop – Google Gemini`, `Workshop – Airtable`).
 
 ---
 
 ## Aufgaben
 
-### 1. Verbinde den RAG-Suchagenten mit dem Chat
-- [ ] Setze das Feld Prompt (User Message) auf: `{{ $json.chatInput }}`
+### 00 · SET – Namen eintragen
+
+| Name | Typ | Wert |
+|---|---|---|
+| name | String | euer Vor- und Nachname, z. B. `Anna Müller` |
+
+### 01 · AI AGENT – RAG Search Agent
+
+Node `AUFGABE 1 – RAG Search Agent` öffnen.
+
+| Einstellung | Wert |
+|---|---|
+| Source for Prompt (User Message) | **Define below** |
+| Prompt (User Message) | `{{ $json.chatInput }}` |
+| Options → Add Option → System Message | Text unten, **alles ersetzen** |
+
+`chatInput` liefern beide Starts: der Node `Testfragen` und der Chat.
+
+```
+# ROLE
+You are the first agent in a two-step movie search pipeline.
+You decide whether the user's question needs a semantic search (topics, themes, moods, content) and, if so, you run it.
+
+# YOUR TASK
+1. Read the question.
+   - Topic, theme, mood or content ("movies about surveillance", "dark sci-fi", "similar to Matrix") → semantic search.
+   - Only facts (year, director, country, genre, name) → no semantic search.
+   - Both (e.g. "robot movies from the 90s") → semantic search. The next agent applies the year filter.
+2. Semantic search: call the vector store tool. Search for meaning, not for exact words.
+   For every relevant hit, return the movie ID from the metadata and one sentence why it matches.
+3. No semantic search: return the question and an empty results list.
+
+# RULES
+- Use only what the vector store returns. Never invent movies or IDs.
+- Do not filter by year, director, country or genre. That is the next agent's job.
+- Do not answer the user. Your output goes to the next agent.
+- original_question is always the user's question, unchanged.
+
+# OUTPUT
+{
+  "original_question": "Which movies are about problems of society?",
+  "semantic_search_performed": true,
+  "results": [
+    { "ID": "11", "pageContent": "Surveillance and personal freedom in a repressive state." },
+    { "ID": "6", "pageContent": "A dark thriller about justice and morality." }
+  ]
+}
+
+Without semantic search:
+{
+  "original_question": "Which movies did David Fincher direct?",
+  "semantic_search_performed": false,
+  "results": []
+}
+```
+
+### 02 · STRUCTURED OUTPUT PARSER – festes Antwortformat
+
+Der nächste Schritt (IF) soll **ohne KI** entscheiden. Dafür braucht er ein festes Feld `semantic_search_performed`. Das kennt ihr aus Modul 8.
+
+Im Node `AUFGABE 1 – RAG Search Agent`:
+
+| Einstellung | Wert |
+|---|---|
+| Require Specific Output Format | **an** |
+
+Unter dem Agenten erscheint der Anschluss **Output Parser**. Zieht ihn auf den Node `AUFGABE 2 – Structured Output Parser`. Dann diesen Node öffnen:
+
+| Einstellung | Wert |
+|---|---|
+| Schema Type | **Generate From JSON Example** |
+| JSON Example | Beispiel unten |
+
+```json
+{
+  "original_question": "Which movies are about problems of society?",
+  "semantic_search_performed": true,
+  "results": [
+    { "ID": "11", "pageContent": "Surveillance and personal freedom in a repressive state." },
+    { "ID": "6", "pageContent": "A dark thriller about justice and morality." }
+  ]
+}
+```
+
+⚠️ Das Beispiel beginnt mit `{`, nicht mit `[`. Ein Array würde den IF in Aufgabe 5 aushebeln.
+
+### 03 · QDRANT VECTOR STORE – Vektorsuche als Tool
+
+Node `AUFGABE 3 – Qdrant Vector Store` (hängt schon als Tool am Agenten).
+
+| Einstellung | Wert |
+|---|---|
+| Credential to connect with | `Qdrant account` (oder `Workshop – Qdrant`) |
+| Operation Mode | **Retrieve Documents (As Tool for AI Agent)** |
+| Description | Text unten |
+| Qdrant Collection | From list → **n8n workshop** |
+| Limit | `5` |
+| Include Metadata | **an** |
+
+```
+Semantic search in the descriptions of 15 movies. Use it for questions about topics, themes, moods or content. Returns matching text passages with the movie ID in the metadata. Does not know years, directors or countries.
+```
+
+💡 Die **Description** liest der Agent, um zu entscheiden, wann er das Tool benutzt. Sie ist so wichtig wie die System Message.
+
+### 04 · EMBEDDINGS OPENAI – dasselbe Modell wie beim Speichern
+
+Die Filmbeschreibungen wurden mit `text-embedding-3-small` in Vektoren umgerechnet (in Abschnitte geteilt, ca. 10 % Überlappung). Eure Frage muss mit **demselben Modell** umgerechnet werden, sonst passen die Vektoren nicht zusammen.
+
+| Einstellung | Wert |
+|---|---|
+| Credential to connect with | `OpenAI account 3` (oder `Workshop – OpenAI`) |
+| Model | **text-embedding-3-small** |
+
+### 05 · IF – Semantische Suche?
+
+Node `AUFGABE 5 – IF: Semantische Suche?`. Eine Bedingung anlegen:
+
+| Einstellung | Wert |
+|---|---|
+| Value 1 | `{{ $json.output.semantic_search_performed }}` |
+| Operator | **Boolean → is true** |
+
+Die zwei Nodes dahinter sind fertig:
+
+| Ausgang | Node | Was er baut |
+|---|---|---|
+| true | `Prompt – IDs nachschlagen` | „Lade genau diese IDs: 11, 2, …“ plus die Begründungen |
+| false | `Prompt – Frage weitergeben` | „Keine Themensuche, filtere nach den Spalten“ plus die Frage |
+
+`Pfade zusammenführen` (Merge) sammelt beide Wege wieder ein.
+
+### 06 · AI AGENT – Structured Search Agent
+
+Node `AUFGABE 6 – Structured Search Agent`.
+
+| Einstellung | Wert |
+|---|---|
+| Source for Prompt (User Message) | **Define below** |
+| Prompt (User Message) | `{{ $json.prompt }}` |
+| Options → Add Option → System Message | Text unten, **alles ersetzen** |
+
+```
+# ROLE
+You are the second agent in a movie search pipeline. You load facts from the movie database and answer the user's question.
+
+# DATABASE
+Table with the columns: ID, Name, Year, Country, Genre, Director.
+The table has no descriptions and no ratings.
+
+# INPUT
+You get one of two prompts:
+1. "Look up exactly these movie IDs" → load these IDs. If the question also names a year, director, country or genre, add that filter.
+2. "No semantic search was done" → build a filter from the question.
+
+# AIRTABLE FORMULAS (examples)
+- IDs: OR({ID}=6, {ID}=11)
+- Director: {Director}='David Fincher'
+- Year: {Year}>2010
+- Genre contains: FIND('Sci-fi', {Genre})
+- Combined: AND(OR({ID}=2, {ID}=7), {Year}<2000)
+
+# RULES
+- Mention only movies the tool returned. Never invent movies or values.
+- If a filter needs a column that does not exist (e.g. rating), say so.
+- If nothing is found, say: "Dazu habe ich in der Datenbank keine Filme gefunden."
+
+# ANSWER
+Answer in the language of the question, short, as a list:
+- Name (Year, Country), Regie: Director – for semantic hits add one sentence why it matches.
+```
+
+### 07 · AIRTABLE – Filmdatenbank als Tool
+
+Node `AUFGABE 7 – Airtable: Movies DB` (hängt schon als Tool am Agenten).
+
+| Einstellung | Wert |
+|---|---|
+| Credential to connect with | `Airtable Personal Access Token account` (oder `Workshop – Airtable`) |
+| Tool Description | **Set Manually**, Text unten |
+| Resource | **Record** |
+| Operation | **Search** |
+| Base | By ID → `appCpTvyaPECSXXYo` |
+| Table | By ID → `tbloVGYsMbibYdwS1` |
+| Filter By Formula | ✨ **Let the model define this parameter** (Stern-Knopf rechts am Feld) |
+| Return All | aus |
+| Limit | `15` |
+
+```
+Searches the movie table (columns ID, Name, Year, Country, Genre, Director) with an Airtable formula. Use it for facts like year, director, country, genre, or to load movies by ID. Contains no descriptions.
+```
+
+### Abgabe
+
+**Execute workflow**. Beide Testfragen laufen durch, `Ergebnis prüfen` zeigt im Feld `hinweise`, was noch fehlt, und trägt euch ins Scoreboard ein.
+
+Kontrolle in `Ergebnis prüfen`:
+
+| Feld | Soll |
+|---|---|
+| `korrekt` | `✅ Ja` |
+| `antworten` | zwei Antworten: eine mit *Das Leben der Anderen*, eine mit *Se7en* und *Zodiac* |
+
+Die Antworten kommen von einem Sprachmodell und sind nicht jedes Mal gleich. Geprüft werden nur die Filmnamen und die Felder aus Aufgabe 2.
 
 ---
 
-### 2. Füge die System-Nachricht in den RAG Search Agent ein
+## 💬 Ausprobieren im Chat
 
-⬅️ Der benötigte Text befindet sich links im gelben Block.
+Unten **Open chat** klicken und eigene Fragen stellen. Danach im Tab **Executions** nachsehen, welchen Weg der IF genommen hat und was die Tools zurückgegeben haben.
 
-Die Aufgabe dieses Agenten besteht darin:
- - die Benutzeranfrage zu analysieren
- - zu entscheiden, ob eine semantische Suche erforderlich ist
- - das Ergebnis in einem definierten Format zurückzugeben
+| Art | Beispiele |
+|---|---|
+| Thema (Vektorsuche) | Ich suche Filme über künstliche Intelligenz · Welche Filme handeln von Zeitreisen? · Zeig mir Filme wie Matrix · Düstere Science-Fiction |
+| Fakten (Datenbank) | Filme von Christopher Nolan · Filme nach 2010 · Filme aus dem Jahr 1994 · Filme aus Deutschland |
+| Grenzfälle | Filme über Roboter aus den 90ern · Filme mit Bewertung über 8 · Zeig mir etwas Spannendes · Filme, die lustig und traurig sind |
 
----
+Fragen zum Nachdenken:
 
-### 3. Aktiviere ein strukturiertes Ausgabeformat
-
-- [ ] Aktiviere: **Require Specific Output Format**
-- [ ] Verbinde anschließend den Output Parser: Wähle **Generate From JSON Example**
-- [ ] ⬅️ Füge das folgende Beispiel ein: Der benötigte Text befindet sich links im gelben Block.
-
----
-
-### 4. Verbinde den Agenten mit der Vektordatenbank
-
-Füge das Tool Qdrant Vector Store hinzu und konfiguriere folgende Einstellungen:
-- [ ] Credentials: **Qdrant Account**
-- [ ] Operation Mode: **Retrieve Documents (As Tool for AI Agent)**
-- [ ] Qdrant Collection: **From list → n8n workshop**
-- [ ] Limit:**5**
-- [ ] Include Metadata: **True**
+- Warum hat der erste Agent gesucht oder nicht gesucht?
+- Bei „Roboter aus den 90ern“: Kommt der Jahresfilter beim zweiten Agenten an?
+- „Bewertung über 8“: Was antwortet der Agent, wenn es die Spalte nicht gibt?
 
 ---
 
-### 5. Wähle das richtige Embedding-Modell
+## 🏆 Wertung
 
-Die Filmbeschreibungen wurden bereits in der Vektordatenbank gespeichert.
+Die schnellste **korrekte** Abgabe gewinnt. Details: [Scoreboard](../scoreboard.md).
 
-Dabei wurden:
- - die Texte in kleinere Abschnitte aufgeteilt
- - überlappende Textbereiche verwendet (~10%)
- - Embedding-Vektoren berechnet
+## 🔧 Wenn es nicht klappt
 
-> 💡 **Hinweis:**  Für eine semantische Suche muss die Benutzeranfrage mit **demselben Embedding-Model** verarbeitet werden wie die gespeicherten Texte.
-
-Verwende:
-- [ ] Tool: **Embeddings OpenAI**
-- [ ] Credentials: **OpenAI Account 3**
-- [ ] Model: **text-embedding-3-small**
-
----
-
-### 6. Verbinde den Structured Search Agent mit dem ersten Agenten
-
-Verbinde den Ausgang des ersten Agenten mit dem Structured Search Agent.
-- [ ] Setze das Feld Prompt (User Message) auf: `{{ $json.output }}`
+| Symptom | Ursache |
+|---|---|
+| Hinweis „liefert Text statt JSON“ | Require Specific Output Format aus, oder der Output Parser hängt nicht am Agenten |
+| Hinweis „JSON-Beispiel ist ein Array“ | Im Output Parser steht `[ { … } ]`. Nur das Objekt `{ … }` einfügen |
+| Alle Fragen landen auf false | IF prüft `$json.semantic_search_performed` statt `$json.output.semantic_search_performed` |
+| Fehler „Wrong input dimensions“ o. ä. bei Qdrant | Falsches Embedding-Modell. Muss `text-embedding-3-small` sein |
+| Vektorsuche liefert Treffer ohne `ID` | Include Metadata aus |
+| Agent ruft Qdrant nie auf | Description leer, oder die System Message fehlt |
+| Airtable: `INVALID_FILTER_BY_FORMULA` | Das Modell hat eine Spalte erfunden. In der System Message stehen die echten Spalten |
+| Antwort „keine Filme gefunden“ bei David Fincher | Filter By Formula ist ein fester Text statt ✨ *defined by the model* |
+| Chat antwortet nicht | Im Chat-Modus läuft am Ende `Antwort an den Chat`. Wurde der Node gelöscht? |
 
 ---
 
-### 7. Füge den System Prompt ein
+## 🚀 Schon fertig?
 
-⬅️ Der benötigte Text befindet sich links im gelben Block.
-
-Die Aufgabe dieses Agenten:
- - strukturierte Informationen zu den gefundenen Filmen abzurufen
- - direkte Datenbankabfragen durchzuführen, wenn keine semantische Suche notwendig ist
- - die Antwort auf die Benutzeranfrage
+1. **Grenzfall reparieren:** Bringt „Filme über Roboter aus den 90ern“ zum richtigen Ergebnis (nur *The Matrix*). Wo geht der Jahresfilter verloren, in der System Message des ersten Agenten oder im Prompt des zweiten?
+2. **Ein Agent statt zwei:** Hängt Qdrant und Airtable als Tools an *einen* Agenten und löscht IF und Merge. Was wird einfacher, was unzuverlässiger?
+3. **Tool-Beschreibung sabotieren:** Schreibt in die Description von Qdrant „Use this for directors“. Was macht der Agent jetzt bei David Fincher?
+4. **Gedächtnis:** Hängt an den Structured Search Agent ein **Simple Memory** und fragt im Chat nach: „Und welcher davon ist der älteste?“
 
 ---
 
-### 8. Verbinde den Structured Search Agent mit Airtable
+## Anhang: Inhalt der Datenbanken
 
-Füge das Tool Airtable hinzu und konfiguriere folgende Einstellungen:
-
-- [ ] Credentials: Airtable **Personal Access Token Account**
-- [ ] Tool Description: **Set Automatically**
-- [ ] Resource: **Record**
-- [ ] Operation: **Search**
-- [ ] Base: By ID → **appCpTvyaPECSXXYo**
-- [ ] Table: By ID → **tbloVGYsMbibYdwS1**
-- [ ] Filter By Formula: **Defined automatically by the model**
-- [ ] Limit: **5**
-
-## Test und Exploration
-
-Nachdem ihr alle 8 Schritte abgeschlossen habt, testet euren Workflow mit unterschiedlichen Arten von Anfragen.
-
-Prüft insbesondere:
- - Wird bei der Anfrage eine semantische Suche durchgeführt oder nicht?
- - Werden passende Filme gefunden?
- - Werden strukturierte Informationen korrekt aus Airtable geladen?
- - Ist die Antwort nachvollziehbar und vollständig?
- - Wie verhält sich der Workflow bei unklar formulierten Fragen?
-
-👈 Probiert beispielsweise folgende Anfragen aus:
-
-### Semantische Suche (Themen/Inhalte):
- - Ich suche Filme über künstliche Intelligenz
- - Zeige Filme über Menschen gegen Maschinen
- - Welche Filme handeln von Zeitreisen?
- - Ich suche düstere Science-Fiction-Filme
- - Zeige ähnliche Filme wie Matrix
-
-### Strukturierte Suche (konkrete Daten):
- - Zeige Filme von Christopher Nolan
- - Welche Filme wurden nach 2010 produziert?
- - Welche Filme stammen aus dem Jahr 1999?
- - Zeige Filme von Steven Spielberg
- - Welche Filme haben eine Bewertung über 8?
-
-### Grenzfälle:
- - Zeige mir etwas Spannendes
- - Welche Filme sind gleichzeitig lustig und traurig?
- - Gibt es Filme über Roboter aus den 90ern?
- - Zeige mir unbekannte Filme
-
-Versucht anschließend zu analysieren:
- - Warum hat der Agent eine semantische Suche verwendet?
- - Warum wurde direkt die strukturierte Datenbank abgefragt?
- - Welche Vorteile und Grenzen erkennt ihr bei beiden Ansätzen?
-
----
-
-## Structured DB Inhalt
+### Airtable (strukturiert)
 
 | ID | Name                                              | Year | Country           | Genre              | Director                     |
 |---:|:--------------------------------------------------|-----:|:------------------|:-------------------|:-----------------------------|
@@ -419,7 +327,7 @@ Versucht anschließend zu analysieren:
 
 ---
 
-## Vektor-DB Inhalte
+### Qdrant (Beschreibungen, je Film ein Text)
 
 ### ID: 1
 ### Name: Indiana Jones and the Raiders of the Lost Ark
@@ -476,7 +384,7 @@ Versucht anschließend zu analysieren:
 *The Lord of the Rings: The Fellowship of the Ring erzählt vom Beginn einer epischen Reise, bei der das Schicksal der Welt von einer kleinen Gemeinschaft abhängt. Im Zentrum steht der unscheinbare Hobbit Frodo, der eine gewaltige Verantwortung übernimmt, die weit über seine eigene Vorstellungskraft hinausgeht. Der Film thematisiert den klassischen Weg des Helden, der nicht aus Machtstreben handelt, sondern aus Pflichtgefühl und Loyalität. Freundschaft und Zusammenhalt werden als entscheidende Kräfte dargestellt, die selbst gegen überwältigendes Böses bestehen können. Gleichzeitig zeigt die Geschichte, wie verführerisch Macht sein kann und wie unterschiedlich Charaktere mit dieser Versuchung umgehen. Opferbereitschaft ist ein zentrales Motiv, das sich durch die Entscheidungen vieler Figuren zieht. Die Welt von Mittelerde wird als vielschichtiges Geflecht aus Kulturen, Mythen und Geschichte präsentiert. Der Film verbindet persönliche Schicksale mit einem großen kosmischen Konflikt. Dabei steht weniger der Sieg durch Stärke im Vordergrund als moralische Standhaftigkeit und innere Integrität.*
 
 ### ID: 10
-### Name: arry Potter and the Prisoner of Azkaban
+### Name: Harry Potter and the Prisoner of Azkaban
 ### Description:
 
 *Der Film Harry Potter and the Prisoner of Azkaban zeigt eine deutlich reifere und düsterere Phase der Geschichte um den jungen Zauberer. Im Mittelpunkt steht die Auseinandersetzung mit der eigenen Vergangenheit und deren Einfluss auf die Gegenwart sowie die Frage persönlicher Verantwortung. Die Handlung greift das Motiv der ungerechten Anschuldigung auf und zeigt, wie Angst und Vorurteile das gesellschaftliche Urteil prägen. Eine zentrale Rolle spielt das Thema Freiheit – sowohl im physischen als auch im inneren Sinne. Die Figuren werden dazu gezwungen, ihre bisherigen Vorstellungen von Gut und Böse zu hinterfragen. Der Film macht deutlich, dass die Wahrheit oft komplexer ist als offizielle Darstellungen. Besonderes Gewicht liegt auf der emotionalen Entwicklung der Charaktere und ihrer Fähigkeit zu Mitgefühl. Freundschaft und Vertrauen werden zu entscheidenden Faktoren bei wichtigen Entscheidungen. The Prisoner of Azkaban nutzt die Mittel der Fantasy, um universelle menschliche Themen wie Schuld, Vergebung und die bewusste Wahl des eigenen Weges zu verhandeln.*

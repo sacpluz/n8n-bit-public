@@ -1,16 +1,57 @@
-# Modul 09 – Tools und DBs – Erklärungen
+# Modul 9 – Agenten mit Tools: Vektorsuche und Datenbank – Erklärungen
 
 Was der Trainer am Beamer erklärt. Die Aufgaben stehen in der [README.md](README.md).
 
 ---
 
-## Modul 9 und 10 - Node-Übersicht
+## Ablauf am Beamer (10 min) – Playground links im Workflow
 
-1. **Chat Trigger **– Startpunkt des Workflows. Empfängt Benutzeranfragen aus dem Chat und startet die Verarbeitung des Workflows. Übergibt die Nachricht als chatInput.
-2. **AI Agent (RAG Search Agent)** – Analysiert die Benutzeranfrage und entscheidet, ob eine semantische Suche erforderlich ist. Führt bei Bedarf eine thematische Suche durch und gibt strukturierte Ergebnisse zurück.
-3. **Structured Output Parser** – Erzwingt ein definiertes JSON-Format für die Antwort des ersten Agenten. Dadurch wird sichergestellt, dass nachfolgende Komponenten immer dieselbe Datenstruktur erhalten.
-4. **Qdrant Vector Store** – Führt eine semantische Suche in der Vektordatenbank durch und liefert relevante Dokumente bzw. Filmreferenzen zurück.
-5. **Embeddings OpenAI** – Berechnet Embedding-Vektoren für Benutzeranfragen. Für eine korrekte semantische Suche muss dieselbe Embedding-Methode verwendet werden wie beim Erstellen der Vektordatenbank.
-6. **Google Gemini Chat Model** – Sprachmodell, das von beiden Agenten verwendet wird. Führt Analyse-, Entscheidungs- und Antwortgenerierungsschritte aus.
-7. **AI Agent (Structured Search Agent)** – Verarbeitet die Ergebnisse des ersten Agenten. Ruft strukturierte Daten aus der Datenbank ab und formuliert eine benutzerfreundliche Antwort.
-8. **Airtable Tool (Movies DB)** – Führt Datenbankabfragen auf der Filmdatenbank aus. Die Suchfilter werden dynamisch vom Agenten erstellt.
+Alle Nodes in der gelben Notiz **Playground – Vektorsuche und Datenbank**. Jeweils *Execute step*.
+
+| Schritt | Node | Was zeigen |
+|---|---|---|
+| 1 | **Playground – Vektorsuche: Überwachung** | Drei Treffer, ganz oben *Das Leben der Anderen*. Im Output `metadata.ID` und `pageContent` zeigen. Das Wort „Überwachung“ muss nicht wörtlich im Text stehen, die Suche vergleicht Bedeutung |
+| 2 | **Playground – Vektorsuche: David Fincher** | Es kommen trotzdem drei Treffer, aber beliebige. Die Vektorsuche liefert immer *die ähnlichsten* Texte, auch wenn keiner passt. Regisseure stehen nicht in den Beschreibungen |
+| 3 | **Playground – Airtable: Filme von David Fincher** | Formel `{Director}='David Fincher'` → genau *Se7en* und *Zodiac*. Fakten gehören in die Datenbank |
+| 4 | **Playground – Airtable: IDs 6 und 11** | Formel `OR({ID}=6, {ID}=11)`. So lädt der zweite Agent die Filme, die die Vektorsuche gefunden hat |
+| 5 | **Playground – Embeddings OpenAI** | Hängt an beiden Vektorsuchen. Modell `text-embedding-3-small`, dasselbe wie beim Befüllen von Qdrant. Ein anderes Modell erzeugt Vektoren anderer Länge und Bedeutung |
+
+Danach im Hauptstrang zeigen:
+
+- **AUFGABE 1 und 6** sind zwei Agenten mit je einem Tool. Das Sprachmodell (Gemini) ist für beide fertig angeschlossen.
+- **AUFGABE 5 (IF)**: Die Entscheidung „Themensuche ja/nein“ trifft der erste Agent, aber den Weg danach bestimmt ein IF ohne KI. Das geht nur, weil der Output Parser (Aufgabe 2) ein festes Feld `semantic_search_performed` erzwingt. Rückgriff auf Modul 8.
+- **Testfragen vs. Chat**: *Execute workflow* ist die Abgabe mit zwei festen Fragen. *Open chat* ist zum Ausprobieren, dann endet der Workflow in `Antwort an den Chat` und nichts geht ans Scoreboard. Das entscheidet `Abgabe oder Chat?`.
+
+## Node-Übersicht
+
+| Node | Aufgabe im Workflow |
+|---|---|
+| **Start – Execute workflow** / **Testfragen** | Abgabe: zwei feste Fragen als `chatInput` |
+| **Chat – eigene Fragen** | Chat-Trigger, liefert die Nachricht ebenfalls als `chatInput` |
+| **RAG Search Agent** | Entscheidet, ob eine Themensuche nötig ist, und ruft dafür Qdrant auf |
+| **Structured Output Parser** | Erzwingt das JSON-Format `original_question`, `semantic_search_performed`, `results` |
+| **Qdrant Vector Store** | Vektorsuche in den 15 Filmbeschreibungen, als Tool für den Agenten |
+| **Embeddings OpenAI** | Rechnet die Suchanfrage in einen Vektor um |
+| **Google Gemini Chat Model** | Sprachmodell für beide Agenten, Temperatur 0 |
+| **IF: Semantische Suche?** | Wählt den Weg: IDs nachschlagen oder Frage direkt weitergeben |
+| **Prompt – …** / **Pfade zusammenführen** | Bauen den Prompt für den zweiten Agenten, Merge sammelt beide Wege ein |
+| **Structured Search Agent** | Baut eine Airtable-Formel, lädt die Fakten und antwortet |
+| **Airtable: Movies DB** | Tabelle mit ID, Name, Year, Country, Genre, Director. Die Formel schreibt das Modell (`$fromAI`) |
+| **Ergebnis prüfen** / **Scoreboard** | Prüft beide Antworten und trägt das Ergebnis ein |
+
+## Warum zwei Datenbanken?
+
+| | Vektordatenbank (Qdrant) | Strukturierte Datenbank (Airtable) |
+|---|---|---|
+| Speichert | Text als Zahlenvektor | Felder mit festen Werten |
+| Findet | Ähnliche Bedeutung, auch mit anderen Worten | Exakte Treffer per Filter |
+| Gut für | „Filme über Schuld und Vergebung“ | „Filme von 1994“ |
+| Schlecht für | Jahre, Namen, Zählen | Themen, Stimmungen |
+| Liefert immer | die k ähnlichsten Treffer, auch wenn keiner passt | nur, was den Filter erfüllt |
+
+## Was in v01 anders war
+
+- Der zweite Agent musste selbst erkennen, ob IDs kommen oder nicht. Jetzt entscheidet ein IF, und der Prompt sagt dem Agenten genau, was zu tun ist.
+- Bei IDs hat der zweite Agent alle anderen Angaben ignoriert. Dadurch ging bei „Roboter aus den 90ern“ der Jahresfilter verloren. Jetzt soll er zusätzliche Filter anwenden (Bonusaufgabe 1 prüft, ob das klappt).
+- Das JSON-Beispiel war ein Array, der zweite Agent erwartete ein Objekt. Jetzt ist es ein Objekt.
+- Die Tool-Beschreibungen schreiben die Teilnehmer selbst ein, statt „Set Automatically“.
