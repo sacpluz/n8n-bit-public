@@ -585,79 +585,17 @@
     },
     {
       "parameters": {
-        "operation": "append",
-        "documentId": {
-          "__rl": true,
-          "value": "GOOGLE-SHEET-ID-EINTRAGEN",
-          "mode": "id"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "Abgaben",
-          "mode": "name"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Name": "={{ $json.Name }}",
-            "Modul": "4",
-            "Zeit": "={{ $now.setZone('Europe/Berlin').toFormat('yyyy-MM-dd HH:mm:ss') }}",
-            "Korrekt": "={{ ['form','webhook','schedule','chat','gmail'].includes($json.trigger_source) ? 'ja' : 'nein' }}",
-            "Details": "={{ $json.trigger_source }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "Name",
-              "displayName": "Name",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Modul",
-              "displayName": "Modul",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Zeit",
-              "displayName": "Zeit",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Korrekt",
-              "displayName": "Korrekt",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Details",
-              "displayName": "Details",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            }
-          ]
-        },
-        "options": {}
+        "method": "POST",
+        "url": "https://SCOREBOARD-URL-EINTRAGEN.example",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ name: $json.Name, modul: 4, korrekt: ['form','webhook','schedule','chat','gmail'].includes($json.trigger_source) ? 'ja' : 'nein', details: $json.trigger_source }) }}",
+        "options": {
+          "timeout": 15000
+        }
       },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.5,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         -112,
         1344
@@ -667,79 +605,17 @@
     },
     {
       "parameters": {
-        "operation": "append",
-        "documentId": {
-          "__rl": true,
-          "value": "GOOGLE-SHEET-ID-EINTRAGEN",
-          "mode": "id"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "Abgaben",
-          "mode": "name"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Name": "={{ $json.Name }}",
-            "Modul": "4",
-            "Zeit": "={{ $now.setZone('Europe/Berlin').toFormat('yyyy-MM-dd HH:mm:ss') }}",
-            "Korrekt": "={{ ['form','webhook','schedule','chat','gmail'].includes($json.trigger_source) ? 'ja' : 'nein' }}",
-            "Details": "={{ $json.trigger_source }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "Name",
-              "displayName": "Name",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Modul",
-              "displayName": "Modul",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Zeit",
-              "displayName": "Zeit",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Korrekt",
-              "displayName": "Korrekt",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Details",
-              "displayName": "Details",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            }
-          ]
-        },
-        "options": {}
+        "method": "POST",
+        "url": "https://SCOREBOARD-URL-EINTRAGEN.example",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ name: $json.Name, modul: 4, korrekt: ['form','webhook','schedule','chat','gmail'].includes($json.trigger_source) ? 'ja' : 'nein', details: $json.trigger_source }) }}",
+        "options": {
+          "timeout": 15000
+        }
       },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.5,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         512,
         1344
@@ -749,79 +625,17 @@
     },
     {
       "parameters": {
-        "operation": "append",
-        "documentId": {
-          "__rl": true,
-          "value": "GOOGLE-SHEET-ID-EINTRAGEN",
-          "mode": "id"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "Abgaben",
-          "mode": "name"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Name": "={{ $json.Name }}",
-            "Modul": "4",
-            "Zeit": "={{ $now.setZone('Europe/Berlin').toFormat('yyyy-MM-dd HH:mm:ss') }}",
-            "Korrekt": "={{ ['form','webhook','schedule','chat','gmail'].includes($json.trigger_source) ? 'ja' : 'nein' }}",
-            "Details": "={{ $json.trigger_source }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "Name",
-              "displayName": "Name",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Modul",
-              "displayName": "Modul",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Zeit",
-              "displayName": "Zeit",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Korrekt",
-              "displayName": "Korrekt",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Details",
-              "displayName": "Details",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            }
-          ]
-        },
-        "options": {}
+        "method": "POST",
+        "url": "https://SCOREBOARD-URL-EINTRAGEN.example",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ name: $json.Name, modul: 4, korrekt: ['form','webhook','schedule','chat','gmail'].includes($json.trigger_source) ? 'ja' : 'nein', details: $json.trigger_source }) }}",
+        "options": {
+          "timeout": 15000
+        }
       },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.5,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         1072,
         1344
@@ -831,79 +645,17 @@
     },
     {
       "parameters": {
-        "operation": "append",
-        "documentId": {
-          "__rl": true,
-          "value": "GOOGLE-SHEET-ID-EINTRAGEN",
-          "mode": "id"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "Abgaben",
-          "mode": "name"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Name": "={{ $json.Name }}",
-            "Modul": "4",
-            "Zeit": "={{ $now.setZone('Europe/Berlin').toFormat('yyyy-MM-dd HH:mm:ss') }}",
-            "Korrekt": "={{ ['form','webhook','schedule','chat','gmail'].includes($json.trigger_source) ? 'ja' : 'nein' }}",
-            "Details": "={{ $json.trigger_source }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "Name",
-              "displayName": "Name",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Modul",
-              "displayName": "Modul",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Zeit",
-              "displayName": "Zeit",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Korrekt",
-              "displayName": "Korrekt",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Details",
-              "displayName": "Details",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            }
-          ]
-        },
-        "options": {}
+        "method": "POST",
+        "url": "https://SCOREBOARD-URL-EINTRAGEN.example",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ name: $json.Name, modul: 4, korrekt: ['form','webhook','schedule','chat','gmail'].includes($json.trigger_source) ? 'ja' : 'nein', details: $json.trigger_source }) }}",
+        "options": {
+          "timeout": 15000
+        }
       },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.5,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         1568,
         1376
@@ -913,79 +665,17 @@
     },
     {
       "parameters": {
-        "operation": "append",
-        "documentId": {
-          "__rl": true,
-          "value": "GOOGLE-SHEET-ID-EINTRAGEN",
-          "mode": "id"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "Abgaben",
-          "mode": "name"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Name": "={{ $json.Name }}",
-            "Modul": "4",
-            "Zeit": "={{ $now.setZone('Europe/Berlin').toFormat('yyyy-MM-dd HH:mm:ss') }}",
-            "Korrekt": "={{ ['form','webhook','schedule','chat','gmail'].includes($json.trigger_source) ? 'ja' : 'nein' }}",
-            "Details": "={{ $json.trigger_source }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "Name",
-              "displayName": "Name",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Modul",
-              "displayName": "Modul",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Zeit",
-              "displayName": "Zeit",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Korrekt",
-              "displayName": "Korrekt",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Details",
-              "displayName": "Details",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            }
-          ]
-        },
-        "options": {}
+        "method": "POST",
+        "url": "https://SCOREBOARD-URL-EINTRAGEN.example",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ name: $json.Name, modul: 4, korrekt: ['form','webhook','schedule','chat','gmail'].includes($json.trigger_source) ? 'ja' : 'nein', details: $json.trigger_source }) }}",
+        "options": {
+          "timeout": 15000
+        }
       },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.5,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         2144,
         1392

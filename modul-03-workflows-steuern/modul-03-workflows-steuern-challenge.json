@@ -184,79 +184,17 @@
     },
     {
       "parameters": {
-        "operation": "append",
-        "documentId": {
-          "__rl": true,
-          "value": "GOOGLE-SHEET-ID-EINTRAGEN",
-          "mode": "id"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "Abgaben",
-          "mode": "name"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Name": "={{ $workflow.name.split(/\\s[–-]\\s/)[0] }}",
-            "Modul": "3",
-            "Zeit": "={{ $now.setZone('Europe/Berlin').toFormat('yyyy-MM-dd HH:mm:ss') }}",
-            "Korrekt": "={{ String($json.korrekt).includes('Ja') ? 'ja' : 'nein' }}",
-            "Details": "={{ $json.hinweise }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "Name",
-              "displayName": "Name",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Modul",
-              "displayName": "Modul",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Zeit",
-              "displayName": "Zeit",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Korrekt",
-              "displayName": "Korrekt",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Details",
-              "displayName": "Details",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            }
-          ]
-        },
-        "options": {}
+        "method": "POST",
+        "url": "https://SCOREBOARD-URL-EINTRAGEN.example",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ name: $workflow.name.split(/\\s[–-]\\s/)[0], modul: 3, korrekt: String($json.korrekt).includes('Ja') ? 'ja' : 'nein', details: $json.hinweise }) }}",
+        "options": {
+          "timeout": 15000
+        }
       },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.5,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         1780,
         1020

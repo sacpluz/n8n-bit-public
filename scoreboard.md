@@ -1,6 +1,6 @@
 # Scoreboard – so funktioniert der Wettbewerb
 
-Jeder Challenge-Workflow schreibt sein Ergebnis am Ende in ein gemeinsames **Google Sheet**. Die Rangliste rechnet das Sheet selbst aus. Teilnehmer brauchen keine eigene Google-Credential, die Scoreboard-Nodes nutzen die Credential des Facilitators.
+Jeder Challenge-Workflow schickt sein Ergebnis am Ende an ein gemeinsames **Google Sheet**. Ein kleines Apps Script im Sheet nimmt die Abgabe an, die Rangliste rechnet das Sheet selbst aus. Niemand braucht dafür eine Credential.
 
 ## Die Regel
 
@@ -17,17 +17,18 @@ Ein schneller, falscher Workflow bringt nichts. Erst richtig, dann schnell.
 
 ```
 Teilnehmer-Workflow
-… → Ergebnis prüfen → Scoreboard – Ergebnis eintragen ──▶ Google Sheet, Tab „Abgaben" ──▶ Tab „Rangliste" (Formeln)
+… → Ergebnis prüfen → Scoreboard – Ergebnis eintragen ──POST──▶ Apps Script ──▶ Tab „Abgaben" ──▶ Tab „Rangliste" (Formeln)
 ```
 
 | Schritt | Was |
 |---|---|
 | **Ergebnis prüfen** | Prüft das Ergebnis, setzt `korrekt` und nennt im Feld `hinweise`, was noch nicht stimmt |
-| **Scoreboard – Ergebnis eintragen** | Google-Sheets-Node, hängt eine Zeile an: Name, Modul, Zeit, Korrekt, Details |
+| **Scoreboard – Ergebnis eintragen** | HTTP Request an das Apps Script im Sheet: Name, Modul, Korrekt, Details |
+| **Apps Script** | Setzt die Zeit und hängt eine Zeile an `Abgaben` an |
 | **Rangliste** | Tab im Sheet, rechnet aus den Abgaben die Plätze aus |
 
 - Der **Name** kommt aus dem Workflow-Namen: alles vor dem ersten ` – `. Deshalb den Workflow nicht umbenennen.
-- Die **Zeit** setzt n8n beim Eintragen, also für alle auf derselben Uhr.
+- Die **Zeit** setzt das Apps Script beim Eintragen, also für alle auf derselben Uhr.
 - In Modul 4 schreibt jeder Trigger eine eigene Zeile (`Scoreboard – Formular eintragen` usw.).
 
 ## Was gewertet wird
