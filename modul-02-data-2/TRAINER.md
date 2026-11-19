@@ -14,6 +14,20 @@ Daten aus echten Systemen sind selten sauber. Die vier Nodes in diesem Modul sin
 
 Am Beamer nach jedem Node die **Item-Anzahl** zeigen. Daran sieht man sofort, ob ein Schritt wirkt.
 
+## Ablauf am Beamer (8 min) – Playground links im Workflow
+
+Alle Nodes in der gelben Notiz **Playground – Datenqualität**. Jeden Node öffnen, **Execute step**, Item-Anzahl vergleichen.
+
+| Schritt | Node | Was zeigen |
+|---|---|---|
+| 1 | **Playground – Beispieldaten** | Rohdaten: Duplikate und inaktive Einträge erkennen lassen |
+| 2 | **Playground – Filter** | Nur `active = true` bleibt. Kein zweiter Ausgang, der Rest ist weg |
+| 3 | **Playground – Remove Duplicates** | Vergleich nur über `email` |
+| 4 | **Playground – Sort** | Nach `signup_date` absteigend. Zweites Sortierfeld live hinzufügen |
+| 5 | **Playground – Limit** | Höchstens N Items. Live auf 3 stellen |
+
+Frage an die Gruppe: Was passiert, wenn Limit vor Sort steht?
+
 ## Die Nodes
 
 | Node | Was er macht | Worauf achten |

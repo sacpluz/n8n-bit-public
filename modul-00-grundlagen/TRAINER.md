@@ -4,7 +4,7 @@ Ablauf und Erklärungen für den Trainer. Die Aufgaben für die Teilnehmer stehe
 
 | Teil | Dauer | Wer |
 |---|---|---|
-| Demo am Beamer mit dem **Playground** | 15 min | Trainer zeigt, alle schauen zu oder klicken mit |
+| Demo am Beamer mit dem **Playground** | 15–17 min | Trainer zeigt, alle schauen zu oder klicken mit |
 | Aufgaben 0–5 | 15 min | jede:r für sich |
 | Auflösung | 3–5 min | Trainer |
 
@@ -69,19 +69,33 @@ Alle Schritte im **Playground**. Die Teilnehmer dürfen mitklicken, die Aufgaben
 4. **Drag & Drop:** *Add Field*, Name `kunde`, dann im Input (Schema) `customer.name` greifen und ins Wertfeld ziehen → n8n schreibt `{{ $json.customer.name }}` selbst.
 5. **Typ-Falle:** bei `menge_erste_position` den Typ auf **String** stellen → im Output steht `"1"` mit Anführungszeichen. Zurückstellen.
 
-### 5 · Die drei häufigsten Fehler live (2 min)
+### 5 · Arrays (2 min)
 
-1. In `bestellung` die Expression auf `{{ $json.status }}` ändern (kleines s) → **leer, aber keine Fehlermeldung**. „Groß-/Kleinschreibung zählt, und n8n warnt euch nicht.“ Zurück auf `orderId`.
-2. Node-Namen: „`$('Beispieldaten')` funktioniert nur mit exakt diesem Namen. Kopiert ihr einen Node, heißt er `… 1`.“
+1. **Playground – Arrays** öffnen, **Execute step**.
+
+   | Feld | Expression | Ergebnis |
+   |---|---|---|
+   | `anzahl` | `{{ $json.items.length }}` | `2` |
+   | `erstes_produkt` | `{{ $json.items[0].product }}` | `Monitor` |
+   | `letztes_produkt` | `{{ $json.items.last().product }}` | `HDMI-Kabel` |
+   | `alle_produkte` | `{{ $json.items.pluck('product').join(', ') }}` | `Monitor, HDMI-Kabel` |
+   | `summe_menge` | `{{ $json.items.pluck('quantity').sum() }}` | `3` |
+
+2. Sagen: „Gezählt wird ab 0. `items[0]` ist das erste Element.“ Weitere Array-Expressions stehen unten unter *Arrays in Expressions*.
+
+### 6 · Die drei häufigsten Fehler (2 min)
+
+1. **Playground – Groß-/Kleinschreibung** öffnen, **Execute step**: `status_richtig` = `versendet`, `status_falsch` ist **leer, ohne Fehlermeldung**. „`Status` und `status` sind zwei verschiedene Felder, und n8n warnt euch nicht.“
+2. **Playground – Anderen Node referenzieren** öffnen, **Execute step**: Im Input fehlt `total`, trotzdem steht `gesamt` = `238.8` und `kunde` = `Jonas Weber` im Output. „Mit `$('Node-Name')` holt ihr Werte aus einem früheren Node. Der Name muss exakt stimmen. Kopiert ihr einen Node, heißt er `… 1`.“
 3. „Grün heißt nur: kein technischer Fehler. Ob das Ergebnis stimmt, seht ihr im Output. Deshalb gibt es in jeder Aufgabe den Node **Ergebnis prüfen**.“
 
-### 6 · Pinnen (1 min)
+### 7 · Pinnen (1 min)
 
 1. In **Playground – Bestellung** im Output auf die Stecknadel 📌 klicken.
 2. **Playground – Expressions** erneut ausführen: Die Bestellung wird nicht neu erzeugt, die gepinnten Daten werden verwendet.
 3. „Spart Zeit und API-Aufrufe, wenn ein Node langsam ist oder etwas kostet.“ Stecknadel wieder lösen.
 
-### 7 · Übergang zu den Aufgaben (1 min)
+### 8 · Übergang zu den Aufgaben (1 min)
 
 1. README im **zweiten Browser-Tab** öffnen lassen.
 2. **AUFGABE 0:** Namen eintragen (bei Kopien aus dem Setup-Skript steht er schon drin).

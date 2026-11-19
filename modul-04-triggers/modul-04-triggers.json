@@ -3,7 +3,7 @@
   "nodes": [
     {
       "parameters": {
-        "content": "# 🎯 ZONE 1 – NODE PLAYGROUND\n### Triggers & Scheduling\n\n## Die vier Wege wie ein Workflow starten kann:\n\n⏱️ **ZEIT-BASIERT**\nDer Workflow startet automatisch zu einem definierten Zeitpunkt oder Intervall – ohne dass ein Mensch etwas tut.\n→ Schedule Trigger (Cron, stündlich, täglich, alle X Sekunden)\n\n🖱️ **MANUELL**\nEin Mensch startet den Workflow bewusst per Klick direkt in n8n – kein externes Ereignis, kein Zeitplan.\n→ Manual Trigger (der \"Execute workflow\"-Button)\n⚠️ Pro Workflow ist nur ein Manual Trigger erlaubt – deshalb ist er hier im Playground nicht abgebildet. Er kommt in Zone 2 als Aufgabe 6 vor.\n\n🌐 **EVENT-BASIERT (Push)**\nEin externes, internes System oder ein Mensch schickt aktiv etwas an n8n – n8n wartet passiv bis etwas ankommt.\n→ Webhook (HTTP-Anfrage von außen)\n→ On form submission (jemand füllt ein Formular aus)\n→ When chat message received (jemand schreibt im Chat)\n→ Workflow Input Trigger (ein anderer n8n Workflow sendet an diesen Trigger)\n→ Produktspezifische Trigger: z.B. Calendly, Gumroad, Stripe – jeder Dienst kann bei bestimmten Ereignissen einen Webhook feuern\n\n🔄 **POLLING (Pull)**\nn8n fragt selbst regelmäßig bei einem Dienst nach ob etwas Neues da ist – kein Push von außen.\n→ Gmail Trigger (prüft jede Minute das Postfach)\n→ Google Sheets Trigger (prüft ob neue Zeilen erschienen sind)\n→ Viele weitere App-Trigger funktionieren nach diesem Prinzip\n\n💡 Faustregel: Push-Trigger reagieren sofort. Polling-Trigger haben immer eine Verzögerung.\n\n---\n⚠️ **Hinweis für diesen Workshop:**\nIn einem echten Produktiv-Workflow hat jeder Workflow genau einen Trigger – er reagiert auf ein bestimmtes Ereignis und läuft dann durch.\n\nIn diesem Modul wollen wir jedoch alle Trigger-Typen in einem einzigen Workflow demonstrieren – das ist technisch gesehen nicht der vorgesehene Einsatz. n8n ist nicht darauf ausgelegt, mehrere Trigger gleichzeitig innerhalb eines Workflows zu kombinieren und deren Ergebnisse zu sammeln.\n\nDeshalb werden hier alle Trigger so gut wie manuell ausgelöst: Du konfigurierst jeden Trigger, löst ihn einmal bewusst aus und bestätigst am Ende mit Aufgabe 6 dass alle durchgelaufen sind. Das Ziel ist das Kennenlernen und Verstehen der verschiedenen Trigger-Typen – nicht der produktive Einsatz.\n\n---\n",
+        "content": "# 🎯 ZONE 1 – NODE PLAYGROUND\n### Triggers & Scheduling\n\n## Die vier Wege wie ein Workflow starten kann:\n\n⏱️ **ZEIT-BASIERT**\nDer Workflow startet automatisch zu einem definierten Zeitpunkt oder Intervall – ohne dass ein Mensch etwas tut.\n→ Schedule Trigger (Cron, stündlich, täglich, alle X Sekunden)\n\n🖱️ **MANUELL**\nEin Mensch startet den Workflow bewusst per Klick direkt in n8n – kein externes Ereignis, kein Zeitplan.\n→ Manual Trigger (der \"Execute workflow\"-Button)\n⚠️ Pro Workflow ist nur ein Manual Trigger erlaubt – deshalb ist er hier im Playground nicht abgebildet. Ihr kennt ihn aus Modul 0 bis 3.\n\n🌐 **EVENT-BASIERT (Push)**\nEin externes, internes System oder ein Mensch schickt aktiv etwas an n8n – n8n wartet passiv bis etwas ankommt.\n→ Webhook (HTTP-Anfrage von außen)\n→ On form submission (jemand füllt ein Formular aus)\n→ When chat message received (jemand schreibt im Chat)\n→ Workflow Input Trigger (ein anderer n8n Workflow sendet an diesen Trigger)\n→ Produktspezifische Trigger: z.B. Calendly, Gumroad, Stripe – jeder Dienst kann bei bestimmten Ereignissen einen Webhook feuern\n\n🔄 **POLLING (Pull)**\nn8n fragt selbst regelmäßig bei einem Dienst nach ob etwas Neues da ist – kein Push von außen.\n→ Gmail Trigger (prüft jede Minute das Postfach)\n→ Google Sheets Trigger (prüft ob neue Zeilen erschienen sind)\n→ Viele weitere App-Trigger funktionieren nach diesem Prinzip\n\n💡 Faustregel: Push-Trigger reagieren sofort. Polling-Trigger haben immer eine Verzögerung.\n\n---\n⚠️ **Hinweis für diesen Workshop:**\nIn einem echten Produktiv-Workflow hat jeder Workflow genau einen Trigger – er reagiert auf ein bestimmtes Ereignis und läuft dann durch.\n\nIn diesem Modul wollen wir jedoch alle Trigger-Typen in einem einzigen Workflow demonstrieren – das ist technisch gesehen nicht der vorgesehene Einsatz. n8n ist nicht darauf ausgelegt, mehrere Trigger gleichzeitig innerhalb eines Workflows zu kombinieren und deren Ergebnisse zu sammeln.\n\nDeshalb werden hier alle Trigger so gut wie manuell ausgelöst: Du konfigurierst jeden Trigger und löst ihn einmal bewusst aus. Jeder Trigger trägt sich dabei selbst ins Scoreboard ein. Das Ziel ist das Kennenlernen und Verstehen der verschiedenen Trigger-Typen – nicht der produktive Einsatz.\n\n---\n",
         "height": 732,
         "width": 980,
         "color": 7
@@ -685,10 +685,10 @@
     },
     {
       "parameters": {
-        "content": "## ⚠️ ⚠️ ⚠️ \n## Diesen Node bearbeiten! ->\nHier bitte im \"Edit Fields\" Node den Placeholder für **Name**  mit deinem Namen ändern",
+        "content": "## ✅✅✅\n## Diesen Node nicht bearbeiten\n\nDer Name kommt aus dem Workflow-Namen. Kein To-Do für dich.",
         "height": 240,
         "width": 224,
-        "color": 3
+        "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
@@ -701,10 +701,10 @@
     },
     {
       "parameters": {
-        "content": "## ⚠️ ⚠️ ⚠️ \n## Diesen Node bearbeiten! ->\nHier bitte im \"Edit Fields\" Node den Placeholder für **Name**  mit deinem Namen ändern",
+        "content": "## ✅✅✅\n## Diesen Node nicht bearbeiten\n\nDer Name kommt aus dem Workflow-Namen. Kein To-Do für dich.",
         "height": 240,
         "width": 224,
-        "color": 3
+        "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
@@ -717,10 +717,10 @@
     },
     {
       "parameters": {
-        "content": "## ⚠️ ⚠️ ⚠️ \n## Diesen Node bearbeiten! ->\nHier bitte im \"Edit Fields\" Node den Placeholder für **Name**  mit deinem Namen ändern",
+        "content": "## ✅✅✅\n## Diesen Node nicht bearbeiten\n\nDer Name kommt aus dem Workflow-Namen. Kein To-Do für dich.",
         "height": 240,
         "width": 224,
-        "color": 3
+        "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
@@ -733,10 +733,10 @@
     },
     {
       "parameters": {
-        "content": "## ⚠️ ⚠️ ⚠️ \n## Diesen Node bearbeiten! ->\nHier bitte im \"Edit Fields\" Node den Placeholder für **Name**  mit deinem Namen ändern",
+        "content": "## ✅✅✅\n## Diesen Node nicht bearbeiten\n\nDer Name kommt aus dem Workflow-Namen. Kein To-Do für dich.",
         "height": 240,
         "width": 224,
-        "color": 3
+        "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,

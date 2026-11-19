@@ -3,7 +3,7 @@
   "nodes": [
     {
       "parameters": {
-        "content": "## Universal Data Processing\n- **Split:** Eine Datenstruktur aufflachen\n- **Aggregate:** Eine Datenstruktur zusammenführen (verschachteln)\n- **Set:** Datenfelder erstellen und bearbeiten – der vielseitigste Knoten\n- **IF:** Entscheidungslogik hinzufügen, um Informationen unterschiedlich weiterzuleiten\n- **Code:** Benutzerdefinierte Manipulation für komplexe Transformationen\n- **Merge:** Mehrere Datenströme zu einem zusammenführen",
+        "content": "## Playground – Daten verarbeiten\nHier zeigt der Trainer die Nodes, die ihr gleich braucht. Jeden Node öffnen und **Execute step** klicken, auf die **Item-Anzahl** achten.\n\n1. **Playground – Leads** → 1 Item mit einem Array `leads`\n2. **Playground – Split Out** → 5 Items: auffächern\n3. **Playground – Code statt Split Out** → dasselbe per Code\n4. **Playground – IF** → Items gehen in true oder false\n5. **Playground – Switch** → mehr als zwei Ausgänge\n6. **Playground – Aggregate** → wieder 1 Item: einsammeln\n7. **Playground – IF nach Aggregate** → auf ein Element im Array zugreifen: `$json.data[0].name`\n8. **Playground – Merge** → führt **Zweig A** (mit **Wait**) und **Zweig B** zusammen. Merge wartet auf beide\n\n**Merke:** Split Out = auffächern · Aggregate = einsammeln · Merge = zusammenführen · Set = Felder anlegen",
         "height": 1280,
         "width": 1280
       },
@@ -14,7 +14,7 @@
         -176
       ],
       "id": "924d1a88-e61e-4525-ad58-a9d92c5f38ae",
-      "name": "Sticky Note"
+      "name": "Playground"
     },
     {
       "parameters": {
@@ -37,7 +37,7 @@
         16
       ],
       "id": "79e57fb3-1829-4ca5-80c1-6b8bf7b58da0",
-      "name": "Edit Fields"
+      "name": "Playground – Leads"
     },
     {
       "parameters": {
@@ -51,7 +51,7 @@
         16
       ],
       "id": "1afd0c3f-6c1a-4ac1-95bc-8a33453d8a9d",
-      "name": "Split Out"
+      "name": "Playground – Split Out"
     },
     {
       "parameters": {
@@ -65,7 +65,7 @@
         -64
       ],
       "id": "32ec6fa6-b477-4b5a-b975-282bd8076e8f",
-      "name": "Aggregate"
+      "name": "Playground – Aggregate"
     },
     {
       "parameters": {
@@ -98,7 +98,7 @@
         -64
       ],
       "id": "94079987-fcfe-433a-b263-6d3cab2d3a0b",
-      "name": "If"
+      "name": "Playground – IF nach Aggregate"
     },
     {
       "parameters": {
@@ -131,7 +131,7 @@
         96
       ],
       "id": "ee328e53-4bb7-404d-a472-81ff4c8d5cc4",
-      "name": "If1"
+      "name": "Playground – IF"
     },
     {
       "parameters": {
@@ -197,7 +197,7 @@
         288
       ],
       "id": "969dda36-b47a-498a-93b9-a08808f2bde2",
-      "name": "Switch"
+      "name": "Playground – Switch"
     },
     {
       "parameters": {
@@ -210,7 +210,7 @@
         448
       ],
       "id": "b32ef891-6f5d-4dce-b5b4-46b2ef665b16",
-      "name": "Code in JavaScript"
+      "name": "Playground – Code statt Split Out"
     },
     {
       "parameters": {
@@ -233,7 +233,7 @@
         688
       ],
       "id": "a814706f-f2c4-4c42-970e-6ff50280943e",
-      "name": "Edit Fields2"
+      "name": "Playground – Zweig A"
     },
     {
       "parameters": {
@@ -246,7 +246,7 @@
         688
       ],
       "id": "d73f4534-8171-4706-b598-89b6f234fe07",
-      "name": "Wait",
+      "name": "Playground – Wait",
       "webhookId": "f17be39f-6aaa-448a-b55a-be38ba74b458"
     },
     {
@@ -258,7 +258,7 @@
         768
       ],
       "id": "5f060ff4-5401-41f0-926f-2a4cd8d805f7",
-      "name": "Merge"
+      "name": "Playground – Merge"
     },
     {
       "parameters": {
@@ -281,7 +281,7 @@
         880
       ],
       "id": "1f9974e0-aaa8-4732-b914-42878ff372af",
-      "name": "Edit Fields1"
+      "name": "Playground – Zweig B"
     },
     {
       "parameters": {
@@ -498,87 +498,6 @@
     }
   ],
   "connections": {
-    "Edit Fields": {
-      "main": [
-        [
-          {
-            "node": "Split Out",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Code in JavaScript",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Split Out": {
-      "main": [
-        [
-          {
-            "node": "Aggregate",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "If1",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Switch",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Aggregate": {
-      "main": [
-        [
-          {
-            "node": "If",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields1": {
-      "main": [
-        [
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 1
-          }
-        ]
-      ]
-    },
-    "Wait": {
-      "main": [
-        [
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields2": {
-      "main": [
-        [
-          {
-            "node": "Wait",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Start – Execute workflow": {
       "main": [
         [
@@ -692,6 +611,87 @@
             "node": "Leads generieren",
             "type": "main",
             "index": 0
+          }
+        ]
+      ]
+    },
+    "Playground – Leads": {
+      "main": [
+        [
+          {
+            "node": "Playground – Split Out",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Playground – Code statt Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Playground – Split Out": {
+      "main": [
+        [
+          {
+            "node": "Playground – Aggregate",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Playground – IF",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Playground – Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Playground – Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Playground – IF nach Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Playground – Zweig A": {
+      "main": [
+        [
+          {
+            "node": "Playground – Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Playground – Wait": {
+      "main": [
+        [
+          {
+            "node": "Playground – Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Playground – Zweig B": {
+      "main": [
+        [
+          {
+            "node": "Playground – Merge",
+            "type": "main",
+            "index": 1
           }
         ]
       ]

@@ -34,15 +34,15 @@
     },
     {
       "parameters": {
-        "content": "## Playground\nDiesen Node einzeln mit **Execute step** ausführen und den Output ansehen: So sieht die Antwort der Wechselkurs-API aus.",
-        "height": 300,
-        "width": 420,
+        "content": "## Playground – Loop und HTTP Request\nJeden Node öffnen und **Execute step** klicken.\n\n1. **Playground – HTTP Request (USD → EUR)** → so sieht die Antwort der Wechselkurs-API aus\n2. **Playground – Fertig (done)** → *Execute step* startet den kleinen Loop:\n   **Playground – Drei Angebote** → **Playground – Loop Over Items** → für jedes Angebot einmal **Playground – Pro Durchlauf** → zurück in den Loop → am Ende alle drei bei **Fertig**\n3. Im Output von *Pro Durchlauf* oben zwischen den Durchläufen (Run 1, 2, 3) umschalten\n\n**Loop Over Items:** Ausgang **loop** = ein Item nach dem anderen, Ausgang **done** = alle gesammelt am Ende.",
+        "height": 760,
+        "width": 1060,
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -860,
+        -1500,
         1080
       ],
       "id": "3ed72ad9-8ff5-4d14-a871-da94b72579d5",
@@ -226,6 +226,67 @@
       "name": "AUFGABE 0 – Namen eintragen",
       "notes": "Aufgabe 0: Feld 'name' = euer Vor- und Nachname. So erscheint ihr im Scoreboard.",
       "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Spielwiese: drei Angebote\nreturn [\n  { json: { supplier: 'A', price: 100 } },\n  { json: { supplier: 'B', price: 200 } },\n  { json: { supplier: 'C', price: 300 } }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1440,
+        1560
+      ],
+      "id": "1a4fa8fb-37cc-41c2-8208-77cf7e72f2de",
+      "name": "Playground – Drei Angebote"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -1200,
+        1560
+      ],
+      "id": "1d1abf53-7f27-4cdb-817d-1220fb10dc4c",
+      "name": "Playground – Loop Over Items"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cf2d838c-b90d-4b5e-91e0-3f1f7ae26741",
+              "name": "durchlauf",
+              "value": "={{ $runIndex + 1 }}",
+              "type": "number"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -960,
+        1700
+      ],
+      "id": "ae28e280-b087-464f-90de-456659529275",
+      "name": "Playground – Pro Durchlauf"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -960,
+        1460
+      ],
+      "id": "140b8ad9-3d6b-4c37-9895-1c2e958aab33",
+      "name": "Playground – Fertig (done)"
     }
   ],
   "connections": {
@@ -340,6 +401,46 @@
         [
           {
             "node": "Angebote laden",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Playground – Drei Angebote": {
+      "main": [
+        [
+          {
+            "node": "Playground – Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Playground – Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Playground – Fertig (done)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Playground – Pro Durchlauf",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Playground – Pro Durchlauf": {
+      "main": [
+        [
+          {
+            "node": "Playground – Loop Over Items",
             "type": "main",
             "index": 0
           }

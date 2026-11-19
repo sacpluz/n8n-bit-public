@@ -3,7 +3,7 @@
   "nodes": [
     {
       "parameters": {
-        "content": "## Data 2 – Datenqualität\n- **Filter:** Items nach Bedingungen selektieren — wie ein IF ohne Verzweigung, Items die nicht passen werden verworfen\n- **Remove Duplicates:** Doppelte Items anhand ausgewählter Felder erkennen und entfernen\n- **Sort:** Items nach einem oder mehreren Feldern auf- oder absteigend sortieren\n- **Limit:** Ausgabe auf eine maximale Anzahl von Items begrenzen",
+        "content": "## Playground – Datenqualität\nJeden Node öffnen und **Execute step** klicken. Achtet auf die **Item-Anzahl** im Output.\n\n1. **Playground – Beispieldaten** → Abonnenten mit Duplikaten und inaktiven Einträgen\n2. **Playground – Filter** → nur `active = true`. Wie ein IF ohne zweiten Ausgang, der Rest fällt weg\n3. **Playground – Remove Duplicates** → gleiche `email` nur einmal\n4. **Playground – Sort** → nach `signup_date`, neueste zuerst\n5. **Playground – Limit** → höchstens N Items\n\n**Merke:** erst sortieren, dann begrenzen.",
         "height": 528,
         "width": 1232,
         "color": 4
@@ -55,7 +55,7 @@
         "options": {}
       },
       "id": "e4d6a2b2-42e3-4553-a9cf-61dac17e3d52",
-      "name": "Filter",
+      "name": "Playground – Filter",
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
@@ -71,7 +71,7 @@
         "options": {}
       },
       "id": "328ce004-6f24-4258-a778-406bdb7baa01",
-      "name": "Remove Duplicates",
+      "name": "Playground – Remove Duplicates",
       "type": "n8n-nodes-base.removeDuplicates",
       "typeVersion": 2,
       "position": [
@@ -93,7 +93,7 @@
         "options": {}
       },
       "id": "f2a6364e-665a-46cc-bd2e-e83d172e0a95",
-      "name": "Sort",
+      "name": "Playground – Sort",
       "type": "n8n-nodes-base.sort",
       "typeVersion": 1,
       "position": [
@@ -107,7 +107,7 @@
         "maxItems": 20
       },
       "id": "b07644b0-0bdb-44fb-8897-304844e10c75",
-      "name": "Limit",
+      "name": "Playground – Limit",
       "type": "n8n-nodes-base.limit",
       "typeVersion": 1,
       "position": [
@@ -319,40 +319,7 @@
       "main": [
         [
           {
-            "node": "Filter",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Filter": {
-      "main": [
-        [
-          {
-            "node": "Remove Duplicates",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Remove Duplicates": {
-      "main": [
-        [
-          {
-            "node": "Sort",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Sort": {
-      "main": [
-        [
-          {
-            "node": "Limit",
+            "node": "Playground – Filter",
             "type": "main",
             "index": 0
           }
@@ -452,6 +419,39 @@
         [
           {
             "node": "Abonnenten generieren",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Playground – Filter": {
+      "main": [
+        [
+          {
+            "node": "Playground – Remove Duplicates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Playground – Remove Duplicates": {
+      "main": [
+        [
+          {
+            "node": "Playground – Sort",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Playground – Sort": {
+      "main": [
+        [
+          {
+            "node": "Playground – Limit",
             "type": "main",
             "index": 0
           }

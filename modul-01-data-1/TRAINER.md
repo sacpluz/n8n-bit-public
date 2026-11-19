@@ -15,6 +15,23 @@ Ein typisches Muster in n8n: **auffächern → verzweigen → anreichern → zus
 
 Am Beamer nach jedem Node auf die **Item-Anzahl** im Output zeigen: 1 → 5 → 3 + 2 → 5 → 1.
 
+## Ablauf am Beamer (10 min) – Playground links im Workflow
+
+Alle Nodes in der gelben Notiz **Playground**. Jeden Node öffnen, **Execute step**, auf die **Item-Anzahl** im Output zeigen.
+
+| Schritt | Node | Was zeigen |
+|---|---|---|
+| 1 | **Playground – Leads** | 1 Item, darin ein Array `leads` |
+| 2 | **Playground – Split Out** | 5 Items: aus dem Array werden einzelne Items |
+| 3 | **Playground – Code statt Split Out** | Dasselbe per Code. Nur zeigen, nicht vertiefen |
+| 4 | **Playground – IF** | Bedingung `name` enthält „Sarah“: 1 Item true, 4 false |
+| 5 | **Playground – Switch** | Wie IF, aber mit mehreren benannten Ausgängen |
+| 6 | **Playground – Aggregate** | Wieder 1 Item, die Leads stecken im Feld `data` |
+| 7 | **Playground – IF nach Aggregate** | Nach dem Einsammeln: Zugriff mit `$json.data[0].name` |
+| 8 | **Playground – Merge** | *Execute step* auf Merge: **Zweig A** läuft über **Playground – Wait**, **Zweig B** direkt. Merge wartet auf beide und hängt sie zusammen |
+
+Danach die Skizze unten zeigen: genau dieses Muster baut ihr in den Aufgaben.
+
 ## Items
 
 n8n arbeitet mit **Items**. Jeder Node bekommt eine Liste von Items und läuft für jedes Item einmal. Ein Array *innerhalb* eines Items ist dagegen nur ein Feld. Deshalb muss es erst aufgefächert werden, bevor IF oder Set pro Lead arbeiten können.

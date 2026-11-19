@@ -3,8 +3,8 @@
   "nodes": [
     {
       "parameters": {
-        "content": "## Playground – Expressions ausprobieren\nHier könnt ihr gefahrlos testen. Diese Nodes hängen nicht am Trigger.\n\n1. **Playground – Bestellung** öffnen → *Execute step*\n2. **Playground – Expressions** öffnen → *Execute step* → Input links mit Output rechts vergleichen\n3. Eine Expression ändern, z. B. `{{ $json.customer.address.zip }}` → `{{ $json.customer.email }}`\n4. Ein Feld aus dem Input (Schema) per **Drag & Drop** in ein neues Feld ziehen\n5. Output von *Playground – Bestellung* **pinnen** 📌 und nochmal ausführen\n\n**Typen:** String = Text · Number = Zahl · Boolean = true/false",
-        "height": 720,
+        "content": "## Playground – so funktioniert n8n\nHier zeigt der Trainer alles, was ihr für die Aufgaben braucht. Diese Nodes hängen nicht am Trigger: jeden Node öffnen und **Execute step** klicken.\n\n1. **Playground – Bestellung** → Output als JSON ansehen: Objekt, Array, Text, Zahl, Ja/Nein\n2. **Playground – Expressions** → Input links mit Output rechts vergleichen. Eine Expression ändern, ein Feld per **Drag & Drop** aus dem Input (Schema) ziehen\n3. **Playground – Arrays** → Elemente, Anzahl, Liste, Summe\n4. **Playground – Groß-/Kleinschreibung** → `status_falsch` bleibt leer, ohne Fehlermeldung\n5. **Playground – Anderen Node referenzieren** → Wert aus einem früheren Node holen\n6. Output von *Playground – Bestellung* **pinnen** 📌 und nochmal ausführen\n\n**Typen:** String = Text · Number = Zahl · Boolean = true/false",
+        "height": 860,
         "width": 960
       },
       "type": "n8n-nodes-base.stickyNote",
@@ -279,6 +279,111 @@
       "name": "AUFGABE 0 – Namen eintragen",
       "notes": "Aufgabe 0: Feld 'name' = euer Vor- und Nachname. So erscheint ihr im Scoreboard.",
       "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c8a01cb8-8a4c-49b0-9f80-3277c95b01b0",
+              "name": "anzahl",
+              "value": "={{ $json.items.length }}",
+              "type": "number"
+            },
+            {
+              "id": "9ae32c03-5091-4d59-9a35-95fb69045e67",
+              "name": "erstes_produkt",
+              "value": "={{ $json.items[0].product }}",
+              "type": "string"
+            },
+            {
+              "id": "7e77d525-39a8-4ea8-9107-557b99eba680",
+              "name": "letztes_produkt",
+              "value": "={{ $json.items.last().product }}",
+              "type": "string"
+            },
+            {
+              "id": "65d87387-8225-429e-8fb1-f176efea9ec1",
+              "name": "alle_produkte",
+              "value": "={{ $json.items.pluck('product').join(', ') }}",
+              "type": "string"
+            },
+            {
+              "id": "7b79329f-4c74-43c5-ad3a-2cbc020c9885",
+              "name": "summe_menge",
+              "value": "={{ $json.items.pluck('quantity').sum() }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -240,
+        300
+      ],
+      "id": "75d91f8b-8310-495f-b4b7-6b98e895d2da",
+      "name": "Playground – Arrays"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "72e476b6-a1cb-4833-83e0-ac455526873d",
+              "name": "status_richtig",
+              "value": "={{ $json.Status }}",
+              "type": "string"
+            },
+            {
+              "id": "8fd6cc3c-5f2d-4b3e-8725-d83592baa244",
+              "name": "status_falsch",
+              "value": "={{ $json.status }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -240,
+        460
+      ],
+      "id": "38c32da3-0fc6-41bb-a0cf-2966a73d12ee",
+      "name": "Playground – Groß-/Kleinschreibung"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec83f967-23a2-4244-8451-2c9441514548",
+              "name": "gesamt",
+              "value": "={{ $('Playground – Bestellung').item.json.total }}",
+              "type": "number"
+            },
+            {
+              "id": "0250e82b-77f2-4a14-9997-c45156f1dda6",
+              "name": "kunde",
+              "value": "={{ $('Playground – Bestellung').item.json.customer.name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        0,
+        120
+      ],
+      "id": "7e4be147-6bb0-46d9-a87c-2a7b9cdea2a9",
+      "name": "Playground – Anderen Node referenzieren"
     }
   ],
   "connections": {
@@ -355,6 +460,16 @@
             "node": "Playground – Expressions",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Playground – Arrays",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Playground – Groß-/Kleinschreibung",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -386,6 +501,17 @@
         [
           {
             "node": "Beispieldaten",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Playground – Expressions": {
+      "main": [
+        [
+          {
+            "node": "Playground – Anderen Node referenzieren",
             "type": "main",
             "index": 0
           }
