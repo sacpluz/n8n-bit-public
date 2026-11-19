@@ -1,0 +1,354 @@
+{
+  "name": "Beispiel – Parallelisierung",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        32,
+        544
+      ],
+      "id": "897c6a59-c0ec-4aa2-8ef2-95815508515c",
+      "name": "Manual Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "id"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Status",
+              "lookupValue": "Ready"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        160,
+        544
+      ],
+      "id": "ded49c8c-e52c-4a43-a5b3-b03efca59c7f",
+      "name": "Get Tools"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        560,
+        752
+      ],
+      "id": "415e1000-fab8-4efd-9653-cbb287a9d046",
+      "name": "4.1-mini"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"features\": \"A concise paragraph summarizing the core features and capabilities of the tool.\",\n  \"analysis\": \"A well-reasoned paragraph explaining potential business use cases, practical workflow integration ideas, and any industries or roles the tool is especially suited for.\"\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        800,
+        768
+      ],
+      "id": "b9f0a19f-ca85-46a0-88b2-65b2b1baf62f",
+      "name": "Output"
+    },
+    {
+      "parameters": {
+        "messages": {
+          "message": [
+            {
+              "content": "=Do research to find features about this tool: {{ $json.Tool }}."
+            }
+          ]
+        },
+        "options": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.perplexity",
+      "typeVersion": 1,
+      "position": [
+        368,
+        544
+      ],
+      "id": "3f9d4c62-ec5d-446b-ad66-a3887270dbf8",
+      "name": "Perplexity Research"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Tool": "={{ $('Get Tools').item.json.Tool }}",
+            "Features": "={{ $json.output.Features.join(\"\\n\\n\") }}",
+            "Status": "Processed",
+            "Analysis": "={{ $json.output.Analysis }}"
+          },
+          "matchingColumns": [
+            "Tool"
+          ],
+          "schema": [
+            {
+              "id": "Tool",
+              "displayName": "Tool",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Features",
+              "displayName": "Features",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Analysis",
+              "displayName": "Analysis",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        928,
+        544
+      ],
+      "id": "938c7ec6-422f-40eb-b73c-1caf75aa5663",
+      "name": "Update Tool"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Tool: {{ $('Get Tools').item.json.Tool }}\n\nResearch: {{ $json.choices[0].message.content }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Overview\nYou are a business analyst AI agent. You will be given the name of a specific software tool, app, or AI product, as well as research about the features.\n\nYour job is to:\n1. Identify and summarize the core features and capabilities of the tool.\n2. Analyze potential use cases for businesses — especially small to mid-sized businesses.\n3. Suggest how this tool could be integrated into workflows, systems, or teams to save time, reduce costs, or increase revenue.\n4. If relevant, highlight any industries or roles this tool is best suited for.\n\n## Output\nOutput your results in the following fields:\n1) Features\n2) Analysis"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        592,
+        528
+      ],
+      "id": "3b2d500a-e94a-4a70-8a12-19dc4276e320",
+      "name": "Tool Analysis Agent"
+    },
+    {
+      "parameters": {
+        "content": "## Research done in parallel",
+        "height": 300,
+        "width": 220,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        304,
+        432
+      ],
+      "id": "8027506d-2a80-4939-bee9-d58ade876758",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Analysis NOT done in parallel\n",
+        "height": 300,
+        "width": 320,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        544,
+        432
+      ],
+      "id": "f30e61ae-4fce-4a23-a7fc-27168b24a675",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# 🛠️ Setup Guide  \n**Author:** [Nate Herk](https://www.youtube.com/@nateherk)\n\nFollow these steps to get your workflow up and running:\n\n### ✅ Step 1: Copy the Google Sheet Template  \nMake a copy of this [Google Sheet template](https://docs.google.com/spreadsheets/d/1plaD8wVEiW0havQk-_HC7RY5vFI4uTAn1AmLy1njWi8/edit?usp=sharing) and link it to the Google Sheet nodes in your workflow.\n\n### ✅ Step 2: Create a Sub-workflow for Parallel Execution  \nTurn all the nodes after the Get Tools node into a sub-workflow. Configure it as shown in the YouTube tutorial so it runs in parallel.\n\n### ✅ Step 3: Connect Your Chat Model  \nLink your [OpenRouter](https://openrouter.ai/) credential or any chat model of your choice to power the tool analysis AI agent. Then run a test and watch the parallelization magic happen. 🚀\n",
+        "height": 400,
+        "width": 1080
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "5c1a4aa3-e630-4d55-9491-2d5f159883aa",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Send Analysis\n",
+        "height": 300,
+        "width": 200,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        880,
+        432
+      ],
+      "id": "b1c3f190-75bd-414b-b499-bb6d35682507",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Get Tools for Research\n\n",
+        "height": 300,
+        "width": 280,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        432
+      ],
+      "id": "cd73f6d4-d3c2-473a-964a-52aef72802cc",
+      "name": "Sticky Note4"
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Tools",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Tools": {
+      "main": [
+        [
+          {
+            "node": "Perplexity Research",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4.1-mini": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Tool Analysis Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Output": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Tool Analysis Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Perplexity Research": {
+      "main": [
+        [
+          {
+            "node": "Tool Analysis Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tool Analysis Agent": {
+      "main": [
+        [
+          {
+            "node": "Update Tool",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "pinData": {}
+}

@@ -1,0 +1,116 @@
+{
+  "name": "Beispiel – MCP 1: Agent mit MCP Client",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -1072,
+        48
+      ],
+      "id": "6372c24f-fa25-4ffa-b691-c973becea13d",
+      "name": "When chat message received",
+      "webhookId": "e131db73-acdb-4090-821c-1ed70c7531d5"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a helpful assistant that sends random facts about a city. then you send it to the tool connected."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -848,
+        -64
+      ],
+      "id": "1138ea48-325a-4dec-a8e0-caa86d60c91e",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "endpointUrl": "https://DEINE-INSTANZ.app.n8n.cloud/mcp/DEIN-MCP-PFAD",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        -704,
+        160
+      ],
+      "id": "6216dfea-fea3-45e6-b550-f8eed1452eda",
+      "name": "MCP Client"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -848,
+        160
+      ],
+      "id": "43d8a287-8aba-4f99-ac1e-d6ed85073d8f",
+      "name": "Google Gemini Chat Model"
+    },
+    {
+      "parameters": {
+        "content": "## Direkt vs. MCP — wann was?\n\nEin AI Agent braucht Tools. Die Frage ist nur wie er dazu kommt.\n\n**Direkte Anbindung** bedeutet: du steckst Gmail, Slack oder einen HTTP Request Node direkt in den Agenten. Du konfigurierst einmal, der Agent kann genau das was du eingebaut hast. Das ist der Normalfall — und für 90% aller Setups die richtige Wahl.\n\n**MCP (Model Context Protocol)** bedeutet: der Agent verbindet sich mit einem externen Server und fragt: *\"Was kannst du?\"* — der Server antwortet mit einer Tool-Liste. Der Agent entdeckt die Tools selbst, ohne dass du ihm sagst was verfügbar ist.\n\n---\n\n### Wann MCP Sinn macht\n\n**Mehrere Agenten, dieselben Tools.** Statt Gmail in jeden Workflow einzeln einzubauen, zeigen alle Agenten auf einen zentralen MCP-Server. Änderung an einem Tool — alle profitieren sofort.\n\n**Externe MCP-Server nutzen.** Es gibt fertige MCP-Server für Jira, GitHub, Notion, Browser-Steuerung und viele andere Dienste. Statt selbst einen Node zu bauen: Server-URL eintragen, fertig. Der Agent weiß sofort was er tun kann.\n\n**n8n selbst als MCP-Server.** Der MCP Server Trigger Node macht jeden n8n-Workflow zu einem Tool das andere Agenten aufrufen können — auch außerhalb von n8n. Claude Desktop, Claude Code, Cursor oder Lovable können sich verbinden und deine Workflows per Spracheingabe starten.\n\n---\n\n### Was damit möglich ist\n\n| Szenario | Wie |\n|---|---|\n| Agent A ruft Tool aus Agent B auf | MCP Server Trigger + MCP Client Tool (alles in n8n) |\n| Claude Desktop startet n8n-Workflows | MCP Server Trigger → URL in claude_desktop_config.json |\n| Agent nutzt Jira ohne Jira-Node | Externer Jira-MCP-Server, URL in MCP Client eintragen |\n| Lovable baut n8n-Workflows per Chat | n8n Instance-Level MCP aktivieren |\n\n---\n\n### Die ehrliche Zusammenfassung\n\nMCP ist kein Ersatz für direkte Nodes — es ist eine Architektur-Entscheidung. Direkte Anbindung ist einfacher, besser debuggbar und völlig ausreichend wenn du einen Agenten für eine Aufgabe baust. MCP rechnet sich sobald du anfängst Agenten-Infrastruktur zu bauen: mehrere Agenten, geteilte Tools, externe Clients.\n\nHeute arbeiten wir mit direkter Anbindung. Der MCP Client Node liegt im Playground — schaut ihn euch an, aber er ist nicht Teil der Challenge.\n\n\nhttps://www.youtube.com/watch?v=bDiFuweNVzI",
+        "height": 656,
+        "width": 912
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2048,
+        -208
+      ],
+      "id": "5e574d5b-bdb2-4991-aac0-32b2940fe500",
+      "name": "Sticky Note8"
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MCP Client": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "pinData": {}
+}

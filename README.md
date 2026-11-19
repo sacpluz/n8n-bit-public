@@ -44,3 +44,7 @@ Zum Abschluss baut ihr im Team einen der fünf Use Cases, mit Dummy-Daten zum Au
 | 03 | [Abrechnung](use-cases/03-abrechnung/README.md) | Stunden prüfen, mit dem Forecast vergleichen und Rechnungen als PDF erzeugen |
 | 04 | [Bewerber](use-cases/04-bewerber/README.md) | Bewerbungsunterlagen auslesen und mit der Stellenbeschreibung abgleichen |
 | 05 | [Claude + MCP + n8n](use-cases/05-claude+mcp+n8n/README.md) | n8n-Workflows per Chat beschreiben und von Claude Code bauen lassen |
+
+## Beispiele
+
+Fertige Workflows zum Anschauen und Weiterbauen: MCP Client und Server, Human in the Loop, Multi Agent, Parallelisierung, n8n-Backup nach GitHub. Übersicht und Einrichtung: [beispiele](beispiele/README.md).

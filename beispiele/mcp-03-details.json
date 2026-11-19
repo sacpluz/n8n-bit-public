@@ -1,0 +1,1254 @@
+{
+  "name": "Beispiel – MCP 3: Ein Server oder mehrere",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "84614379-cd53-4e9b-9ca9-eb876c1da3e4"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 2,
+      "position": [
+        928,
+        1088
+      ],
+      "id": "124b57d0-d460-4035-9de7-d11d7bc39e40",
+      "name": "MCP Server Trigger1",
+      "webhookId": "84614379-cd53-4e9b-9ca9-eb876c1da3e4"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        896,
+        1584
+      ],
+      "id": "07af2327-dab0-4fee-9141-8bc8fb7bb161",
+      "name": "Send a message in Gmail1",
+      "webhookId": "78dfd81f-0257-4900-a09b-dbf440d63d35"
+    },
+    {
+      "parameters": {
+        "operation": "addLabels"
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        1024,
+        1584
+      ],
+      "id": "ab2a34ed-32df-4259-8ea7-b70cb76dd6d9",
+      "name": "Add label to message in Gmail",
+      "webhookId": "9ba12517-ff65-4b72-b675-e8b8546e32bb"
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead"
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        1152,
+        1584
+      ],
+      "id": "ae405ec8-0458-4a3c-bb1b-4ceef1357523",
+      "name": "Mark a message as read in Gmail",
+      "webhookId": "2ac2969a-29b0-4242-8ed0-93fd9b97ac6e"
+    },
+    {
+      "parameters": {
+        "project": {
+          "__rl": true,
+          "mode": "id",
+          "value": ""
+        },
+        "issueType": {
+          "__rl": true,
+          "mode": "id",
+          "value": ""
+        },
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.jiraTool",
+      "typeVersion": 1,
+      "position": [
+        1408,
+        1584
+      ],
+      "id": "32bc6178-7ece-4c11-822f-7e9647b09ae7",
+      "name": "Create an issue in Jira Software"
+    },
+    {
+      "parameters": {
+        "operation": "delete"
+      },
+      "type": "n8n-nodes-base.jiraTool",
+      "typeVersion": 1,
+      "position": [
+        1552,
+        1584
+      ],
+      "id": "dd61f9d8-f0e8-4699-8b6e-866401c3b3d2",
+      "name": "Delete an issue in Jira Software"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.jiraTool",
+      "typeVersion": 1,
+      "position": [
+        1696,
+        1584
+      ],
+      "id": "9288e93e-4e31-4dd3-8e67-5612d709143c",
+      "name": "Get an issue in Jira Software"
+    },
+    {
+      "parameters": {
+        "driveId": {
+          "__rl": true,
+          "mode": "id",
+          "value": ""
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": ""
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTool",
+      "typeVersion": 3,
+      "position": [
+        1952,
+        1584
+      ],
+      "id": "cb9e0882-7bce-4cf9-8a5e-03b87dfbfd36",
+      "name": "Upload file in Google Drive"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "mode": "id",
+          "value": ""
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTool",
+      "typeVersion": 3,
+      "position": [
+        2112,
+        1584
+      ],
+      "id": "e2a23082-4805-4e74-9bca-a4d61730e74f",
+      "name": "Download file in Google Drive"
+    },
+    {
+      "parameters": {
+        "descriptionType": "auto",
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "share",
+        "fileId": {
+          "__rl": true,
+          "mode": "id",
+          "value": ""
+        },
+        "permissionsUi": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTool",
+      "typeVersion": 3,
+      "position": [
+        2256,
+        1584
+      ],
+      "id": "11fe9910-a423-4ff8-81de-d185cb1f86f6",
+      "name": "Share file in Google Drive"
+    },
+    {
+      "parameters": {
+        "content": "## Gmail MCP Tools",
+        "height": 256,
+        "width": 464
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        832,
+        1504
+      ],
+      "typeVersion": 1,
+      "id": "b5e22fb0-2e6e-4694-a9b6-cb3efda8b14b",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Jra MCP Tools",
+        "height": 256,
+        "width": 464,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1360,
+        1504
+      ],
+      "typeVersion": 1,
+      "id": "c73ca0c6-47b4-410d-a28b-8b1dfb1e843a",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Drive MCP Tools",
+        "height": 256,
+        "width": 496,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1904,
+        1504
+      ],
+      "typeVersion": 1,
+      "id": "62d6bd55-6810-4243-a226-41488e0bbdd7",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "path": "3112e5ca-259c-4ce5-bea4-f0aa68264e7e"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 2,
+      "position": [
+        944,
+        1920
+      ],
+      "id": "b8839160-2e55-4687-bbbf-6cde5499b14d",
+      "name": "MCP Server Trigger2",
+      "webhookId": "3112e5ca-259c-4ce5-bea4-f0aa68264e7e"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        928,
+        2400
+      ],
+      "id": "57c76805-419b-4620-b800-105c289b45aa",
+      "name": "Send a message in Gmail2",
+      "webhookId": "8627451d-0520-4b43-ab71-82c859108880"
+    },
+    {
+      "parameters": {
+        "operation": "addLabels"
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        1056,
+        2400
+      ],
+      "id": "fee838fd-8b29-4133-9c50-ddd56389d950",
+      "name": "Add label to message in Gmail1",
+      "webhookId": "a9b2b479-8d6d-4f7a-a855-201b7263f308"
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead"
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        1184,
+        2400
+      ],
+      "id": "0783ec18-62fc-4011-82a4-7f01299c9768",
+      "name": "Mark a message as read in Gmail1",
+      "webhookId": "8ac110ba-7e38-4170-ad19-d07f12d3e941"
+    },
+    {
+      "parameters": {
+        "project": {
+          "__rl": true,
+          "mode": "id",
+          "value": ""
+        },
+        "issueType": {
+          "__rl": true,
+          "mode": "id",
+          "value": ""
+        },
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.jiraTool",
+      "typeVersion": 1,
+      "position": [
+        1440,
+        2400
+      ],
+      "id": "b1f9269e-03aa-491a-ad5c-36ec5f477faf",
+      "name": "Create an issue in Jira Software1"
+    },
+    {
+      "parameters": {
+        "operation": "delete"
+      },
+      "type": "n8n-nodes-base.jiraTool",
+      "typeVersion": 1,
+      "position": [
+        1584,
+        2400
+      ],
+      "id": "6ea43c40-52d8-448e-83b0-de3ea973b8ac",
+      "name": "Delete an issue in Jira Software1"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.jiraTool",
+      "typeVersion": 1,
+      "position": [
+        1728,
+        2400
+      ],
+      "id": "48dadb7d-4cc5-4517-a837-fa3668c8950d",
+      "name": "Get an issue in Jira Software1"
+    },
+    {
+      "parameters": {
+        "driveId": {
+          "__rl": true,
+          "mode": "id",
+          "value": ""
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": ""
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTool",
+      "typeVersion": 3,
+      "position": [
+        1984,
+        2400
+      ],
+      "id": "5c4b7b20-56d7-4761-ac16-95268df16c37",
+      "name": "Upload file in Google Drive1"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "mode": "id",
+          "value": ""
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTool",
+      "typeVersion": 3,
+      "position": [
+        2144,
+        2400
+      ],
+      "id": "db1f5555-f442-4bf4-9dc3-2a305fdb7930",
+      "name": "Download file in Google Drive1"
+    },
+    {
+      "parameters": {
+        "descriptionType": "auto",
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "share",
+        "fileId": {
+          "__rl": true,
+          "mode": "id",
+          "value": ""
+        },
+        "permissionsUi": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTool",
+      "typeVersion": 3,
+      "position": [
+        2288,
+        2400
+      ],
+      "id": "d470e419-6cfe-44c9-b4c9-a585f98e722e",
+      "name": "Share file in Google Drive1"
+    },
+    {
+      "parameters": {
+        "content": "## Gmail MCP Tools",
+        "height": 256,
+        "width": 464
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        864,
+        2320
+      ],
+      "typeVersion": 1,
+      "id": "97d9efcf-abc6-42e3-ad2d-86c9c998f716",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Jra MCP Tools",
+        "height": 256,
+        "width": 464,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1392,
+        2320
+      ],
+      "typeVersion": 1,
+      "id": "3bda67c5-59a0-40e2-bb28-61bf10ec807f",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## Drive MCP Tools",
+        "height": 256,
+        "width": 496,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1936,
+        2320
+      ],
+      "typeVersion": 1,
+      "id": "f290b344-f316-4b75-af9c-73777a83931a",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "path": "db00f924-f22d-45f8-8728-b7edea278f34"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        1920
+      ],
+      "id": "0bc420c1-8737-4818-a512-410bac496107",
+      "name": "MCP Server Trigger3",
+      "webhookId": "db00f924-f22d-45f8-8728-b7edea278f34"
+    },
+    {
+      "parameters": {
+        "path": "c4aad082-c9d7-49a4-8e93-69240f2d4b12"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 2,
+      "position": [
+        1984,
+        1920
+      ],
+      "id": "bbc9ee22-1c3c-4dc3-aacd-ed7c6b2113b2",
+      "name": "MCP Server Trigger4",
+      "webhookId": "c4aad082-c9d7-49a4-8e93-69240f2d4b12"
+    },
+    {
+      "parameters": {
+        "content": "# Single Server",
+        "color": "#474747"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        640,
+        1056
+      ],
+      "id": "15a5bd0d-8b9a-481b-b946-cec2fd7d3e4e",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "# Multiple Server",
+        "color": "#474747"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        640,
+        1888
+      ],
+      "id": "bf22a2e0-85e3-424c-9eb0-c15aedec6fc8",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a helpful assistant that sends random facts about a city. then you send it to the tool connected."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        272,
+        1056
+      ],
+      "id": "aa34edf9-502e-412a-a7d3-d46345802c8e",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "endpointUrl": "https://DEINE-INSTANZ.app.n8n.cloud/mcp/DEIN-MCP-PFAD",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        416,
+        1280
+      ],
+      "id": "16cda4e7-4165-4ef6-ae6a-68e15d2ac06d",
+      "name": "MCP Client1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        272,
+        1280
+      ],
+      "id": "5057e0a3-d914-40db-90d1-a0df81c49a46",
+      "name": "Google Gemini Chat Model1"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a helpful assistant that sends random facts about a city. then you send it to the tool connected."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        1936
+      ],
+      "id": "e5a1d9e0-6675-4e4e-ae25-c2b98b02f446",
+      "name": "AI Agent2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        32,
+        2160
+      ],
+      "id": "59411840-27cb-436a-9bb9-23365ecc8c47",
+      "name": "Google Gemini Chat Model2"
+    },
+    {
+      "parameters": {
+        "endpointUrl": "https://DEINE-INSTANZ.app.n8n.cloud/mcp/DEIN-MCP-PFAD",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        192,
+        2160
+      ],
+      "id": "5f2f413c-ef90-4bd2-ba7a-a8fddb4b2201",
+      "name": "Gdrive MCP Server"
+    },
+    {
+      "parameters": {
+        "endpointUrl": "https://DEINE-INSTANZ.app.n8n.cloud/mcp/DEIN-MCP-PFAD",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        368,
+        2160
+      ],
+      "id": "da35a755-88f9-48a0-ba81-394c8b257ac7",
+      "name": "Jira MCP Server"
+    },
+    {
+      "parameters": {
+        "endpointUrl": "https://DEINE-INSTANZ.app.n8n.cloud/mcp/DEIN-MCP-PFAD",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        512,
+        2160
+      ],
+      "id": "9b8e0f10-8bf8-4a59-a9e3-f1480508071c",
+      "name": "Gmail MCP Server"
+    },
+    {
+      "parameters": {
+        "content": "### Ein Server oder mehrere?\n\nDie offizielle Empfehlung: **ein MCP Server pro Domäne.** Nicht aus Routing-Gründen,\nsondern weil ein einzelner Server mit vielen unzusammenhängenden Tools zu Permission\nCreep führt — der Agent bekommt Zugriff auf Dinge die er für diese Aufgabe gar nicht\nbraucht.\n\n| Szenario | Empfehlung |\n|---|---|\n| Ein Agent, zusammengehörige Tools (Gmail + Calendar) | Single Server |\n| Verschiedene Domänen (Gmail / Jira / Drive) | Ein Server pro Domäne |\n| Mehrere Clients, OAuth, Audit-Anforderungen | Gateway vor den Servern |\n| Solo-Developer, internes Tooling, kein OAuth | Direkte Anbindung reicht |",
+        "height": 320,
+        "width": 752
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -464,
+        1520
+      ],
+      "id": "22454674-c447-4b7f-84c0-afea945d01da",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "content": "### Warum ein zentraler MCP Server?\n\nStatt Gmail-Credentials und Tool-Konfiguration in jeden Agenten-Workflow\neinzeln einzubauen, zeigen alle Agenten auf einen gemeinsamen Server.\n\n**Eine Änderung, überall wirksam.**\nGmail ändert seine API, ein Tool-Name ändert sich, die Send-Logic wird\nangepasst — einmal im Server-Workflow geändert, alle Agenten profitieren\nsofort. Kein manuelles Durchklicken durch 10 Workflows.\n\n**Credentials an einem Ort.**\nDas Gmail OAuth-Token liegt einmal im Server-Workflow. Nicht in jedem\nAgenten-Workflow einzeln hinterlegt, nicht 10x bei Token-Refresh zu\naktualisieren.\n\n**Konsistentes Verhalten.**\nAlle Agenten nutzen exakt dieselbe Send-Logic. Keine stillen Abweichungen\nzwischen Workflow #1 und Workflow #7 weil jemand irgendwann manuell etwas\nangepasst hat.\n\n**Unabhängiges Testen.**\nGmail-Tools können separat vom Agent getestet werden — ohne den ganzen\nAgenten-Workflow auszuführen.\n\n**Zugriffssteuerung.**\nDu entscheidest per Bearer Token welche Agenten sich verbinden dürfen.\nNeuer Workflow soll kein Gmail-Zugriff haben? Kein Token, keine Verbindung.\n\n**Tool-Erweiterung ohne Agent-Änderung.**\nNeues Gmail-Tool hinzufügen (z.B. Label setzen)? Einmal im Server-Workflow\nergänzen. Alle verbundenen Agenten sehen das neue Tool automatisch beim\nnächsten Aufruf — ohne dass du einen einzigen Client-Workflow anfasst.",
+        "height": 416,
+        "width": 560
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -448,
+        3152
+      ],
+      "id": "ab2ad275-2b11-4c08-9bf6-fa0532e2fe92",
+      "name": "Sticky Note12"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a helpful assistant that sends random facts about a city. then you send it to the tool connected."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        448,
+        3184
+      ],
+      "id": "1feccae8-8495-4e21-aca9-071c43f4307e",
+      "name": "AI Agent3"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        432,
+        3408
+      ],
+      "id": "1b767c89-f1ac-44a2-9b19-25a7e2054c4e",
+      "name": "Google Gemini Chat Model3"
+    },
+    {
+      "parameters": {
+        "endpointUrl": "https://DEINE-INSTANZ.app.n8n.cloud/mcp/DEIN-MCP-PFAD",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        592,
+        3408
+      ],
+      "id": "6d70660c-ee68-4399-9057-e3db73e86697",
+      "name": "Gdrive MCP Server1"
+    },
+    {
+      "parameters": {
+        "content": "### Workflow #1",
+        "height": 432,
+        "width": 560
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        320,
+        3120
+      ],
+      "id": "584141b2-9db4-499f-ab45-84ced1710867",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "content": "### Workflow #2",
+        "height": 432,
+        "width": 576,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        912,
+        3120
+      ],
+      "id": "88d72c50-2a80-4114-b7f5-74fbdef70eb9",
+      "name": "Sticky Note11"
+    },
+    {
+      "parameters": {
+        "content": "### Workflow #3",
+        "height": 432,
+        "width": 688,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1536,
+        3120
+      ],
+      "id": "49a9adcb-3940-4cf2-8b7b-7e98732b632d",
+      "name": "Sticky Note13"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a helpful assistant that sends random facts about a city. then you send it to the tool connected."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1088,
+        3184
+      ],
+      "id": "b826c8a4-15ea-4100-9543-f4e333634678",
+      "name": "AI Agent4"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1072,
+        3408
+      ],
+      "id": "908ddd51-7f9d-4292-8228-6bbc1c45a9d0",
+      "name": "Google Gemini Chat Model4"
+    },
+    {
+      "parameters": {
+        "endpointUrl": "https://DEINE-INSTANZ.app.n8n.cloud/mcp/DEIN-MCP-PFAD",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        1232,
+        3408
+      ],
+      "id": "597ac2bb-64b1-4b0f-8a19-d3125b959c21",
+      "name": "Gdrive MCP Server2"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a helpful assistant that sends random facts about a city. then you send it to the tool connected."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1744,
+        3184
+      ],
+      "id": "f6ef98fc-963d-44da-9083-1773fe31a832",
+      "name": "AI Agent5"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1728,
+        3408
+      ],
+      "id": "c9e881e6-c6f7-4b3b-aa32-bacf0c997243",
+      "name": "Google Gemini Chat Model5"
+    },
+    {
+      "parameters": {
+        "endpointUrl": "https://DEINE-INSTANZ.app.n8n.cloud/mcp/DEIN-MCP-PFAD",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        1888,
+        3408
+      ],
+      "id": "bd56b94a-a31f-497f-815b-7d5125cfaaae",
+      "name": "Gdrive MCP Server3"
+    },
+    {
+      "parameters": {
+        "path": "bbff2f1b-c6cd-4e3d-a2e9-9ac3cb286af9"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 2,
+      "position": [
+        1152,
+        3808
+      ],
+      "id": "c5bc58f5-47ec-4f89-915d-2e9a1d232e3c",
+      "name": "MCP Server Trigger5",
+      "webhookId": "bbff2f1b-c6cd-4e3d-a2e9-9ac3cb286af9"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        1136,
+        4288
+      ],
+      "id": "7bb025dc-176a-4456-bf77-d48a531b5827",
+      "name": "Send a message in Gmail3",
+      "webhookId": "e50c1bc3-8d1e-4cb9-ade2-23a432218e9d"
+    },
+    {
+      "parameters": {
+        "operation": "addLabels"
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        1296,
+        4288
+      ],
+      "id": "4f599862-3889-4914-bea4-04f57014029d",
+      "name": "Add label to message in Gmail2",
+      "webhookId": "53dbe41a-9ccd-4188-a7b6-f94de02173c1"
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead"
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        1472,
+        4288
+      ],
+      "id": "53f031dd-631c-4e04-9b5a-7867cbb9b357",
+      "name": "Mark a message as read in Gmail2",
+      "webhookId": "78731ca1-2b12-4021-8b17-ea32ba1044dc"
+    },
+    {
+      "parameters": {
+        "content": "## Gmail MCP Tools",
+        "height": 256,
+        "width": 560,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1088,
+        4208
+      ],
+      "typeVersion": 1,
+      "id": "dd7b7ed8-142c-4dff-9c96-57e27e648214",
+      "name": "Sticky Note14"
+    }
+  ],
+  "connections": {
+    "Send a message in Gmail1": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark a message as read in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an issue in Jira Software": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete an issue in Jira Software": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get an issue in Jira Software": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file in Google Drive": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file in Google Drive": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Share file in Google Drive": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message in Gmail2": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message in Gmail1": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark a message as read in Gmail1": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an issue in Jira Software1": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger3",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete an issue in Jira Software1": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger3",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get an issue in Jira Software1": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger3",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file in Google Drive1": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger4",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file in Google Drive1": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger4",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Share file in Google Drive1": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger4",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MCP Client1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gdrive MCP Server": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Jira MCP Server": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail MCP Server": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent3",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gdrive MCP Server1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent3",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent4",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gdrive MCP Server2": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent4",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent5",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gdrive MCP Server3": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent5",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message in Gmail3": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger5",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message in Gmail2": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger5",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark a message as read in Gmail2": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger5",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "pinData": {}
+}

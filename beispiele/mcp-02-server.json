@@ -1,0 +1,54 @@
+{
+  "name": "Beispiel – MCP 2: MCP Server",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "3f15c9d3-d5f9-4170-ba0a-f8b540197699"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "3caf8058-e899-488f-9889-f7ce3022a137",
+      "name": "MCP Server Trigger",
+      "webhookId": "3f15c9d3-d5f9-4170-ba0a-f8b540197699"
+    },
+    {
+      "parameters": {
+        "sendTo": "vorname.nachname@bridging-it.de",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        144,
+        208
+      ],
+      "id": "8fce2fd1-1460-4654-8cc7-faa84b23753d",
+      "name": "Send a message in Gmail",
+      "webhookId": "7208cb90-73b1-4111-acab-6e0b541170ad"
+    }
+  ],
+  "connections": {
+    "Send a message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "pinData": {}
+}
