@@ -47,4 +47,4 @@ Zum Abschluss baut ihr im Team einen der fünf Use Cases, mit Dummy-Daten zum Au
 
 ## Beispiele
 
-Fertige Workflows zum Anschauen und Weiterbauen: MCP Client und Server, Human in the Loop, Multi Agent, Parallelisierung, n8n-Backup nach GitHub. Übersicht und Einrichtung: [beispiele](beispiele/README.md).
+Fertige Workflows zum Anschauen und Weiterbauen: MCP Client und Server, Human in the Loop, Multi Agent, Parallelisierung, n8n-Backup nach GitHub. Übersicht und Einrichtung: [z_beispiele](z_beispiele/README.md).
