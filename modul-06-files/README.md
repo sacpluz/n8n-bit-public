@@ -204,21 +204,29 @@ Schedule Trigger
 
 ### 01 · SCHEDULE TRIGGER — Workflow alle 5 Minuten starten
 
-> → Field: `Minutes` · Every: `5`
+| Einstellung | Wert |
+|---|---|
+| Field | `Minutes` |
+| Every | `5` |
 
 ---
 
 ### 02 · GOOGLE DRIVE LIST FILES — Ordnerinhalt abrufen
 
-> → Resource: `File/Folder` · Operation: `Get Many`
-> → Filter: Ordner `Rechnungen n8n`
-> → Options → Fields: `*`
+| Einstellung | Wert |
+|---|---|
+| Resource | `File/Folder` |
+| Operation | `Get Many` |
+| Filter | Ordner `Rechnungen n8n` |
+| Options → Fields | `*` |
 
 ---
 
 ### 03 · LOOP OVER ITEMS — Nacheinander verarbeiten
 
-> → Batch Size: `1`
+| Einstellung | Wert |
+|---|---|
+| Batch Size | `1` |
 
 ⚠️ Move to Processed am Ende zurück zu **Input 0** des Loop verbinden!
 
@@ -226,24 +234,30 @@ Schedule Trigger
 
 ### 04 · GOOGLE DRIVE DOWNLOAD — Datei laden
 
-> → Operation: `Download`
-> → File ID: `={{ $json.id }}`
-> → Options → File Name: `={{ $json.name }}`
+| Einstellung | Wert |
+|---|---|
+| Operation | `Download` |
+| File ID | `={{ $json.id }}` |
+| Options → File Name | `={{ $json.name }}` |
 
 ---
 
 ### 05 · IF: PDF ODER BILD? — Dateityp prüfen
 
-> → Bedingung: `{{ $json.fileExtension }}` equals `pdf`
-> → true → Extract from File
-> → false → Analyze Image
+| Einstellung | Wert |
+|---|---|
+| Bedingung | `{{ $json.fileExtension }}` equals `pdf` |
+| Ausgang *true* | Extract from File |
+| Ausgang *false* | Analyze Image |
 
 ---
 
 ### 06 · EXTRACT FROM FILE — Text extrahieren *(PDF-Zweig)*
 
-> → Operation: `PDF`
-> → **Options → Keep Source: Both** ← wichtig!
+| Einstellung | Wert |
+|---|---|
+| Operation | `PDF` |
+| Options → Keep Source | **Both** ⚠️ wichtig! |
 
 Warum? Damit das Binary erhalten bleibt falls Analyze Image es später braucht.
 
@@ -251,9 +265,11 @@ Warum? Damit das Binary erhalten bleibt falls Analyze Image es später braucht.
 
 ### 07 · IF: DIGITAL ODER SCAN? — Textinhalt prüfen
 
-> → Bedingung: `{{ $json.text.trim().length }}` >= `50` (Typ: Number)
-> → true → Information Extractor
-> → false → Stop and Error
+| Einstellung | Wert |
+|---|---|
+| Bedingung | `{{ $json.text.trim().length }}` >= `50` (Typ: Number) |
+| Ausgang *true* | Information Extractor |
+| Ausgang *false* | Stop and Error |
 
 ---
 
@@ -261,7 +277,9 @@ Warum? Damit das Binary erhalten bleibt falls Analyze Image es später braucht.
 
 Verbinde **OpenAI Chat Model GPT-4o-mini** als Subnode.
 
-> → Text: `{{ $json.text }}`
+| Einstellung | Wert |
+|---|---|
+| Text | `{{ $json.text }}` |
 
 **Felder:**
 
@@ -282,8 +300,10 @@ Verbinde **OpenAI Chat Model GPT-4o-mini** als Subnode.
 
 ### 08b · STOP AND ERROR — Print-PDF abfangen *(false-Zweig)*
 
-> → Error Message: `Das PDF ist kein digitales, sondern ein Print. Das Bild muss zu einem Bild konvertiert werden.`
-> → Settings → **On Error: Continue Regular Output**
+| Einstellung | Wert |
+|---|---|
+| Error Message | `Das PDF ist kein digitales, sondern ein Print. Das Bild muss zu einem Bild konvertiert werden.` |
+| Settings → On Error | **Continue Regular Output** |
 
 Warum `Continue Regular Output`? Damit der Loop nicht abbricht sondern mit der nächsten Datei weitermacht.
 
@@ -291,8 +311,12 @@ Warum `Continue Regular Output`? Damit der Loop nicht abbricht sondern mit der n
 
 ### 08c · ANALYZE IMAGE — Bild analysieren *(Bild-Zweig)*
 
-> → Model: `GPT-4o-mini` · Resource: `Image` · Operation: `Analyze`
-> → Input Type: `Base64`
+| Einstellung | Wert |
+|---|---|
+| Model | `GPT-4o-mini` |
+| Resource | `Image` |
+| Operation | `Analyze` |
+| Input Type | `Base64` |
 
 **Prompt:**
 ```
@@ -357,10 +381,13 @@ Beide Wege liefern unterschiedliche Strukturen:
 
 ### 10 · GOOGLE SHEETS — Daten eintragen
 
-> → Operation: `Append` · Sheet: `Rechnungen`
-> → Alle Felder: `{{ $json.rechnungsnummer }}` etc. *(kein `.output` dank Edit Fields)*
-> → Dateiname: `={{ $('Google Drive – Download').item.json.name }}`
-> → Verarbeitet am: `={{ new Date().toLocaleString('de-DE', {timeZone: 'Europe/Berlin'}) }}`
+| Einstellung | Wert |
+|---|---|
+| Operation | `Append` |
+| Sheet | `Rechnungen` |
+| Alle Felder | `{{ $json.rechnungsnummer }}` etc. *(kein `.output` dank Edit Fields)* |
+| Dateiname | `={{ $('Google Drive – Download').item.json.name }}` |
+| Verarbeitet am | `={{ new Date().toLocaleString('de-DE', {timeZone: 'Europe/Berlin'}) }}` |
 
 ---
 
@@ -388,16 +415,20 @@ Kein JSON, nur Text.
 
 ### 12 · GMAIL — Benachrichtigung senden
 
-> → Subject: `✅ Rechnung: {{ $('Google Sheets2').item.json.Rechnungsnummer }} - {{ $('Google Sheets2').item.json.Lieferant }}`
-> → Message: `{{ $json.text }}`
+| Einstellung | Wert |
+|---|---|
+| Subject | `✅ Rechnung: {{ $('Google Sheets2').item.json.Rechnungsnummer }} - {{ $('Google Sheets2').item.json.Lieferant }}` |
+| Message | `{{ $json.text }}` |
 
 ---
 
 ### 13 · GOOGLE DRIVE MOVE — Datei verschieben
 
-> → Operation: `Move`
-> → File ID: `={{ $('Google Drive – List Files').item.json.id }}`
-> → Folder: `Rechnungen verarbeitet`
+| Einstellung | Wert |
+|---|---|
+| Operation | `Move` |
+| File ID | `={{ $('Google Drive – List Files').item.json.id }}` |
+| Folder | `Rechnungen verarbeitet` |
 
 ⚠️ Danach zurück zu **Loop Over Items (Input 0)** verbinden!
 

@@ -135,10 +135,12 @@ In jedem Aufgaben-Node: **Add Field** → Name eintragen → Typ wählen → Wer
 
 ### 01 · SET – Verschachtelte Felder
 
-Holt Werte aus dem Objekt `customer`.
+Holt Werte aus dem Objekt `customer`. Mit Punkten geht ihr eine Ebene tiefer.
 
-> → `kunde` = Name des Kunden · **String**
-> → `stadt` = Stadt aus der Adresse · **String**
+| Name | Typ | Wert |
+|---|---|---|
+| `kunde` | String | `{{ $json.customer.name }}` |
+| `stadt` | String | `{{ $json.customer.address.city }}` |
 
 Kontrolle: `kunde` = `Miriam Koch`, `stadt` = `Mannheim`.
 
@@ -146,16 +148,22 @@ Kontrolle: `kunde` = `Miriam Koch`, `stadt` = `Mannheim`.
 
 Holt Werte aus der Liste `items`. Das erste Element hat den Index 0.
 
-> → `erster_artikel` = Produktname der ersten Position · **String**
-> → `anzahl_positionen` = Anzahl der Positionen · **Number**
+| Name | Typ | Wert |
+|---|---|---|
+| `erster_artikel` | String | `{{ $json.items[0].product }}` |
+| `anzahl_positionen` | **Number** | `{{ $json.items.length }}` |
 
 Kontrolle: `erster_artikel` = `Laptop-Ständer`, `anzahl_positionen` = `3`.
 
 ### 03 · SET – Groß-/Kleinschreibung
 
-> → `status_text` = der Status der Bestellung · **String**
+Probiert zuerst `{{ $json.status }}` (kleines s) und schaut, was im Output passiert. Dann korrigieren:
 
-Probiert zuerst `{{ $json.status }}` und schaut, was passiert. Dann korrigieren.
+| Name | Typ | Wert |
+|---|---|---|
+| `status_text` | String | `{{ $json.Status }}` |
+
+⚠️ Im Input heißt das Feld `Status` mit großem S. `$json.status` liefert einfach nichts, ohne Fehlermeldung.
 
 Kontrolle: `status_text` = `offen`.
 
@@ -163,7 +171,11 @@ Kontrolle: `status_text` = `offen`.
 
 Holt die Bestellnummer nicht aus dem direkten Input, sondern direkt aus dem Node `Beispieldaten`.
 
-> → `bestellnummer` = `orderId` aus dem Node `Beispieldaten` · **String**
+| Name | Typ | Wert |
+|---|---|---|
+| `bestellnummer` | String | `{{ $('Beispieldaten').item.json.orderId }}` |
+
+Der Name in `$('…')` muss exakt dem Node-Namen entsprechen.
 
 Kontrolle: `bestellnummer` = `A-1042`.
 
@@ -171,7 +183,9 @@ Kontrolle: `bestellnummer` = `A-1042`.
 
 Ist die Bestellung größer als 100 EUR? Ein Vergleich wie `>` ergibt `true` oder `false`.
 
-> → `grosse_bestellung` = `total` größer als 100 · **Boolean**
+| Name | Typ | Wert |
+|---|---|---|
+| `grosse_bestellung` | **Boolean** | `{{ $json.total > 100 }}` |
 
 ⚠️ Typ **Boolean** wählen. Mit Typ String steht im Output der Text `"true"` statt des Werts `true`.
 

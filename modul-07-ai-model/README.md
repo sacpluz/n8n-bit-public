@@ -272,19 +272,30 @@ Chat-Nachricht
 ---
 
 #### 3.1 GetCustomer – Tabellenfilter setzen (`GetCustomer`)
-- [ ] **Resource**: Row
-- [ ] **Operation**: Get
-- [ ] **Must Match**: Any Condition
-- [ ] Setze die **Filter**-Werte:
-  - Filter 1 → fullname = `{{ $json.output.Name }}`
-  - Filter 2 → id = `{{ $json.output.Kundennummer }}`
-  - Filter 3 → invoice_nr = `{{ $json.output.Rechnungsnummer }}`
+
+| Einstellung | Wert |
+|---|---|
+| Resource | Row |
+| Operation | Get |
+| Must Match | Any Condition |
+
+Filter:
+
+| # | Feld | Wert |
+|---|---|---|
+| 1 | `fullname` | `{{ $json.output.Name }}` |
+| 2 | `id` | `{{ $json.output.Kundennummer }}` |
+| 3 | `invoice_nr` | `{{ $json.output.Rechnungsnummer }}` |
 
 ---
 
 #### 3.2 Invoice Answer Chain
-- [ ] Setze **Source of Prompt (User Message)** auf `Define below`
-- [ ] Setzet die **Prompt (User Message)**
+
+| Einstellung | Wert |
+|---|---|
+| Source for Prompt (User Message) | `Define below` |
+| Prompt (User Message) | siehe unten |
+
 ````
 Folgende Rechnungsdaten sind in der Datenbank bekannt:    
 Kundennummer: {{ $json.nr }}
@@ -295,25 +306,43 @@ Produkt: {{ $json.product }}
 Beantworte seine ursprüngliche Frage:    
 {{ $('When chat message received').item.json.chatInput }}
 ````
-- [ ] Vergebe einen **Prompt** unter **Chat Messages (if Using a Chat Model)**
-	- [ ] **System**: `Sie sind ein technischer Experte. Ermitteln Sie auf Basis der Benutzereingabe die wahrscheinlichsten technischen Probleme sowie entsprechende Lösungsansätze. Liefern Sie eine tiefgreifende technische Analyse für Ihren Kollegen im First-Level-Support. Antworten Sie nicht direkt an den Benutzer, sondern konzentrieren Sie sich ausschließlich auf das technische Problem.`
+
+Unter **Chat Messages (if Using a Chat Model)** eine Nachricht anlegen:
+
+| Type Name or ID | Message |
+|---|---|
+| System | `Du bist ein freundlicher Support-Mitarbeiter. Du beantwortest Rechnungsfragen ausschließlich auf Basis der Kundendaten die dir übergeben werden. Erfinde keine Daten. Wenn kein passender Datensatz gefunden wurde, bitte den Kunden höflich um mehr Informationen.` |
 
 ---
 
 ### 4. Evaluate Problem LLM Chain
-- [ ] Vergebe einen **Prompt** unter **Chat Messages (if Using a Chat Model)**
-	- [ ] **System**: `Du bist ein freundlicher Support-Mitarbeiter. Du beantwortest Rechnungsfragen ausschließlich auf Basis der Kundendaten die dir übergeben werden. Erfinde keine Daten. Wenn kein passender Datensatz gefunden wurde, bitte den Kunden höflich um mehr Informationen.`
+
+Unter **Chat Messages (if Using a Chat Model)** eine Nachricht anlegen:
+
+| Type Name or ID | Message |
+|---|---|
+| System | `Sie sind ein technischer Experte. Ermitteln Sie auf Basis der Benutzereingabe die wahrscheinlichsten technischen Probleme sowie entsprechende Lösungsansätze. Liefern Sie eine tiefgreifende technische Analyse für Ihren Kollegen im First-Level-Support. Antworten Sie nicht direkt an den Benutzer, sondern konzentrieren Sie sich ausschließlich auf das technische Problem.` |
 
 #### 4.1 Technical Support Answer LLM Chain
-- [ ] Referenziere auf die vorherige Antwort der  Evaluate Problem Node 
-	- [ ] Source for Prompt (User Message): **Define below**
-	- [ ] Prompt (User Message): `{{ $('When chat message received').item.json.chatInput }}`
-- [ ] Vergebe einen **Prompt** unter **Chat Messages (if Using a Chat Model)**
-	- [ ] **System**: `Sie sind Mitarbeiter im First-Level-Support. Sie sind dafür verantwortlich, dem Benutzer zu antworten. Ihr Mitarbeiter aus dem Third-Level-Deep-Tech-Support hat das Problem bereits eingehend analysiert. Hier sind seine Vorschläge zur Anfrage des Benutzers: {{ $json.text }}`
+Referenziert die Antwort des Nodes Evaluate Problem:
+
+| Einstellung | Wert |
+|---|---|
+| Source for Prompt (User Message) | `Define below` |
+| Prompt (User Message) | `{{ $('When chat message received').item.json.chatInput }}` |
+
+Unter **Chat Messages (if Using a Chat Model)**:
+
+| Type Name or ID | Message |
+|---|---|
+| System | `Sie sind Mitarbeiter im First-Level-Support. Sie sind dafür verantwortlich, dem Benutzer zu antworten. Ihr Mitarbeiter aus dem Third-Level-Deep-Tech-Support hat das Problem bereits eingehend analysiert. Hier sind seine Vorschläge zur Anfrage des Benutzers: {{ $json.text }}` |
 
 ### 5 Answer Feedback LLM Chain
-- [ ] Vergebe einen **Prompt** unter **Chat Messages (if Using a Chat Model)**
-	- [ ] **System**: `Du bist Support-Mitarbeiter bei bIT. Du weißt, dass Feedback wichtig ist, und würdigst es mit einer kurzen Rückmeldung. Bei bIT sind wir alle eine Familie. Antworte zügig – einfach, um den Leuten zu zeigen, dass du dankbar bist.`
+Unter **Chat Messages (if Using a Chat Model)**:
+
+| Type Name or ID | Message |
+|---|---|
+| System | `Du bist Support-Mitarbeiter bei bIT. Du weißt, dass Feedback wichtig ist, und würdigst es mit einer kurzen Rückmeldung. Bei bIT sind wir alle eine Familie. Antworte zügig – einfach, um den Leuten zu zeigen, dass du dankbar bist.` |
 
 
 ---

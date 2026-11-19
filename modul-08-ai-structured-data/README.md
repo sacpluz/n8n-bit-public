@@ -7,6 +7,7 @@ Dieses Handout ist der Text der Sticky Notes aus dem Workflow, damit ihr ihn im 
 ---
 
 ## 🗺️ AI + Strukturierte Daten – Node-Übersicht
+
 | 4 Nodes | Kategorie: AI Agents |
 
 ---

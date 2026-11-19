@@ -37,7 +37,7 @@ To begin, **paste the following JSON** into the **Manual Trigger** node:
 }
 ```
 
-ðŸ“Œ **Steps to Paste Data:**
+📌 **Steps to Paste Data:**
 - **Double-click** the "Manual Trigger" node.
 - Click **"Edit Output"** (top-right corner).
 - Paste the JSON and **Save**.

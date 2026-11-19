@@ -34,23 +34,36 @@ Ein Eintrag sieht so aus:
 
 ### 01 · REMOVE DUPLICATES – Duplikate entfernen
 
-> → Operation: **Remove Items Repeated Within Current Input**
-> → Compare: **Selected Fields** · Fields To Compare: `email`
+| Einstellung | Wert |
+|---|---|
+| Operation | **Remove Items Repeated Within Current Input** |
+| Compare | **Selected Fields** |
+| Fields To Compare | `email` |
 
 ### 02 · FILTER – Nur aktive Abonnenten
 
-> → `{{ $json.active }}` · **Boolean** · *is true*
+| Einstellung | Wert |
+|---|---|
+| Value 1 | `{{ $json.active }}` |
+| Typ | **Boolean** |
+| Bedingung | *is true* |
 
 ### 03 · SORT – Die aktivsten zuerst
 
 Zwei Sortierfelder, in dieser Reihenfolge:
 
-> → Feld 1: `opens_per_month` · **Descending**
-> → Feld 2: `signup_date` · **Descending** (entscheidet bei Gleichstand: neuere Anmeldung zuerst)
+| # | Field Name | Order |
+|---|---|---|
+| 1 | `opens_per_month` | **Descending** |
+| 2 | `signup_date` | **Descending** |
+
+Feld 2 entscheidet bei Gleichstand: neuere Anmeldung zuerst.
 
 ### 04 · LIMIT – Top 5 ausgeben
 
-> → Max Items: `5`
+| Einstellung | Wert |
+|---|---|
+| Max Items | `5` |
 
 ### Abgabe
 

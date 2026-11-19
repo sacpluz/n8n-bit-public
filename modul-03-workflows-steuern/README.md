@@ -46,12 +46,16 @@ Der Node **Loop Over Items** ist schon verdrahtet und hat zwei Ausgänge:
 
 Kennt ihr aus Modul 1: aus einem Item mit Array werden fünf Items.
 
-> → Fields To Split Out: `offers`
+| Einstellung | Wert |
+|---|---|
+| Fields To Split Out | `offers` |
 
 ### 02 · HTTP REQUEST – Wechselkurs abrufen
 
-> → Method: **GET**
-> → URL (als Expression):
+| Einstellung | Wert |
+|---|---|
+| Method | **GET** |
+| URL | als Expression, siehe unten |
 
 ```
 https://api.frankfurter.dev/v1/latest?base={{ $json.currency }}&symbols=EUR&amount={{ $json.price }}
@@ -122,8 +126,8 @@ Drei Felder anlegen. Die Werte liegen verschachtelt in `cheapestOffer` (siehe Mo
 
 | Name | Typ | Wert |
 |---|---|---|
-| `cheapest_offer_supplier` | String | Lieferant des günstigsten Angebots |
-| `cheapest_offer_price_EUR` | Number | Preis des günstigsten Angebots in EUR |
+| `cheapest_offer_supplier` | String | `{{ $json.cheapestOffer.supplier }}` |
+| `cheapest_offer_price_EUR` | Number | `{{ $json.cheapestOffer.priceEUR }}` |
 | `timestamp` | String | `{{ $now.format('dd.M.yyyy, HH:mm:ss') }}` |
 
 ⚠️ Feldnamen exakt so schreiben. `EUR` in Großbuchstaben, der Rest klein.

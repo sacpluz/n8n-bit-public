@@ -83,10 +83,13 @@ Der **Timestamp** der manuellen Einreichung (Aufgabe 6) entscheidet.
 ### AUFGABE 1 – Formular
 📝 Erstelle ein Formular mit 3 Feldern.
 
-Pflicht:
-- Name (Text) => **Deinen Vor- und Nachname eintragen**  ⚠️  ⚠️  ⚠️ 
-- Abteilung (Text)
-- Nachricht (Textarea)
+Pflichtfelder:
+
+| Field Label | Element Type | Hinweis |
+|---|---|---|
+| Name | Text | ⚠️ Beim Ausfüllen **deinen Vor- und Nachnamen** eintragen |
+| Abteilung | Text | |
+| Nachricht | Textarea | |
 
 Tipp: n8n generiert eine Live-URL – öffne sie im Browser und fülle das Formular aus!
 
@@ -95,8 +98,10 @@ Tipp: n8n generiert eine Live-URL – öffne sie im Browser und fülle das Formu
 ### 🎯 AUFGABE 2 – Webhook
 Konfiguriere einen Webhook der auf POST-Anfragen reagiert.
 
-- **Path**: challenge-webhook
-- **Method**: POST
+| Einstellung | Wert |
+|---|---|
+| HTTP Method | `POST` |
+| Path | `challenge-webhook` |
 
 Der Facilitator-Workflow schickt alle 10 sekunden etwas gegen diesen Webook. Der Faciliator-Workflow wird vom Workshop-Moderator gesteuert. Kein To Do für dich.
 
@@ -105,9 +110,11 @@ Der Facilitator-Workflow schickt alle 10 sekunden etwas gegen diesen Webook. Der
 ### AUFGABE 5 – Gmail Trigger
 📧 Konfiguriere den Gmail Trigger.
 
-**Poll**: Jede Minute
-**Filter**: Bereits definiert prüfe was definiert wurde
-**Sender**: Deine BridgingIT Mail-Adresse eintragen. Beispiel vorname.nachname@bridging-it.de
+| Einstellung | Wert |
+|---|---|
+| Poll Times | Every Minute |
+| Filter | schon gesetzt, prüfe was drinsteht |
+| Sender | deine bridgingIT-Adresse, z. B. `vorname.nachname@bridging-it.de` |
 
 Sende nach dem Setup der Node eine Nachricht an n8n.training.bridgingit@gmail.com sodass die Mail vom Trigger erkannt wird.
 

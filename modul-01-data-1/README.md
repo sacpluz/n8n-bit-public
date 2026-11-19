@@ -43,7 +43,9 @@ Ihr habt eine Liste von Leads mit einem **Score**. Baut einen Workflow, der sie 
 
 `Leads generieren` liefert **ein** Item mit einem Array im Feld `leads`. Macht daraus fünf Items.
 
-> → Fields To Split Out: `leads`
+| Einstellung | Wert |
+|---|---|
+| Fields To Split Out | `leads` |
 
 Kontrolle: Output zeigt **5 items**.
 
@@ -51,7 +53,12 @@ Kontrolle: Output zeigt **5 items**.
 
 Leads mit Score ≥ 60 gehen in den *true*-Zweig, alle anderen in den *false*-Zweig.
 
-> → `{{ $json.score }}` · **Number** · *is greater than or equal to* · `60`
+| Einstellung | Wert |
+|---|---|
+| Value 1 | `{{ $json.score }}` |
+| Typ | **Number** |
+| Bedingung | *is greater than or equal to* |
+| Value 2 | `60` |
 
 Kontrolle: true = 3 Items, false = 2 Items.
 
@@ -59,26 +66,38 @@ Kontrolle: true = 3 Items, false = 2 Items.
 
 Zwei neue Felder hinzufügen. Die bestehenden Felder müssen erhalten bleiben.
 
-> → `Type` = `Qualifiziert` · `Priority` = `Hoch`
-> → **Include Other Input Fields** einschalten
+| Name | Typ | Wert |
+|---|---|---|
+| `Type` | String | `Qualifiziert` |
+| `Priority` | String | `Hoch` |
+
+**Include Other Input Fields** einschalten.
 
 ### 03b · SET – Abgelehnte Leads markieren (false-Zweig)
 
-> → `Type` = `Abgelehnt` · `Priority` = `Niedrig`
-> → **Include Other Input Fields** einschalten
+| Name | Typ | Wert |
+|---|---|---|
+| `Type` | String | `Abgelehnt` |
+| `Priority` | String | `Niedrig` |
+
+**Include Other Input Fields** einschalten.
 
 ⚠️ Feldnamen und Werte **exakt** so schreiben, mit großem Anfangsbuchstaben. `type` ist nicht `Type`.
 
 ### 04 · MERGE – Beide Zweige zusammenführen
 
-> → Mode: **Append**
+| Einstellung | Wert |
+|---|---|
+| Mode | **Append** |
 
 Kontrolle: Output zeigt wieder 5 Items.
 
 ### 05 · AGGREGATE – Alle Items in ein Array packen
 
-> → Aggregate: **All Item Data (Into a Single List)**
-> → Put Output in Field: `processed_leads`
+| Einstellung | Wert |
+|---|---|
+| Aggregate | **All Item Data (Into a Single List)** |
+| Put Output in Field | `processed_leads` |
 
 Kontrolle: Output zeigt **1 item** mit dem Array `processed_leads`.
 
