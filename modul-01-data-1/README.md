@@ -5,6 +5,8 @@
 
 **Workflow-Datei:** [`modul-01-data-1-challenge.json`](modul-01-data-1-challenge.json)
 
+**Erklärungen zum Modul** (was der Trainer am Beamer zeigt, zum Nachlesen): [TRAINER.md](TRAINER.md)
+
 > 💡 Handout im **zweiten Browser-Tab** offen lassen. Voraussetzung: [Modul 0](../modul-00-grundlagen/README.md).
 
 ---

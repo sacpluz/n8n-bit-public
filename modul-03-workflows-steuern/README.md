@@ -5,6 +5,8 @@
 
 **Workflow-Datei:** [`modul-03-workflows-steuern-challenge.json`](modul-03-workflows-steuern-challenge.json)
 
+**Erklärungen zum Modul** (was der Trainer am Beamer zeigt, zum Nachlesen): [TRAINER.md](TRAINER.md)
+
 > 💡 Handout im **zweiten Browser-Tab** offen lassen. In diesem Modul kopiert ihr Code von hier in den Workflow.
 
 **Neu in v02:** Start per **Execute workflow** statt per Webhook. Der Webhook ist jetzt eine Bonusaufgabe und wird in Modul 4 richtig erklärt.
@@ -28,13 +30,6 @@ Euer Einkauf hat Angebote von fünf internationalen Lieferanten in fünf Währun
   ]
 }
 ```
-
-## So funktioniert der Loop
-
-Der Node **Loop Over Items** ist schon verdrahtet und hat zwei Ausgänge:
-
-- **loop**: gibt ein Angebot nach dem anderen in die Schleife (HTTP Request → Code → zurück in den Loop).
-- **done**: gibt am Ende alle gesammelten Ergebnisse weiter.
 
 ⚠️ **Node-Namen nicht ändern.** Der Code in Aufgabe 3 greift mit `$('Loop Over Items')` auf den Loop zu. Der Name muss exakt stimmen, auch Groß-/Kleinschreibung. Kopiert ihr den Node, heißt die Kopie `Loop Over Items1` und der Verweis läuft ins Leere.
 

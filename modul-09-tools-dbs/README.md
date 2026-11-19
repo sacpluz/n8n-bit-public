@@ -4,6 +4,8 @@ Dieses Handout ist der Text der Sticky Notes aus dem Workflow, damit ihr ihn im 
 
 **Workflow-Datei:** [`modul-09-tools-dbs.json`](modul-09-tools-dbs.json)
 
+**Erklärungen zum Modul** (was der Trainer am Beamer zeigt, zum Nachlesen): [TRAINER.md](TRAINER.md)
+
 ---
 
 ## System Message für RAG Agenten
@@ -167,7 +169,6 @@ json
   "results": []
 }
 
-
 #### Intructions:
  - If no ids are present, treat the input as a structured query.
  - Build database filters using only the provided attributes (e.g., director, country, year, tags).
@@ -231,19 +232,6 @@ No movies matching your criteria were found in the database.
 
 ---
 
-## Modul 9 und 10 - Node-Übersicht
-
-1. **Chat Trigger **– Startpunkt des Workflows. Empfängt Benutzeranfragen aus dem Chat und startet die Verarbeitung des Workflows. Übergibt die Nachricht als chatInput.
-2. **AI Agent (RAG Search Agent)** – Analysiert die Benutzeranfrage und entscheidet, ob eine semantische Suche erforderlich ist. Führt bei Bedarf eine thematische Suche durch und gibt strukturierte Ergebnisse zurück.
-3. **Structured Output Parser** – Erzwingt ein definiertes JSON-Format für die Antwort des ersten Agenten. Dadurch wird sichergestellt, dass nachfolgende Komponenten immer dieselbe Datenstruktur erhalten.
-4. **Qdrant Vector Store** – Führt eine semantische Suche in der Vektordatenbank durch und liefert relevante Dokumente bzw. Filmreferenzen zurück.
-5. **Embeddings OpenAI** – Berechnet Embedding-Vektoren für Benutzeranfragen. Für eine korrekte semantische Suche muss dieselbe Embedding-Methode verwendet werden wie beim Erstellen der Vektordatenbank.
-6. **Google Gemini Chat Model** – Sprachmodell, das von beiden Agenten verwendet wird. Führt Analyse-, Entscheidungs- und Antwortgenerierungsschritte aus.
-7. **AI Agent (Structured Search Agent)** – Verarbeitet die Ergebnisse des ersten Agenten. Ruft strukturierte Daten aus der Datenbank ab und formuliert eine benutzerfreundliche Antwort.
-8. **Airtable Tool (Movies DB)** – Führt Datenbankabfragen auf der Filmdatenbank aus. Die Suchfilter werden dynamisch vom Agenten erstellt.
-
----
-
 ## Agenten mit Tools: RAG und DB
 
 | ⏱ Dauer | ca. 20 Minuten | 10 Nodes | 👥 Teamgröße 2 Personen |
@@ -258,9 +246,7 @@ Menschen suchen täglich nach Informationen. Nicht jede Anfrage benötigt jedoch
 
 Ihr baut einen Workflow, der zunächst analysiert, welche Art von Anfrage vorliegt. Falls nötig, wird eine semantische Suche in einer Vektordatenbank durchgeführt. Die gefundenen Dokumente liefern jedoch nur Referenzen - die detaillierten Informationen werden anschließend aus einer strukturierten Datenbank geladen und für die Antwort verwendet.
 
-
 *Für den Workshop wird dieses Szenario bewusst vereinfacht: Statt echter Unternehmensdokumente werden Beschreibungen von nur 15 Filmen verwendet. Dadurch wird transparent, wie die Datenbasis aussieht und wie sich semantische Suche von klassischer Stichwortsuche unterscheidet. Ihr könnt beispielsweise nach Filmen zu bestimmten Themen suchen oder strukturierte Informationen wie Produktionsjahr, Regisseur oder andere Eigenschaften abfragen.*
-
 
 ---
 
@@ -292,7 +278,6 @@ Antwort an Benutzer
 
 ---
 
-
 ### 2. Füge die System-Nachricht in den RAG Search Agent ein
 
 ⬅️ Der benötigte Text befindet sich links im gelben Block.
@@ -304,7 +289,6 @@ Die Aufgabe dieses Agenten besteht darin:
 
 ---
 
-
 ### 3. Aktiviere ein strukturiertes Ausgabeformat
 
 - [ ] Aktiviere: **Require Specific Output Format**
@@ -312,7 +296,6 @@ Die Aufgabe dieses Agenten besteht darin:
 - [ ] ⬅️ Füge das folgende Beispiel ein: Der benötigte Text befindet sich links im gelben Block.
 
 ---
-
 
 ### 4. Verbinde den Agenten mit der Vektordatenbank
 
@@ -325,7 +308,6 @@ Füge das Tool Qdrant Vector Store hinzu und konfiguriere folgende Einstellungen
 
 ---
 
-
 ### 5. Wähle das richtige Embedding-Modell
 
 Die Filmbeschreibungen wurden bereits in der Vektordatenbank gespeichert.
@@ -335,9 +317,7 @@ Dabei wurden:
  - überlappende Textbereiche verwendet (~10%)
  - Embedding-Vektoren berechnet
 
-
 > 💡 **Hinweis:**  Für eine semantische Suche muss die Benutzeranfrage mit **demselben Embedding-Model** verarbeitet werden wie die gespeicherten Texte.
-
 
 Verwende:
 - [ ] Tool: **Embeddings OpenAI**
@@ -346,14 +326,12 @@ Verwende:
 
 ---
 
-
 ### 6. Verbinde den Structured Search Agent mit dem ersten Agenten
 
 Verbinde den Ausgang des ersten Agenten mit dem Structured Search Agent.
 - [ ] Setze das Feld Prompt (User Message) auf: `{{ $json.output }}`
 
 ---
-
 
 ### 7. Füge den System Prompt ein
 
@@ -365,7 +343,6 @@ Die Aufgabe dieses Agenten:
  - die Antwort auf die Benutzeranfrage
 
 ---
-
 
 ### 8. Verbinde den Structured Search Agent mit Airtable
 
@@ -380,7 +357,6 @@ Füge das Tool Airtable hinzu und konfiguriere folgende Einstellungen:
 - [ ] Filter By Formula: **Defined automatically by the model**
 - [ ] Limit: **5**
 
-
 ## Test und Exploration
 
 Nachdem ihr alle 8 Schritte abgeschlossen habt, testet euren Workflow mit unterschiedlichen Arten von Anfragen.
@@ -391,8 +367,6 @@ Prüft insbesondere:
  - Werden strukturierte Informationen korrekt aus Airtable geladen?
  - Ist die Antwort nachvollziehbar und vollständig?
  - Wie verhält sich der Workflow bei unklar formulierten Fragen?
-
-
 
 👈 Probiert beispielsweise folgende Anfragen aus:
 
@@ -415,7 +389,6 @@ Prüft insbesondere:
  - Welche Filme sind gleichzeitig lustig und traurig?
  - Gibt es Filme über Roboter aus den 90ern?
  - Zeige mir unbekannte Filme
-
 
 Versucht anschließend zu analysieren:
  - Warum hat der Agent eine semantische Suche verwendet?
@@ -537,4 +510,3 @@ Versucht anschließend zu analysieren:
 ### Description:
 
 *Der Film Mad Max: Fury Road spielt in einer postapokalyptischen Welt, in der die Zivilisation zusammengebrochen ist und das Überleben vom Zugang zu elementaren Ressourcen abhängt. Die Handlung verzichtet weitgehend auf klassische Dialoge und entfaltet sich fast ausschließlich durch Bewegung und visuelles Erzählen. Die dargestellte Gesellschaft ist eine brutale, hierarchische Ordnung, die auf Gewalt, Angst und der absoluten Macht weniger Herrscher basiert. Ein zentrales Thema ist der Kampf um Freiheit und Selbstbestimmung unter Bedingungen totaler Unterdrückung. Die Figuren handeln weniger aus ideologischen Motiven als aus der Notwendigkeit heraus, zu überleben und dem Kreislauf der Gewalt zu entkommen. Der Film zeigt eindrücklich, wie Ressourcenknappheit soziale Strukturen und Machtverhältnisse prägt. Der intensive visuelle Stil ersetzt klassische Erklärungen und transportiert Bedeutung durch Aktion, Rhythmus und Bildsprache. Fury Road zeichnet ein Bild einer Welt, in der Moral und Ordnung nicht aus Gesetzen entstehen, sondern aus gemeinsamem Widerstand. Die Geschichte vermittelt, dass selbst im völligen Zerfall Solidarität und Hoffnung auf Veränderung möglich sind.*
-

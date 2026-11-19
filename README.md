@@ -7,7 +7,7 @@ Handouts und Workflow-Vorlagen für den hands-on n8n-Workshop.
 ## So arbeitet ihr
 
 1. **Vor dem Workshop:** [Credentials anlegen](modul-00-credentials/README.md) (10 min).
-2. Pro Modul gibt es ein **Handout** (`README.md`) und eine **Workflow-Vorlage** (`.json`). Die Vorlage liegt meist schon in eurem Ordner in n8n. Sonst: in n8n neuer Workflow → Menü `⋯` → **Import from File**.
+2. Pro Modul gibt es ein **Handout** mit den Aufgaben (`README.md`), die **Erklärungen** des Trainers zum Nachlesen (`TRAINER.md`) und eine **Workflow-Vorlage** (`.json`). Die Vorlage liegt meist schon in eurem Ordner in n8n. Sonst: in n8n neuer Workflow → Menü `⋯` → **Import from File**.
 3. Der Node **Ergebnis prüfen** sagt euch im Feld `hinweise`, was noch nicht stimmt.
 4. Euer Name fürs Scoreboard steht in **AUFGABE 0**, dem ersten Node jedes Workflows (Modul 4: im Workflow-Namen). Wie gewertet wird: [Scoreboard](scoreboard.md).
 

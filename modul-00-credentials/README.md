@@ -1,5 +1,7 @@
 # Modul 0 – Credentials in einem Rutsch anlegen
 
+**Erklärungen zum Modul** (was der Trainer am Beamer zeigt, zum Nachlesen): [TRAINER.md](TRAINER.md)
+
 **Dauer:** 10 Min · Einmalig vor dem Workshop · Jede Person in der eigenen Instanz
 
 ---
@@ -82,8 +84,3 @@ Für Google Sheets / Drive: **Credentials → Create credential → Google Sheet
 | Keine Ausgabe | Alles noch `HIER_EINTRAGEN`, daher wurde nichts angelegt |
 
 ---
-
-## ℹ️ Hintergrund
-
-- Die Public API kann Credentials nur **anlegen** und **löschen**, nicht ändern. Zum Aktualisieren löschen und neu anlegen. Die ID ändert sich dabei, Workflows müssen dann neu zugeordnet werden.
-- Alternative ohne Workflow, für Self-Hosted: `n8n import:credentials --input=creds.json`.
