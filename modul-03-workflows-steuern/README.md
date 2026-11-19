@@ -164,4 +164,4 @@ Die schnellste **korrekte** Abgabe gewinnt. Details: [Scoreboard](../scoreboard.
 1. **Webhook-Start (wie in v01):** Ersetzt den Manual Trigger durch einen Webhook (POST, eigener Pfad) und schickt die Angebote als JSON-Body an die **Test URL**. Dann liegt das Array unter `$json.body.offers`. Am Ende einen *Respond to Webhook*-Node anhängen.
 2. **Ohne Loop:** Der HTTP Request läuft in n8n ohnehin einmal pro Item. Baut die Schleife aus. Wie kommt ihr jetzt an den Lieferanten? Wann braucht man den Loop wirklich?
 3. **Sechstes Angebot:** Ergänzt im Node `Angebote laden` einen Lieferanten in `PLN`.
-4. **Bonus-Modul:** [Modul 3.1 – Looping](../modul-03-1-looping-bonus/README.md).
+4. **Bonus-Modul (nach dem Workshop):** [Modul 3.1 – Looping](../modul-03-1-looping-bonus/README.md).

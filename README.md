@@ -20,13 +20,13 @@ Handouts und Workflow-Vorlagen für den hands-on n8n-Workshop.
 | 1 | Data 1: Lead Qualification | [modul-01-data-1](modul-01-data-1/README.md) |
 | 2 | Data 2: Datenqualität | [modul-02-data-2](modul-02-data-2/README.md) |
 | 3 | Workflows steuern | [modul-03-workflows-steuern](modul-03-workflows-steuern/README.md) |
-| 3.1 | Looping (Bonus) | [modul-03-1-looping-bonus](modul-03-1-looping-bonus/README.md) |
+| 3.1 | Looping (Bonus, nicht im Workshop) | [modul-03-1-looping-bonus](modul-03-1-looping-bonus/README.md) |
 | 4 | Triggers | [modul-04-triggers](modul-04-triggers/README.md) |
 | 5 | Error Handling | [modul-05-error-handling](modul-05-error-handling/README.md) |
 | 6 | Files | [modul-06-files](modul-06-files/README.md) |
 | 7 | AI + Model | [modul-07-ai-model](modul-07-ai-model/README.md) |
 | 8 | AI + Structured Data | [modul-08-ai-structured-data](modul-08-ai-structured-data/README.md) |
-| 9 | Tools und DBs | [modul-09-tools-dbs](modul-09-tools-dbs/README.md) |
+| 9 | Tools und DBs (nicht im Workshop) | [modul-09-tools-dbs](modul-09-tools-dbs/README.md) |
 
 ## Weiterlesen
 
@@ -35,7 +35,7 @@ Handouts und Workflow-Vorlagen für den hands-on n8n-Workshop.
 
 ## Use Cases
 
-Zum Abschluss baut ihr im Team einen der fünf Use Cases, mit Dummy-Daten zum Ausprobieren.
+Zum Weitermachen nach dem Workshop: fünf Use Cases mit Dummy-Daten zum Ausprobieren.
 
 | # | Use Case | Beschreibung |
 |---|---|---|

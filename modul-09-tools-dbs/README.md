@@ -1,5 +1,7 @@
 # Modul 9 – Agenten mit Tools: Vektorsuche und Datenbank
 
+> **Nicht Teil des Workshops.** Dieses Modul ist im Workshop out of scope. Ihr könnt es danach im eigenen Tempo durcharbeiten.
+
 | ⏱ Dauer | 30 Minuten | 8 Aufgaben | 👥 Teams à 2 Personen |
 |---|---|---|---|
 

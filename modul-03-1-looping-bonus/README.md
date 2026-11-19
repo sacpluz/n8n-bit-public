@@ -1,5 +1,7 @@
 # Modul 03.1 – Looping (Bonus)
 
+> **Nicht Teil des Workshops.** Dieses Modul ist im Workshop out of scope. Ihr könnt es danach im eigenen Tempo durcharbeiten.
+
 Dieses Handout ist der Text der Sticky Notes aus dem Workflow, damit ihr ihn im zweiten Browser-Tab lesen und Code kopieren könnt.
 
 **Workflow-Datei:** [`modul-03-1-looping-bonus.json`](modul-03-1-looping-bonus.json)
