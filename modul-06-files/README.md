@@ -44,10 +44,10 @@ Schedule Trigger
   → IF: PDF oder Bild? (fileExtension = pdf)
       true (PDF)  → Extract from File  ← keepSource: both!
                     → IF: Digital oder Scan? (text.length >= 50)
-                        true  → Information Extractor (GPT-4o-mini)
+                        true  → Information Extractor (Azure gpt-5-mini)
                                 → Edit Fields
                         false → Stop and Error  ← Print-PDF!
-      false (Bild) → Analyze Image (base64)
+      false (Bild) → Basic LLM Chain: Bild analysieren (Azure)
                     → Parse Image JSON
                     → Edit Fields
   → Google Sheets
@@ -107,7 +107,7 @@ Schedule Trigger
 |---|---|
 | Bedingung | `{{ $json.fileExtension }}` equals `pdf` |
 | Ausgang *true* | Extract from File |
-| Ausgang *false* | Analyze Image |
+| Ausgang *false* | Bild analysieren |
 
 ---
 
@@ -118,7 +118,7 @@ Schedule Trigger
 | Operation | `PDF` |
 | Options → Keep Source | **Both** ⚠️ wichtig! |
 
-Warum? Damit das Binary erhalten bleibt falls Analyze Image es später braucht.
+Warum? Damit das Binary erhalten bleibt falls Bild analysieren es später braucht.
 
 ---
 
@@ -134,7 +134,7 @@ Warum? Damit das Binary erhalten bleibt falls Analyze Image es später braucht.
 
 ### 08a · INFORMATION EXTRACTOR — Felder aus Text *(digitale PDFs)*
 
-Verbinde **OpenAI Chat Model GPT-4o-mini** als Subnode.
+Verbinde **Azure AI Foundry Chat Model** (`gpt-5-mini`) als Subnode.
 
 | Einstellung | Wert |
 |---|---|
@@ -168,14 +168,16 @@ Warum `Continue Regular Output`? Damit der Loop nicht abbricht sondern mit der n
 
 ---
 
-### 08c · ANALYZE IMAGE — Bild analysieren *(Bild-Zweig)*
+### 08c · BASIC LLM CHAIN — Bild analysieren *(Bild-Zweig)*
 
 | Einstellung | Wert |
 |---|---|
-| Model | `GPT-4o-mini` |
-| Resource | `Image` |
-| Operation | `Analyze` |
-| Input Type | `Base64` |
+| Source for Prompt (User Message) | `Define below` |
+| Prompt (User Message) | siehe unten |
+| Chat Messages → Type Name or ID | `User` |
+| Chat Messages → Message Type | `Image (Binary)` |
+| Chat Messages → Image Data Field Name | `data` |
+| Chat Model (Subnode) | `Azure AI Foundry Chat Model`, Model `gpt-5-mini` |
 
 **Prompt:**
 ```
@@ -200,7 +202,7 @@ Falls ein Wert fehlt: null. Falls unleserlich: lesbar: false.
 
 ---
 
-### 08d · CODE: JSON PARSEN — Analyze Image Output bereinigen
+### 08d · CODE: JSON PARSEN — Bild-Analyse bereinigen
 
 ```javascript
 const raw = $json.text || $json.content || '';
@@ -218,7 +220,7 @@ try {
 
 Beide Wege liefern unterschiedliche Strukturen:
 - Information Extractor → `$json.output.rechnungsnummer`
-- Analyze Image + Parse JSON → `$json.rechnungsnummer`
+- Bild analysieren + Parse JSON → `$json.rechnungsnummer`
 
 **Mode: Raw JSON:**
 ```json
@@ -295,7 +297,7 @@ Kein JSON, nur Text.
 
 ## 💡 Tipps
 
-**keepSource: both** — Im Extract from File Node unter Options. Ohne das verschwindet das Binary und Analyze Image wirft: `The item has no binary field 'data'`.
+**keepSource: both** — Im Extract from File Node unter Options. Ohne das verschwindet das Binary und die Bild-Analyse findet kein Bild im Feld `data`.
 
 **Stop and Error → Continue Regular Output** — In den Node-Settings, nicht in den Parameters. Ohne das bricht der gesamte Workflow bei einer Print-PDF ab statt weiterzumachen.
 
@@ -303,7 +305,7 @@ Kein JSON, nur Text.
 
 **`?.` und `??`** — `$json.output?.rechnungsnummer` wirft keinen Fehler wenn `output` nicht existiert. `??` nimmt den rechten Wert wenn links `null` oder `undefined`.
 
-**Analyze Image: Input Type Base64** — Nicht die Default-Einstellung. Muss manuell auf `Base64` umgestellt werden damit das Binary korrekt übergeben wird.
+**Bild als Chat Message** — Das Bild steckt nicht im Prompt. In der Basic LLM Chain unter *Chat Messages* eine Nachricht `User` mit Message Type `Image (Binary)` und Feld `data` anlegen. Ohne sie sieht das Modell nur den Text und erfindet Werte.
 
 **Execute Step** — Nach Extract from File prüfen ob `$json.text` sichtbar ist UND ob Binary-Tab noch da ist. Nach Edit Fields prüfen ob alle Felder ohne `.output` ankommen.
 
@@ -322,9 +324,9 @@ Kein JSON, nur Text.
 **05** IF – PDF oder Bild? (`fileExtension = pdf`)
 **06** Extract from File – `keepSource: both` ⚠️
 **07** IF – Digital oder Scan? (`text.length >= 50`)
-**08a** Information Extractor + GPT-4o-mini (true)
+**08a** Information Extractor + Azure gpt-5-mini (true)
 **08b** Stop and Error (false) → `Continue Regular Output`
-**08c** Analyze Image – `inputType: base64` (Bild-Zweig)
+**08c** Basic LLM Chain – Bild als Chat Message `Image (Binary)` (Bild-Zweig)
 **08d** Code – JSON parsen
 **09** Edit Fields – `?.` und `??` normalisieren
 **10** Google Sheets

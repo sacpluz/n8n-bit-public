@@ -84,8 +84,8 @@ Was der Trainer am Beamer erklärt. Die Aufgaben stehen in der [README.md](READM
 | Input | Inhalt | Node | Kosten pro Seite | Warum |
 |---|---|---|---|---|
 | PDF (digital) | Text, Tabellen | **Extract from File** | ~$0.00 | Text direkt drin, kein API-Call |
-| PDF (Scan/Foto) | Bild von Dokument | **Analyze Image** | ~$0.004 | Braucht Vision (GPT-4o) |
-| JPG/PNG | Beleg, Dokument, Szene | **Analyze Image** | ~$0.004 | Nur Vision kann Bilder lesen |
+| PDF (Scan/Foto) | Bild von Dokument | **Bild analysieren** | ~$0.004 | Braucht Vision (GPT-4o) |
+| JPG/PNG | Beleg, Dokument, Szene | **Bild analysieren** | ~$0.004 | Nur Vision kann Bilder lesen |
 | Audio | Gespräch, Meeting | **Transcribe Recording** | ~$0.006/min | Whisper: $0.006 pro Minute |
 | Text (egal woher) | Unstrukturiert | **Information Extractor** | ~$0.001 | Extra LLM-Call auf Text |
 
@@ -97,8 +97,8 @@ Was der Trainer am Beamer erklärt. Die Aufgaben stehen in der [README.md](READM
 
 ```
 PDF digital   →  Extract from File    →  Information Extractor  →  JSON
-PDF Scan      →  Analyze Image        →  Information Extractor  →  JSON
-JPG           →  Analyze Image        →  Information Extractor  →  JSON
+PDF Scan      →  Bild analysieren        →  Information Extractor  →  JSON
+JPG           →  Bild analysieren        →  Information Extractor  →  JSON
 Audio         →  Transcribe Recording →  Information Extractor  →  JSON
 ```
 
@@ -109,8 +109,8 @@ Audio         →  Transcribe Recording →  Information Extractor  →  JSON
 ```
 PDF digital  →  Extract from File  →  Code (Regex)                    →  JSON  ✅ ~$0.00
 PDF digital  →  Extract from File  →  Basic LLM Chain (GPT-4o-mini)   →  JSON  💰 ~$0.001
-JPG          →  Analyze Image      →  (JSON direkt im Prompt)         →  JSON  💰 ~$0.004  (ein Call)
-JPG          →  Analyze Image      →  Information Extractor           →  JSON  💸 ~$0.005  (zwei Calls)
+JPG          →  Bild analysieren      →  (JSON direkt im Prompt)         →  JSON  💰 ~$0.004  (ein Call)
+JPG          →  Bild analysieren      →  Information Extractor           →  JSON  💸 ~$0.005  (zwei Calls)
 ```
 
 ---
@@ -121,16 +121,16 @@ JPG          →  Analyze Image      →  Information Extractor           →  J
 |---|---|---|
 | PDF digital → Extract from File → Code | ~$0.00 | ~$0.00 |
 | PDF digital → Extract from File → Basic LLM Chain | ~$1.00 | ~$30 |
-| JPG → Analyze Image (JSON im Prompt) | ~$4.00 | ~$120 |
-| JPG → Analyze Image + Information Extractor | ~$5.00 | ~$150 |
-| PDF Scan → Analyze Image + Information Extractor | ~$5.00 | ~$150 |
+| JPG → Bild analysieren (JSON im Prompt) | ~$4.00 | ~$120 |
+| JPG → Bild analysieren + Information Extractor | ~$5.00 | ~$150 |
+| PDF Scan → Bild analysieren + Information Extractor | ~$5.00 | ~$150 |
 
 ---
 
 ## Faustregel
 
 - Text im PDF markierbar? → **Extract from File** (~$0.00)
-- Foto oder Scan? → **Analyze Image** (~$0.004/Bild)
+- Foto oder Scan? → **Bild analysieren** (~$0.004/Bild)
 - Audio? → **Transcribe Recording** (~$0.006/min)
 - Danach strukturiertes JSON ohne Prompt-Aufwand? → **Information Extractor** dranhängen (+~$0.001)
 
@@ -139,7 +139,7 @@ JPG          →  Analyze Image      →  Information Extractor           →  J
 ## Files – Dateien in Text/JSON umwandeln
 - **HTTP Request:** Dateien (PDF, Bild, Audio) von einer URL als Binary laden — *Response Format: File*
 - **Extract from File:** Text aus PDF, Daten aus Excel/CSV, Metadaten aus Bild extrahieren
-- **Analyze Image:** Bild per OpenAI Vision analysieren und beschreiben *(benötigt OpenAI-Credentials)*
+- **Basic LLM Chain mit Bild:** Bild als Chat Message vom Typ *Image (Binary)* an ein Vision-Modell schicken, hier Azure `gpt-5-mini`
 - **Transcribe Recording:** Audio per OpenAI Whisper transkribieren *(benötigt OpenAI-Credentials)*
 - **Markdown:** HTML → sauberes Markdown (Token-Reduktion) oder Markdown → HTML
 - **Convert to File:** JSON/Text als downloadbare Datei (.txt, .csv, .json) ausgeben
@@ -161,13 +161,13 @@ Zwei verschiedene Fragen:
 - **IF 2 (text.length >= 50):** Ist die PDF digital oder gedruckt/gescannt? Nur nach dem Öffnen weiß man das.
 
 ### Warum keepSource: both im Extract from File?
-Standardmäßig ersetzt Extract from File das Binary durch `$json.text`. Mit `keepSource: both` bleibt das Binary erhalten — wichtig damit Analyze Image im Bild-Zweig noch auf `$binary.data` zugreifen kann.
+Standardmäßig ersetzt Extract from File das Binary durch `$json.text`. Mit `keepSource: both` bleibt das Binary erhalten — wichtig damit Bild analysieren im Bild-Zweig noch auf `$binary.data` zugreifen kann.
 
-### Warum Stop and Error für Print-PDFs statt Analyze Image?
-Print-PDFs als Bild an Analyze Image zu schicken funktioniert technisch, ist aber teuer und unzuverlässig — PDFs sind mehrseitig, Analyze Image sieht nur Seite 1. Die sauberere Lösung: explizite Fehlermeldung + `Continue Regular Output` damit der Loop nicht abbricht sondern mit der nächsten Datei weitermacht.
+### Warum Stop and Error für Print-PDFs statt Bild analysieren?
+Print-PDFs als Bild an Bild analysieren zu schicken funktioniert technisch, ist aber teuer und unzuverlässig — PDFs sind mehrseitig, Bild analysieren sieht nur Seite 1. Die sauberere Lösung: explizite Fehlermeldung + `Continue Regular Output` damit der Loop nicht abbricht sondern mit der nächsten Datei weitermacht.
 
 ### Warum Edit Fields (Set-Node) vor Google Sheets?
-Information Extractor gibt `$json.output.rechnungsnummer` aus. Analyze Image + Parse JSON gibt `$json.rechnungsnummer` aus. Der Set-Node mit `?.` und `??` normalisiert beide auf denselben Pfad — danach überall nur noch `$json.rechnungsnummer`.
+Information Extractor gibt `$json.output.rechnungsnummer` aus. Bild analysieren + Parse JSON gibt `$json.rechnungsnummer` aus. Der Set-Node mit `?.` und `??` normalisiert beide auf denselben Pfad — danach überall nur noch `$json.rechnungsnummer`.
 
 ### Warum GPT-4o-mini statt GPT-4o?
 Rechnungen haben klare Struktur. GPT-4o-mini reicht aus und ist ~17x günstiger. GPT-4o lohnt sich nur bei sehr schlechter Bildqualität oder Handschrift.

@@ -18,7 +18,7 @@
     },
     {
       "parameters": {
-        "content": "## Files – Dateien in Text/JSON umwandeln\n- **HTTP Request:** Dateien (PDF, Bild, Audio) von einer URL als Binary laden — *Response Format: File*\n- **Extract from File:** Text aus PDF, Daten aus Excel/CSV, Metadaten aus Bild extrahieren\n- **Analyze Image:** Bild per OpenAI Vision analysieren und beschreiben *(benötigt OpenAI-Credentials)*\n- **Transcribe Recording:** Audio per OpenAI Whisper transkribieren *(benötigt OpenAI-Credentials)*\n- **Markdown:** HTML → sauberes Markdown (Token-Reduktion) oder Markdown → HTML\n- **Convert to File:** JSON/Text als downloadbare Datei (.txt, .csv, .json) ausgeben\n- **Code:** Token-Budget-Trimmer — Text kürzen, Tokens schätzen, Whitespace bereinigen",
+        "content": "## Files – Dateien in Text/JSON umwandeln\n- **HTTP Request:** Dateien (PDF, Bild, Audio) von einer URL als Binary laden — *Response Format: File*\n- **Extract from File:** Text aus PDF, Daten aus Excel/CSV, Metadaten aus Bild extrahieren\n- **Basic LLM Chain mit Bild:** Bild als Chat Message vom Typ *Image (Binary)* an ein Vision-Modell schicken, hier Azure `gpt-5-mini`\n- **Transcribe Recording:** Audio per OpenAI Whisper transkribieren *(benötigt OpenAI-Credentials)*\n- **Markdown:** HTML → sauberes Markdown (Token-Reduktion) oder Markdown → HTML\n- **Convert to File:** JSON/Text als downloadbare Datei (.txt, .csv, .json) ausgeben\n- **Code:** Token-Budget-Trimmer — Text kürzen, Tokens schätzen, Whitespace bereinigen",
         "height": 2140,
         "width": 1248,
         "color": 4
@@ -168,7 +168,7 @@
     },
     {
       "parameters": {
-        "text": "={{ $json.content }}",
+        "text": "={{ $json.text }}",
         "schemaType": "fromJson",
         "jsonSchemaExample": "{\n  \"datum\": \"TT.MM.JJJJ\",\n  \"restaurant\": \"Name des Restaurants\",\n  \"betrag_netto\": 0.00,\n  \"mwst_satz\": 19,\n  \"mwst_betrag\": 0.00,\n  \"betrag_brutto\": 0.00,\n  \"trinkgeld\": 0.00,\n  \"zahlungsart\": \"Bar | Karte | Unbekannt\",\n  \"anlass\": \"Geschäftsessen | Kundenbewirtung | Team-Event | Unbekannt\",\n  \"personen_anzahl\": 0,\n  \"lesbar\": true\n}",
         "options": {}
@@ -184,7 +184,7 @@
     },
     {
       "parameters": {
-        "content": "# Welche Node für welchen Input?\n\n## Entscheidungsmatrix\n\n| Input | Inhalt | Node | Kosten pro Seite | Warum |\n|---|---|---|---|---|\n| PDF (digital) | Text, Tabellen | **Extract from File** | ~$0.00 | Text direkt drin, kein API-Call |\n| PDF (Scan/Foto) | Bild von Dokument | **Analyze Image** | ~$0.004 | Braucht Vision (GPT-4o) |\n| JPG/PNG | Beleg, Dokument, Szene | **Analyze Image** | ~$0.004 | Nur Vision kann Bilder lesen |\n| Audio | Gespräch, Meeting | **Transcribe Recording** | ~$0.006/min | Whisper: $0.006 pro Minute |\n| Text (egal woher) | Unstrukturiert | **Information Extractor** | ~$0.001 | Extra LLM-Call auf Text |\n\n> Preise basierend auf GPT-4o ($2.50/1M Input-Tokens) und Whisper ($0.006/min). Stand 2025.\n\n---\n\n## Information Extractor ist nie der Eingang — immer der Ausgang\n\n```\nPDF digital   →  Extract from File    →  Information Extractor  →  JSON\nPDF Scan      →  Analyze Image        →  Information Extractor  →  JSON\nJPG           →  Analyze Image        →  Information Extractor  →  JSON\nAudio         →  Transcribe Recording →  Information Extractor  →  JSON\n```\n\n---\n\n## Kosten sparen: Information Extractor weglassen\n\n```\nPDF digital  →  Extract from File  →  Code (Regex)                    →  JSON  ✅ ~$0.00\nPDF digital  →  Extract from File  →  Basic LLM Chain (GPT-4o-mini)   →  JSON  💰 ~$0.001\nJPG          →  Analyze Image      →  (JSON direkt im Prompt)         →  JSON  💰 ~$0.004  (ein Call)\nJPG          →  Analyze Image      →  Information Extractor           →  JSON  💸 ~$0.005  (zwei Calls)\n```\n\n---\n\n## Kosten bei 1.000 Dokumenten/Tag\n\n| Pipeline | Kosten/Tag | Kosten/Monat |\n|---|---|---|\n| PDF digital → Extract from File → Code | ~$0.00 | ~$0.00 |\n| PDF digital → Extract from File → Basic LLM Chain | ~$1.00 | ~$30 |\n| JPG → Analyze Image (JSON im Prompt) | ~$4.00 | ~$120 |\n| JPG → Analyze Image + Information Extractor | ~$5.00 | ~$150 |\n| PDF Scan → Analyze Image + Information Extractor | ~$5.00 | ~$150 |\n\n---\n\n## Faustregel\n\n- Text im PDF markierbar? → **Extract from File** (~$0.00)\n- Foto oder Scan? → **Analyze Image** (~$0.004/Bild)\n- Audio? → **Transcribe Recording** (~$0.006/min)\n- Danach strukturiertes JSON ohne Prompt-Aufwand? → **Information Extractor** dranhängen (+~$0.001)",
+        "content": "# Welche Node für welchen Input?\n\n## Entscheidungsmatrix\n\n| Input | Inhalt | Node | Kosten pro Seite | Warum |\n|---|---|---|---|---|\n| PDF (digital) | Text, Tabellen | **Extract from File** | ~$0.00 | Text direkt drin, kein API-Call |\n| PDF (Scan/Foto) | Bild von Dokument | **Bild analysieren** | ~$0.004 | Braucht Vision (GPT-4o) |\n| JPG/PNG | Beleg, Dokument, Szene | **Bild analysieren** | ~$0.004 | Nur Vision kann Bilder lesen |\n| Audio | Gespräch, Meeting | **Transcribe Recording** | ~$0.006/min | Whisper: $0.006 pro Minute |\n| Text (egal woher) | Unstrukturiert | **Information Extractor** | ~$0.001 | Extra LLM-Call auf Text |\n\n> Preise basierend auf GPT-4o ($2.50/1M Input-Tokens) und Whisper ($0.006/min). Stand 2025.\n\n---\n\n## Information Extractor ist nie der Eingang — immer der Ausgang\n\n```\nPDF digital   →  Extract from File    →  Information Extractor  →  JSON\nPDF Scan      →  Bild analysieren        →  Information Extractor  →  JSON\nJPG           →  Bild analysieren        →  Information Extractor  →  JSON\nAudio         →  Transcribe Recording →  Information Extractor  →  JSON\n```\n\n---\n\n## Kosten sparen: Information Extractor weglassen\n\n```\nPDF digital  →  Extract from File  →  Code (Regex)                    →  JSON  ✅ ~$0.00\nPDF digital  →  Extract from File  →  Basic LLM Chain (GPT-4o-mini)   →  JSON  💰 ~$0.001\nJPG          →  Bild analysieren      →  (JSON direkt im Prompt)         →  JSON  💰 ~$0.004  (ein Call)\nJPG          →  Bild analysieren      →  Information Extractor           →  JSON  💸 ~$0.005  (zwei Calls)\n```\n\n---\n\n## Kosten bei 1.000 Dokumenten/Tag\n\n| Pipeline | Kosten/Tag | Kosten/Monat |\n|---|---|---|\n| PDF digital → Extract from File → Code | ~$0.00 | ~$0.00 |\n| PDF digital → Extract from File → Basic LLM Chain | ~$1.00 | ~$30 |\n| JPG → Bild analysieren (JSON im Prompt) | ~$4.00 | ~$120 |\n| JPG → Bild analysieren + Information Extractor | ~$5.00 | ~$150 |\n| PDF Scan → Bild analysieren + Information Extractor | ~$5.00 | ~$150 |\n\n---\n\n## Faustregel\n\n- Text im PDF markierbar? → **Extract from File** (~$0.00)\n- Foto oder Scan? → **Bild analysieren** (~$0.004/Bild)\n- Audio? → **Transcribe Recording** (~$0.006/min)\n- Danach strukturiertes JSON ohne Prompt-Aufwand? → **Information Extractor** dranhängen (+~$0.001)",
         "height": 1104,
         "width": 976
       },
@@ -792,7 +792,7 @@
     },
     {
       "parameters": {
-        "content": "# Files – Rechnungs-Automatisierung Challenge\n## Automatischer Rechnungs-Parser mit Google Drive\n\n**Dauer:** 20–25 Min | **Team:** 2 Personen | **Nodes:** 14 Nodes\n\n---\n\n## 🎯 Szenario\n\nTäglich landen Rechnungen im Google Drive — als digitales PDF, als Scan-PDF oder als Bild (JPG/PNG). Baut einen vollautomatischen Workflow der alle Rechnungen verarbeitet, per KI die Daten extrahiert, in Google Sheets speichert, eine E-Mail verschickt und die Datei danach verschiebt.\n\n**Besonderheit:** Der Workflow erkennt automatisch ob es ein digitales PDF, ein Scan oder ein Bild ist — und wählt den passenden Weg. Print-PDFs (gescannte PDFs ohne extrahierbaren Text) werden mit einer klaren Fehlermeldung gestoppt.\n\n---\n\n## Ordner & Test-Dateien\n\n| Was | Wo |\n|---|---|\n| Eingangsordner | Google Drive → `Rechnungen n8n` |\n| Zielordner | Google Drive → `Rechnungen verarbeitet` |\n| Test: Digitales PDF | `wordpress-pdf-invoice-plugin-sample.pdf` |\n| Test: Print-PDF | `beispielrechnung-print-01.pdf` |\n\n---\n\n## Die komplette Pipeline\n\n```\nSchedule Trigger\n→ Google Drive List Files\n→ Loop Over Items (Batch 1)\n  → Google Drive Download\n  → IF: PDF oder Bild? (fileExtension = pdf)\n      true (PDF)  → Extract from File  ← keepSource: both!\n                    → IF: Digital oder Scan? (text.length >= 50)\n                        true  → Information Extractor (GPT-4o-mini)\n                                → Edit Fields\n                        false → Stop and Error  ← Print-PDF!\n      false (Bild) → Analyze Image (base64)\n                    → Parse Image JSON\n                    → Edit Fields\n  → Google Sheets\n  → Basic LLM Chain (Gemini)\n  → Gmail\n  → Move to Processed\n  → [zurück zu Loop]\n```\n\n---\n\n## Aufgaben\n\n### 01 · SCHEDULE TRIGGER — Workflow alle 5 Minuten starten\n\n> → Field: `Minutes` · Every: `5`\n\n---\n\n### 02 · GOOGLE DRIVE LIST FILES — Ordnerinhalt abrufen\n\n> → Resource: `File/Folder` · Operation: `Get Many`\n> → Filter: Ordner `Rechnungen n8n`\n> → Options → Fields: `*`\n\n---\n\n### 03 · LOOP OVER ITEMS — Nacheinander verarbeiten\n\n> → Batch Size: `1`\n\n⚠️ Move to Processed am Ende zurück zu **Input 0** des Loop verbinden!\n\n---\n\n### 04 · GOOGLE DRIVE DOWNLOAD — Datei laden\n\n> → Operation: `Download`\n> → File ID: `={{ $json.id }}`\n> → Options → File Name: `={{ $json.name }}`\n\n---\n\n### 05 · IF: PDF ODER BILD? — Dateityp prüfen\n\n> → Bedingung: `{{ $json.fileExtension }}` equals `pdf`\n> → true → Extract from File\n> → false → Analyze Image\n\n---\n\n### 06 · EXTRACT FROM FILE — Text extrahieren *(PDF-Zweig)*\n\n> → Operation: `PDF`\n> → **Options → Keep Source: Both** ← wichtig!\n\nWarum? Damit das Binary erhalten bleibt falls Analyze Image es später braucht.\n\n---\n\n### 07 · IF: DIGITAL ODER SCAN? — Textinhalt prüfen\n\n> → Bedingung: `{{ $json.text.trim().length }}` >= `50` (Typ: Number)\n> → true → Information Extractor\n> → false → Stop and Error\n\n---\n\n### 08a · INFORMATION EXTRACTOR — Felder aus Text *(digitale PDFs)*\n\nVerbinde **OpenAI Chat Model GPT-4o-mini** als Subnode.\n\n> → Text: `{{ $json.text }}`\n\n**Felder:**\n\n| Name | Typ | Beschreibung |\n|---|---|---|\n| rechnungsnummer | String | Die Rechnungsnummer |\n| datum | String | Rechnungsdatum TT.MM.JJJJ |\n| faelligkeitsdatum | String | Fälligkeitsdatum |\n| lieferant | String | Name des Lieferanten |\n| betrag_netto | Number | Nettobetrag ohne MwSt |\n| mwst_satz | Number | MwSt-Satz in Prozent |\n| betrag_brutto | Number | Gesamtbetrag inkl. MwSt |\n| waehrung | String | Währung z.B. EUR |\n| kategorie | String | z.B. Software, Reise, Bewirtung |\n| quelle | String | Immer: `Digitales PDF` |\n\n---\n\n### 08b · STOP AND ERROR — Print-PDF abfangen *(false-Zweig)*\n\n> → Error Message: `Das PDF ist kein digitales, sondern ein Print. Das Bild muss zu einem Bild konvertiert werden.`\n> → Settings → **On Error: Continue Regular Output**\n\nWarum `Continue Regular Output`? Damit der Loop nicht abbricht sondern mit der nächsten Datei weitermacht.\n\n---\n\n### 08c · ANALYZE IMAGE — Bild analysieren *(Bild-Zweig)*\n\n> → Model: `GPT-4o-mini` · Resource: `Image` · Operation: `Analyze`\n> → Input Type: `Base64`\n\n**Prompt:**\n```\nDu bist ein Buchhaltungs-Assistent. Extrahiere alle relevanten Daten.\n\nAntworte NUR mit validem JSON, keine Backticks:\n{\n  \"rechnungsnummer\": \"\",\n  \"datum\": \"\",\n  \"faelligkeitsdatum\": \"\",\n  \"lieferant\": \"\",\n  \"betrag_netto\": 0,\n  \"mwst_satz\": 0,\n  \"betrag_brutto\": 0,\n  \"waehrung\": \"EUR\",\n  \"kategorie\": \"\",\n  \"quelle\": \"Scan/Bild\",\n  \"lesbar\": true\n}\nFalls ein Wert fehlt: null. Falls unleserlich: lesbar: false.\n```\n\n---\n\n### 08d · CODE: JSON PARSEN — Analyze Image Output bereinigen\n\n```javascript\nconst raw = $json.text || $json.content || '';\nconst cleaned = raw.replace(/```json\\n?/g, '').replace(/```/g, '').trim();\ntry {\n  return [{ json: JSON.parse(cleaned) }];\n} catch(e) {\n  return [{ json: { parse_error: true, raw: cleaned } }];\n}\n```\n\n---\n\n### 09 · EDIT FIELDS (SET) — Felder normalisieren\n\nBeide Wege liefern unterschiedliche Strukturen:\n- Information Extractor → `$json.output.rechnungsnummer`\n- Analyze Image + Parse JSON → `$json.rechnungsnummer`\n\n**Mode: Raw JSON:**\n```json\n{\n  \"rechnungsnummer\":   \"{{ $json.output?.rechnungsnummer ?? $json.rechnungsnummer }}\",\n  \"datum\":             \"{{ $json.output?.datum ?? $json.datum }}\",\n  \"faelligkeitsdatum\": \"{{ $json.output?.faelligkeitsdatum ?? $json.faelligkeitsdatum }}\",\n  \"lieferant\":         \"{{ $json.output?.lieferant ?? $json.lieferant }}\",\n  \"betrag_netto\":      \"{{ $json.output?.betrag_netto ?? $json.betrag_netto }}\",\n  \"mwst_satz\":         \"{{ $json.output?.mwst_satz ?? $json.mwst_satz }}\",\n  \"betrag_brutto\":     \"{{ $json.output?.betrag_brutto ?? $json.betrag_brutto }}\",\n  \"waehrung\":          \"{{ $json.output?.waehrung ?? $json.waehrung }}\",\n  \"kategorie\":         \"{{ $json.output?.kategorie ?? $json.kategorie }}\",\n  \"quelle\":            \"{{ $json.output?.quelle ?? $json.quelle }}\"\n}\n```\n\n---\n\n### 10 · GOOGLE SHEETS — Daten eintragen\n\n> → Operation: `Append` · Sheet: `Rechnungen`\n> → Alle Felder: `{{ $json.rechnungsnummer }}` etc. *(kein `.output` dank Edit Fields)*\n> → Dateiname: `={{ $('Google Drive – Download').item.json.name }}`\n> → Verarbeitet am: `={{ new Date().toLocaleString('de-DE', {timeZone: 'Europe/Berlin'}) }}`\n\n---\n\n### 11 · BASIC LLM CHAIN — E-Mail-Text generieren\n\nVerbinde **Azure AI Foundry Chat Model** (gpt-5-mini) als Subnode.\n\n**Prompt:**\n```\nDu bist ein Buchhaltungs-Assistent. Erstelle eine kurze professionelle\nE-Mail-Zusammenfassung auf Deutsch.\n\n- Lieferant: {{ $json.Lieferant }}\n- Rechnungsnummer: {{ $json.Rechnungsnummer }}\n- Datum: {{ $json.Datum }}\n- Fällig am: {{ $json.Fälligkeitsdatum }}\n- Betrag brutto: {{ $json['Betrag Brutto'] }} {{ $json.Währung }}\n- Kategorie: {{ $json.Kategorie }}\n\n2-3 Satz Zusammenfassung + Hinweis falls Fälligkeit < 7 Tage + Zahlungsempfehlung.\nKein JSON, nur Text.\n```\n\n---\n\n### 12 · GMAIL — Benachrichtigung senden\n\n> → Subject: `✅ Rechnung: {{ $('Google Sheets2').item.json.Rechnungsnummer }} - {{ $('Google Sheets2').item.json.Lieferant }}`\n> → Message: `{{ $json.text }}`\n\n---\n\n### 13 · GOOGLE DRIVE MOVE — Datei verschieben\n\n> → Operation: `Move`\n> → File ID: `={{ $('Google Drive – List Files').item.json.id }}`\n> → Folder: `Rechnungen verarbeitet`\n\n⚠️ Danach zurück zu **Loop Over Items (Input 0)** verbinden!\n\n---\n\n## 🧠 Learnings — Warum ist der Workflow so gebaut?\n\n### Warum Schedule Trigger statt Google Drive Trigger?\nDer Google Drive Trigger liefert pro Execution immer nur eine Datei — selbst wenn mehrere gleichzeitig hochgeladen wurden. Schedule Trigger + List Files pollt aktiv den gesamten Ordner und liefert alle Dateien auf einmal.\n\n### Warum Loop Over Items mit Batch Size 1?\nOhne Loop laufen alle Dateien parallel. Das führt zu Race Conditions in Google Sheets — mehrere Nodes hängen gleichzeitig eine Zeile an, Einträge überschreiben sich. Batch Size 1 = eine Datei komplett durch, dann die nächste.\n\n### Warum zwei IF-Nodes?\nZwei verschiedene Fragen:\n- **IF 1 (fileExtension = pdf):** Ist es eine PDF oder ein Bild? JPGs können nicht durch Extract from File.\n- **IF 2 (text.length >= 50):** Ist die PDF digital oder gedruckt/gescannt? Nur nach dem Öffnen weiß man das.\n\n### Warum keepSource: both im Extract from File?\nStandardmäßig ersetzt Extract from File das Binary durch `$json.text`. Mit `keepSource: both` bleibt das Binary erhalten — wichtig damit Analyze Image im Bild-Zweig noch auf `$binary.data` zugreifen kann.\n\n### Warum Stop and Error für Print-PDFs statt Analyze Image?\nPrint-PDFs als Bild an Analyze Image zu schicken funktioniert technisch, ist aber teuer und unzuverlässig — PDFs sind mehrseitig, Analyze Image sieht nur Seite 1. Die sauberere Lösung: explizite Fehlermeldung + `Continue Regular Output` damit der Loop nicht abbricht sondern mit der nächsten Datei weitermacht.\n\n### Warum Edit Fields (Set-Node) vor Google Sheets?\nInformation Extractor gibt `$json.output.rechnungsnummer` aus. Analyze Image + Parse JSON gibt `$json.rechnungsnummer` aus. Der Set-Node mit `?.` und `??` normalisiert beide auf denselben Pfad — danach überall nur noch `$json.rechnungsnummer`.\n\n### Warum GPT-4o-mini statt GPT-4o?\nRechnungen haben klare Struktur. GPT-4o-mini reicht aus und ist ~17x günstiger. GPT-4o lohnt sich nur bei sehr schlechter Bildqualität oder Handschrift.\n\n### Warum Basic LLM Chain statt AI Agent?\nFür einen einzelnen LLM-Call braucht man keinen Agenten. Basic LLM Chain ist einfacher, schneller, günstiger.\n\n### Warum Move to Processed am Ende?\nVerhindert Doppelverarbeitung ohne Tracking-Logik — beim nächsten Lauf listet List Files nur Dateien die noch im Eingangsordner liegen.\n\n---\n\n## 💡 Tipps\n\n**keepSource: both** — Im Extract from File Node unter Options. Ohne das verschwindet das Binary und Analyze Image wirft: `The item has no binary field 'data'`.\n\n**Stop and Error → Continue Regular Output** — In den Node-Settings, nicht in den Parameters. Ohne das bricht der gesamte Workflow bei einer Print-PDF ab statt weiterzumachen.\n\n**Loop-Rückpfeil** — Move to Processed muss mit **Input 0** des Loop verbunden werden. Input 1 ist der interne Weiterloopen-Ausgang, Input 0 ist der Eingang für neue Items von außen.\n\n**`?.` und `??`** — `$json.output?.rechnungsnummer` wirft keinen Fehler wenn `output` nicht existiert. `??` nimmt den rechten Wert wenn links `null` oder `undefined`.\n\n**Analyze Image: Input Type Base64** — Nicht die Default-Einstellung. Muss manuell auf `Base64` umgestellt werden damit das Binary korrekt übergeben wird.\n\n**Execute Step** — Nach Extract from File prüfen ob `$json.text` sichtbar ist UND ob Binary-Tab noch da ist. Nach Edit Fields prüfen ob alle Felder ohne `.output` ankommen.\n\n---\n\n*n8n Training · Files & Dokumentenverarbeitung · Lösung-JSON für Facilitator vorhanden 🚀*",
+        "content": "# Files – Rechnungs-Automatisierung Challenge\n## Automatischer Rechnungs-Parser mit Google Drive\n\n**Dauer:** 20–25 Min | **Team:** 2 Personen | **Nodes:** 14 Nodes\n\n---\n\n## 🎯 Szenario\n\nTäglich landen Rechnungen im Google Drive — als digitales PDF, als Scan-PDF oder als Bild (JPG/PNG). Baut einen vollautomatischen Workflow der alle Rechnungen verarbeitet, per KI die Daten extrahiert, in Google Sheets speichert, eine E-Mail verschickt und die Datei danach verschiebt.\n\n**Besonderheit:** Der Workflow erkennt automatisch ob es ein digitales PDF, ein Scan oder ein Bild ist — und wählt den passenden Weg. Print-PDFs (gescannte PDFs ohne extrahierbaren Text) werden mit einer klaren Fehlermeldung gestoppt.\n\n---\n\n## Ordner & Test-Dateien\n\n| Was | Wo |\n|---|---|\n| Eingangsordner | Google Drive → `Rechnungen n8n` |\n| Zielordner | Google Drive → `Rechnungen verarbeitet` |\n| Test: Digitales PDF | `wordpress-pdf-invoice-plugin-sample.pdf` |\n| Test: Print-PDF | `beispielrechnung-print-01.pdf` |\n\n---\n\n## Die komplette Pipeline\n\n```\nSchedule Trigger\n→ Google Drive List Files\n→ Loop Over Items (Batch 1)\n  → Google Drive Download\n  → IF: PDF oder Bild? (fileExtension = pdf)\n      true (PDF)  → Extract from File  ← keepSource: both!\n                    → IF: Digital oder Scan? (text.length >= 50)\n                        true  → Information Extractor (Azure gpt-5-mini)\n                                → Edit Fields\n                        false → Stop and Error  ← Print-PDF!\n      false (Bild) → Basic LLM Chain: Bild analysieren (Azure)\n                    → Parse Image JSON\n                    → Edit Fields\n  → Google Sheets\n  → Basic LLM Chain (Azure)\n  → Gmail\n  → Move to Processed\n  → [zurück zu Loop]\n```\n\n---\n\n## Aufgaben\n\n### 01 · SCHEDULE TRIGGER — Workflow alle 5 Minuten starten\n\n> → Field: `Minutes` · Every: `5`\n\n---\n\n### 02 · GOOGLE DRIVE LIST FILES — Ordnerinhalt abrufen\n\n> → Resource: `File/Folder` · Operation: `Get Many`\n> → Filter: Ordner `Rechnungen n8n`\n> → Options → Fields: `*`\n\n---\n\n### 03 · LOOP OVER ITEMS — Nacheinander verarbeiten\n\n> → Batch Size: `1`\n\n⚠️ Move to Processed am Ende zurück zu **Input 0** des Loop verbinden!\n\n---\n\n### 04 · GOOGLE DRIVE DOWNLOAD — Datei laden\n\n> → Operation: `Download`\n> → File ID: `={{ $json.id }}`\n> → Options → File Name: `={{ $json.name }}`\n\n---\n\n### 05 · IF: PDF ODER BILD? — Dateityp prüfen\n\n> → Bedingung: `{{ $json.fileExtension }}` equals `pdf`\n> → true → Extract from File\n> → false → Bild analysieren\n\n---\n\n### 06 · EXTRACT FROM FILE — Text extrahieren *(PDF-Zweig)*\n\n> → Operation: `PDF`\n> → **Options → Keep Source: Both** ← wichtig!\n\nWarum? Damit das Binary erhalten bleibt falls Bild analysieren es später braucht.\n\n---\n\n### 07 · IF: DIGITAL ODER SCAN? — Textinhalt prüfen\n\n> → Bedingung: `{{ $json.text.trim().length }}` >= `50` (Typ: Number)\n> → true → Information Extractor\n> → false → Stop and Error\n\n---\n\n### 08a · INFORMATION EXTRACTOR — Felder aus Text *(digitale PDFs)*\n\nVerbinde **Azure AI Foundry Chat Model** (`gpt-5-mini`) als Subnode.\n\n> → Text: `{{ $json.text }}`\n\n**Felder:**\n\n| Name | Typ | Beschreibung |\n|---|---|---|\n| rechnungsnummer | String | Die Rechnungsnummer |\n| datum | String | Rechnungsdatum TT.MM.JJJJ |\n| faelligkeitsdatum | String | Fälligkeitsdatum |\n| lieferant | String | Name des Lieferanten |\n| betrag_netto | Number | Nettobetrag ohne MwSt |\n| mwst_satz | Number | MwSt-Satz in Prozent |\n| betrag_brutto | Number | Gesamtbetrag inkl. MwSt |\n| waehrung | String | Währung z.B. EUR |\n| kategorie | String | z.B. Software, Reise, Bewirtung |\n| quelle | String | Immer: `Digitales PDF` |\n\n---\n\n### 08b · STOP AND ERROR — Print-PDF abfangen *(false-Zweig)*\n\n> → Error Message: `Das PDF ist kein digitales, sondern ein Print. Das Bild muss zu einem Bild konvertiert werden.`\n> → Settings → **On Error: Continue Regular Output**\n\nWarum `Continue Regular Output`? Damit der Loop nicht abbricht sondern mit der nächsten Datei weitermacht.\n\n---\n\n### 08c · BASIC LLM CHAIN — Bild analysieren *(Bild-Zweig)*\n\n> → Basic LLM Chain · Chat Message `User` · Message Type `Image (Binary)` · Feld `data` · Subnode Azure `gpt-5-mini`\n\n**Prompt:**\n```\nDu bist ein Buchhaltungs-Assistent. Extrahiere alle relevanten Daten.\n\nAntworte NUR mit validem JSON, keine Backticks:\n{\n  \"rechnungsnummer\": \"\",\n  \"datum\": \"\",\n  \"faelligkeitsdatum\": \"\",\n  \"lieferant\": \"\",\n  \"betrag_netto\": 0,\n  \"mwst_satz\": 0,\n  \"betrag_brutto\": 0,\n  \"waehrung\": \"EUR\",\n  \"kategorie\": \"\",\n  \"quelle\": \"Scan/Bild\",\n  \"lesbar\": true\n}\nFalls ein Wert fehlt: null. Falls unleserlich: lesbar: false.\n```\n\n---\n\n### 08d · CODE: JSON PARSEN — Bild-Analyse bereinigen\n\n```javascript\nconst raw = $json.text || $json.content || '';\nconst cleaned = raw.replace(/```json\\n?/g, '').replace(/```/g, '').trim();\ntry {\n  return [{ json: JSON.parse(cleaned) }];\n} catch(e) {\n  return [{ json: { parse_error: true, raw: cleaned } }];\n}\n```\n\n---\n\n### 09 · EDIT FIELDS (SET) — Felder normalisieren\n\nBeide Wege liefern unterschiedliche Strukturen:\n- Information Extractor → `$json.output.rechnungsnummer`\n- Bild analysieren + Parse JSON → `$json.rechnungsnummer`\n\n**Mode: Raw JSON:**\n```json\n{\n  \"rechnungsnummer\":   \"{{ $json.output?.rechnungsnummer ?? $json.rechnungsnummer }}\",\n  \"datum\":             \"{{ $json.output?.datum ?? $json.datum }}\",\n  \"faelligkeitsdatum\": \"{{ $json.output?.faelligkeitsdatum ?? $json.faelligkeitsdatum }}\",\n  \"lieferant\":         \"{{ $json.output?.lieferant ?? $json.lieferant }}\",\n  \"betrag_netto\":      \"{{ $json.output?.betrag_netto ?? $json.betrag_netto }}\",\n  \"mwst_satz\":         \"{{ $json.output?.mwst_satz ?? $json.mwst_satz }}\",\n  \"betrag_brutto\":     \"{{ $json.output?.betrag_brutto ?? $json.betrag_brutto }}\",\n  \"waehrung\":          \"{{ $json.output?.waehrung ?? $json.waehrung }}\",\n  \"kategorie\":         \"{{ $json.output?.kategorie ?? $json.kategorie }}\",\n  \"quelle\":            \"{{ $json.output?.quelle ?? $json.quelle }}\"\n}\n```\n\n---\n\n### 10 · GOOGLE SHEETS — Daten eintragen\n\n> → Operation: `Append` · Sheet: `Rechnungen`\n> → Alle Felder: `{{ $json.rechnungsnummer }}` etc. *(kein `.output` dank Edit Fields)*\n> → Dateiname: `={{ $('Google Drive – Download').item.json.name }}`\n> → Verarbeitet am: `={{ new Date().toLocaleString('de-DE', {timeZone: 'Europe/Berlin'}) }}`\n\n---\n\n### 11 · BASIC LLM CHAIN — E-Mail-Text generieren\n\nVerbinde **Azure AI Foundry Chat Model** (gpt-5-mini) als Subnode.\n\n**Prompt:**\n```\nDu bist ein Buchhaltungs-Assistent. Erstelle eine kurze professionelle\nE-Mail-Zusammenfassung auf Deutsch.\n\n- Lieferant: {{ $json.Lieferant }}\n- Rechnungsnummer: {{ $json.Rechnungsnummer }}\n- Datum: {{ $json.Datum }}\n- Fällig am: {{ $json.Fälligkeitsdatum }}\n- Betrag brutto: {{ $json['Betrag Brutto'] }} {{ $json.Währung }}\n- Kategorie: {{ $json.Kategorie }}\n\n2-3 Satz Zusammenfassung + Hinweis falls Fälligkeit < 7 Tage + Zahlungsempfehlung.\nKein JSON, nur Text.\n```\n\n---\n\n### 12 · GMAIL — Benachrichtigung senden\n\n> → Subject: `✅ Rechnung: {{ $('Google Sheets2').item.json.Rechnungsnummer }} - {{ $('Google Sheets2').item.json.Lieferant }}`\n> → Message: `{{ $json.text }}`\n\n---\n\n### 13 · GOOGLE DRIVE MOVE — Datei verschieben\n\n> → Operation: `Move`\n> → File ID: `={{ $('Google Drive – List Files').item.json.id }}`\n> → Folder: `Rechnungen verarbeitet`\n\n⚠️ Danach zurück zu **Loop Over Items (Input 0)** verbinden!\n\n---\n\n## 🧠 Learnings — Warum ist der Workflow so gebaut?\n\n### Warum Schedule Trigger statt Google Drive Trigger?\nDer Google Drive Trigger liefert pro Execution immer nur eine Datei — selbst wenn mehrere gleichzeitig hochgeladen wurden. Schedule Trigger + List Files pollt aktiv den gesamten Ordner und liefert alle Dateien auf einmal.\n\n### Warum Loop Over Items mit Batch Size 1?\nOhne Loop laufen alle Dateien parallel. Das führt zu Race Conditions in Google Sheets — mehrere Nodes hängen gleichzeitig eine Zeile an, Einträge überschreiben sich. Batch Size 1 = eine Datei komplett durch, dann die nächste.\n\n### Warum zwei IF-Nodes?\nZwei verschiedene Fragen:\n- **IF 1 (fileExtension = pdf):** Ist es eine PDF oder ein Bild? JPGs können nicht durch Extract from File.\n- **IF 2 (text.length >= 50):** Ist die PDF digital oder gedruckt/gescannt? Nur nach dem Öffnen weiß man das.\n\n### Warum keepSource: both im Extract from File?\nStandardmäßig ersetzt Extract from File das Binary durch `$json.text`. Mit `keepSource: both` bleibt das Binary erhalten — wichtig damit Bild analysieren im Bild-Zweig noch auf `$binary.data` zugreifen kann.\n\n### Warum Stop and Error für Print-PDFs statt Bild analysieren?\nPrint-PDFs als Bild an Bild analysieren zu schicken funktioniert technisch, ist aber teuer und unzuverlässig — PDFs sind mehrseitig, Bild analysieren sieht nur Seite 1. Die sauberere Lösung: explizite Fehlermeldung + `Continue Regular Output` damit der Loop nicht abbricht sondern mit der nächsten Datei weitermacht.\n\n### Warum Edit Fields (Set-Node) vor Google Sheets?\nInformation Extractor gibt `$json.output.rechnungsnummer` aus. Bild analysieren + Parse JSON gibt `$json.rechnungsnummer` aus. Der Set-Node mit `?.` und `??` normalisiert beide auf denselben Pfad — danach überall nur noch `$json.rechnungsnummer`.\n\n### Warum GPT-4o-mini statt GPT-4o?\nRechnungen haben klare Struktur. GPT-4o-mini reicht aus und ist ~17x günstiger. GPT-4o lohnt sich nur bei sehr schlechter Bildqualität oder Handschrift.\n\n### Warum Basic LLM Chain statt AI Agent?\nFür einen einzelnen LLM-Call braucht man keinen Agenten. Basic LLM Chain ist einfacher, schneller, günstiger.\n\n### Warum Move to Processed am Ende?\nVerhindert Doppelverarbeitung ohne Tracking-Logik — beim nächsten Lauf listet List Files nur Dateien die noch im Eingangsordner liegen.\n\n---\n\n## 💡 Tipps\n\n**keepSource: both** — Im Extract from File Node unter Options. Ohne das verschwindet das Binary und die Bild-Analyse findet kein Bild im Feld `data`.\n\n**Stop and Error → Continue Regular Output** — In den Node-Settings, nicht in den Parameters. Ohne das bricht der gesamte Workflow bei einer Print-PDF ab statt weiterzumachen.\n\n**Loop-Rückpfeil** — Move to Processed muss mit **Input 0** des Loop verbunden werden. Input 1 ist der interne Weiterloopen-Ausgang, Input 0 ist der Eingang für neue Items von außen.\n\n**`?.` und `??`** — `$json.output?.rechnungsnummer` wirft keinen Fehler wenn `output` nicht existiert. `??` nimmt den rechten Wert wenn links `null` oder `undefined`.\n\n**Bild als Chat Message** — Das Bild steckt nicht im Prompt. In der Basic LLM Chain unter *Chat Messages* eine Nachricht `User` mit Message Type `Image (Binary)` und Feld `data` anlegen. Ohne sie sieht das Modell nur den Text und erfindet Werte.\n\n**Execute Step** — Nach Extract from File prüfen ob `$json.text` sichtbar ist UND ob Binary-Tab noch da ist. Nach Edit Fields prüfen ob alle Felder ohne `.output` ankommen.\n\n---\n\n*n8n Training · Files & Dokumentenverarbeitung · Lösung-JSON für Facilitator vorhanden 🚀*",
         "height": 4448,
         "width": 1104,
         "color": 5
@@ -837,7 +837,7 @@
     },
     {
       "parameters": {
-        "content": "# 🧾 Rechnungs-Automatisierung Challenge\n\n**01** Schedule Trigger – alle 5 Minuten\n**02** Google Drive List Files\n**03** Loop Over Items – Batch Size 1\n**04** Google Drive Download\n**05** IF – PDF oder Bild? (`fileExtension = pdf`)\n**06** Extract from File – `keepSource: both` ⚠️\n**07** IF – Digital oder Scan? (`text.length >= 50`)\n**08a** Information Extractor + GPT-4o-mini (true)\n**08b** Stop and Error (false) → `Continue Regular Output`\n**08c** Analyze Image – `inputType: base64` (Bild-Zweig)\n**08d** Code – JSON parsen\n**09** Edit Fields – `?.` und `??` normalisieren\n**10** Google Sheets\n**11** Basic LLM Chain + Gemini\n**12** Gmail\n**13** Google Drive Move\n\n⚠️ **Move → Loop Over Items INPUT 0 verbinden!**",
+        "content": "# 🧾 Rechnungs-Automatisierung Challenge\n\n**01** Schedule Trigger – alle 5 Minuten\n**02** Google Drive List Files\n**03** Loop Over Items – Batch Size 1\n**04** Google Drive Download\n**05** IF – PDF oder Bild? (`fileExtension = pdf`)\n**06** Extract from File – `keepSource: both` ⚠️\n**07** IF – Digital oder Scan? (`text.length >= 50`)\n**08a** Information Extractor + Azure gpt-5-mini (true)\n**08b** Stop and Error (false) → `Continue Regular Output`\n**08c** Basic LLM Chain – Bild als Chat Message `Image (Binary)` (Bild-Zweig)\n**08d** Code – JSON parsen\n**09** Edit Fields – `?.` und `??` normalisieren\n**10** Google Sheets\n**11** Basic LLM Chain + Azure\n**12** Gmail\n**13** Google Drive Move\n\n⚠️ **Move → Loop Over Items INPUT 0 verbinden!**",
         "height": 620,
         "width": 360,
         "color": 5
@@ -1303,32 +1303,27 @@
     },
     {
       "parameters": {
-        "resource": "image",
-        "operation": "analyze",
-        "modelId": {
-          "__rl": true,
-          "value": "models/gemini-2.5-flash-lite",
-          "mode": "list",
-          "cachedResultName": "models/gemini-2.5-flash-lite"
+        "promptType": "define",
+        "text": "=Du bist ein Buchhaltungs-Assistent. Extrahiere alle relevanten Daten aus diesem Bewirtungsbeleg.\n\nAntworte NUR mit validem JSON, kein Text davor oder danach, keine Markdown-Backticks:\n\n{\n  \"rechnungsnummer\": \"\",\n  \"datum\": \"\",\n  \"faelligkeitsdatum\": \"\",\n  \"lieferant\": \"\",\n  \"betrag_netto\": 0,\n  \"mwst_satz\": 0,\n  \"betrag_brutto\": 0,\n  \"waehrung\": \"EUR\",\n  \"kategorie\": \"\",\n  \"quelle\": \"Scan/Bild\",\n  \"Filetype\": \"{{ $json.fileExtension }}\",\n  \"lesbar\": \"\"\n}\n\nDie Kategorie bestimmt auf Basis der Rechnung.\n\nFalls ein Wert nicht erkennbar ist, setze null. Falls der Beleg unleserlich ist, setze lesbar: false. ",
+        "messages": {
+          "messageValues": [
+            {
+              "type": "HumanMessagePromptTemplate",
+              "messageType": "imageBinary",
+              "binaryImageDataKey": "data"
+            }
+          ]
         },
-        "text": "Du bist ein Buchhaltungs-Assistent. Extrahiere alle relevanten Daten aus diesem Bewirtungsbeleg.\n\nAntworte NUR mit validem JSON, kein Text davor oder danach, keine Markdown-Backticks:\n\n{\n  \"rechnungsnummer\": \"\",\n  \"datum\": \"\",\n  \"faelligkeitsdatum\": \"\",\n  \"lieferant\": \"\",\n  \"betrag_netto\": 0,\n  \"mwst_satz\": 0,\n  \"betrag_brutto\": 0,\n  \"waehrung\": \"EUR\",\n  \"kategorie\": \"\",\n  \"quelle\": \"Scan/Bild\",\n  \"Filetype\": \"{{ $json.fileExtension }}\",\n  \"lesbar\": \"\"\n}\n\nDie Kategorie bestimmt auf Basis der Rechnung.\n\nFalls ein Wert nicht erkennbar ist, setze null. Falls der Beleg unleserlich ist, setze lesbar: false. ",
-        "inputType": "binary",
-        "options": {}
+        "batching": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.googleGemini",
-      "typeVersion": 1.1,
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
       "position": [
         6256,
         1360
       ],
       "id": "387ddc99-e076-4ceb-80aa-d701de4dc0b0",
-      "name": "Analyze an image",
-      "credentials": {
-        "googlePalmApi": {
-          "id": "snbUzCDZa9rY40sl",
-          "name": "Google Gemini(PaLM) Api account"
-        }
-      }
+      "name": "Bild analysieren"
     },
     {
       "parameters": {
@@ -1353,32 +1348,27 @@
     },
     {
       "parameters": {
-        "resource": "image",
-        "operation": "analyze",
-        "modelId": {
-          "__rl": true,
-          "value": "models/gemini-2.5-flash",
-          "mode": "list",
-          "cachedResultName": "models/gemini-2.5-flash"
+        "promptType": "define",
+        "text": "=Du bist ein Buchhaltungs-Assistent. Extrahiere alle relevanten Daten aus diesem Bewirtungsbeleg.\n\nAntworte NUR mit validem JSON, kein Text davor oder danach, keine Markdown-Backticks:\n\n{\n  \"rechnungsnummer\": \"\",\n  \"datum\": \"\",\n  \"faelligkeitsdatum\": \"\",\n  \"lieferant\": \"\",\n  \"betrag_netto\": 0,\n  \"mwst_satz\": 0,\n  \"betrag_brutto\": 0,\n  \"waehrung\": \"EUR\",\n  \"kategorie\": \"\",\n  \"quelle\": \"Scan/Bild\",\n  \"Filetype\": \"{{ $json.fileExtension }}\",\n  \"lesbar\": \"\"\n}\n\nDie Kategorie bestimmt auf Basis der Rechnung.\n\nFalls ein Wert nicht erkennbar ist, setze null. Falls der Beleg unleserlich ist, setze lesbar: false. ",
+        "messages": {
+          "messageValues": [
+            {
+              "type": "HumanMessagePromptTemplate",
+              "messageType": "imageBinary",
+              "binaryImageDataKey": "data"
+            }
+          ]
         },
-        "text": "Du bist ein Buchhaltungs-Assistent. Extrahiere alle relevanten Daten aus diesem Bewirtungsbeleg.\n\nAntworte NUR mit validem JSON, kein Text davor oder danach, keine Markdown-Backticks:\n\n{\n  \"rechnungsnummer\": \"\",\n  \"datum\": \"\",\n  \"faelligkeitsdatum\": \"\",\n  \"lieferant\": \"\",\n  \"betrag_netto\": 0,\n  \"mwst_satz\": 0,\n  \"betrag_brutto\": 0,\n  \"waehrung\": \"EUR\",\n  \"kategorie\": \"\",\n  \"quelle\": \"Scan/Bild\",\n  \"Filetype\": \"{{ $json.fileExtension }}\",\n  \"lesbar\": \"\"\n}\n\nDie Kategorie bestimmt auf Basis der Rechnung.\n\nFalls ein Wert nicht erkennbar ist, setze null. Falls der Beleg unleserlich ist, setze lesbar: false. ",
-        "inputType": "binary",
-        "options": {}
+        "batching": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.googleGemini",
-      "typeVersion": 1.1,
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
       "position": [
         6128,
         288
       ],
       "id": "fa243084-7193-457e-9d5e-6843604f6250",
-      "name": "Analyze an image1",
-      "credentials": {
-        "googlePalmApi": {
-          "id": "snbUzCDZa9rY40sl",
-          "name": "Google Gemini(PaLM) Api account"
-        }
-      }
+      "name": "AUFGABE 08c – Bild analysieren"
     },
     {
       "parameters": {
@@ -1403,30 +1393,27 @@
     },
     {
       "parameters": {
-        "resource": "image",
-        "operation": "analyze",
-        "modelId": {
-          "__rl": true,
-          "value": "models/gemini-2.5-flash",
-          "mode": "list",
-          "cachedResultName": "models/gemini-2.5-flash"
+        "promptType": "define",
+        "text": "=Du bist ein Buchhaltungs-Assistent. Extrahiere alle relevanten Daten aus diesem Bewirtungsbeleg.\n\nAntworte NUR mit validem JSON, kein Text davor oder danach, keine Markdown-Backticks:\n\n{\n  \"datum\": \"TT.MM.JJJJ\",\n  \"restaurant\": \"Name des Restaurants\",\n  \"betrag_netto\": 0.00,\n  \"mwst_satz\": 19,\n  \"mwst_betrag\": 0.00,\n  \"betrag_brutto\": 0.00,\n  \"trinkgeld\": 0.00,\n  \"zahlungsart\": \"Bar | Karte | Unbekannt\",\n  \"anlass\": \"Geschäftsessen | Kundenbewirtung | Team-Event | Unbekannt\",\n  \"personen_anzahl\": 0,\n  \"lesbar\": true\n}\n\nFalls ein Wert nicht erkennbar ist, setze null. Falls der Beleg unleserlich ist, setze lesbar: false.",
+        "messages": {
+          "messageValues": [
+            {
+              "type": "HumanMessagePromptTemplate",
+              "messageType": "imageBinary",
+              "binaryImageDataKey": "data"
+            }
+          ]
         },
-        "options": {}
+        "batching": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.googleGemini",
-      "typeVersion": 1.1,
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
       "position": [
         1200,
         912
       ],
       "id": "66a21503-55be-4b92-af02-3ea6d162b7a1",
-      "name": "Analyze an image2",
-      "credentials": {
-        "googlePalmApi": {
-          "id": "AFWG1PCtzBeCv5kY",
-          "name": "Google Gemini(PaLM) Api account 2"
-        }
-      }
+      "name": "Bild analysieren – JSON im Prompt"
     },
     {
       "parameters": {
@@ -1451,31 +1438,27 @@
     },
     {
       "parameters": {
-        "resource": "image",
-        "operation": "analyze",
-        "modelId": {
-          "__rl": true,
-          "value": "models/gemini-2.5-flash",
-          "mode": "list",
-          "cachedResultName": "models/gemini-2.5-flash"
+        "promptType": "define",
+        "text": "=Du bist ein Buchhaltungs-Assistent. Extrahiere alle relevanten Daten aus diesem Bewirtungsbeleg.\n\nAntworte NUR mit validem JSON, kein Text davor oder danach, keine Markdown-Backticks:\n\n{\n  \"datum\": \"TT.MM.JJJJ\",\n  \"restaurant\": \"Name des Restaurants\",\n  \"betrag_netto\": 0.00,\n  \"mwst_satz\": 19,\n  \"mwst_betrag\": 0.00,\n  \"betrag_brutto\": 0.00,\n  \"trinkgeld\": 0.00,\n  \"zahlungsart\": \"Bar | Karte | Unbekannt\",\n  \"anlass\": \"Geschäftsessen | Kundenbewirtung | Team-Event | Unbekannt\",\n  \"personen_anzahl\": 0,\n  \"lesbar\": true\n}\n\nFalls ein Wert nicht erkennbar ist, setze null. Falls der Beleg unleserlich ist, setze lesbar: false.",
+        "messages": {
+          "messageValues": [
+            {
+              "type": "HumanMessagePromptTemplate",
+              "messageType": "imageBinary",
+              "binaryImageDataKey": "data"
+            }
+          ]
         },
-        "text": "Du bist ein Buchhaltungs-Assistent. Extrahiere alle relevanten Daten aus diesem Bewirtungsbeleg.\n\nAntworte NUR mit validem JSON, kein Text davor oder danach, keine Markdown-Backticks:\n\n{\n  \"datum\": \"TT.MM.JJJJ\",\n  \"restaurant\": \"Name des Restaurants\",\n  \"betrag_netto\": 0.00,\n  \"mwst_satz\": 19,\n  \"mwst_betrag\": 0.00,\n  \"betrag_brutto\": 0.00,\n  \"trinkgeld\": 0.00,\n  \"zahlungsart\": \"Bar | Karte | Unbekannt\",\n  \"anlass\": \"Geschäftsessen | Kundenbewirtung | Team-Event | Unbekannt\",\n  \"personen_anzahl\": 0,\n  \"lesbar\": true\n}\n\nFalls ein Wert nicht erkennbar ist, setze null. Falls der Beleg unleserlich ist, setze lesbar: false.",
-        "options": {}
+        "batching": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.googleGemini",
-      "typeVersion": 1.1,
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
       "position": [
         1200,
         1072
       ],
       "id": "e8843c9b-4375-4344-96e8-255db9e5f8d1",
-      "name": "Analyze an image3",
-      "credentials": {
-        "googlePalmApi": {
-          "id": "AFWG1PCtzBeCv5kY",
-          "name": "Google Gemini(PaLM) Api account 2"
-        }
-      }
+      "name": "Bild analysieren – für Information Extractor"
     },
     {
       "parameters": {
@@ -1670,6 +1653,90 @@
       ],
       "id": "ec965af8-ec2f-41a6-b6b0-866b2ca07e24",
       "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
+      "position": [
+        6240,
+        1568
+      ],
+      "id": "845e681d-4e53-475a-9ff6-1eb7c5597496",
+      "name": "Azure AI Foundry Chat Model5",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
+      "position": [
+        6112,
+        496
+      ],
+      "id": "e2e7d675-dc9b-452a-9799-e9e597e3e8ea",
+      "name": "Azure AI Foundry Chat Model6",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
+      "position": [
+        1184,
+        1120
+      ],
+      "id": "b64000c6-2bd7-49b7-bae3-5c6a3ae7cb71",
+      "name": "Azure AI Foundry Chat Model7",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "gpt-5-mini",
+        "project": "proj-ailz",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
+      "position": [
+        1184,
+        1280
+      ],
+      "id": "821fada6-9df2-452b-95e0-f8bd839bf19b",
+      "name": "Azure AI Foundry Chat Model8",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "5mpzoZZzP0Yl5SZG",
+          "name": "Microsoft Foundry (API Key) account"
+        }
+      }
     }
   ],
   "connections": {
@@ -1677,12 +1744,12 @@
       "main": [
         [
           {
-            "node": "Analyze an image2",
+            "node": "Bild analysieren – JSON im Prompt",
             "type": "main",
             "index": 0
           },
           {
-            "node": "Analyze an image3",
+            "node": "Bild analysieren – für Information Extractor",
             "type": "main",
             "index": 0
           }
@@ -1921,7 +1988,7 @@
         ],
         [
           {
-            "node": "Analyze an image",
+            "node": "Bild analysieren",
             "type": "main",
             "index": 0
           }
@@ -2017,7 +2084,7 @@
         ],
         [
           {
-            "node": "Analyze an image1",
+            "node": "AUFGABE 08c – Bild analysieren",
             "type": "main",
             "index": 0
           }
@@ -2141,7 +2208,7 @@
         ]
       ]
     },
-    "Analyze an image": {
+    "Bild analysieren": {
       "main": [
         [
           {
@@ -2163,7 +2230,7 @@
         ]
       ]
     },
-    "Analyze an image1": {
+    "AUFGABE 08c – Bild analysieren": {
       "main": [
         [
           {
@@ -2185,7 +2252,7 @@
         ]
       ]
     },
-    "Analyze an image2": {
+    "Bild analysieren – JSON im Prompt": {
       "main": [
         [
           {
@@ -2207,7 +2274,7 @@
         ]
       ]
     },
-    "Analyze an image3": {
+    "Bild analysieren – für Information Extractor": {
       "main": [
         [
           {
@@ -2285,6 +2352,50 @@
             "node": "Merge1",
             "type": "main",
             "index": 1
+          }
+        ]
+      ]
+    },
+    "Azure AI Foundry Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Bild analysieren",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Azure AI Foundry Chat Model6": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AUFGABE 08c – Bild analysieren",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Azure AI Foundry Chat Model7": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Bild analysieren – JSON im Prompt",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Azure AI Foundry Chat Model8": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Bild analysieren – für Information Extractor",
+            "type": "ai_languageModel",
+            "index": 0
           }
         ]
       ]
